@@ -1,0 +1,36 @@
+using System.Collections;
+using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEngine;
+
+public class Solution : MonoBehaviour
+{
+    public string sName;
+    public uint idCounter;
+    public int currentReducerIdx;
+    public List<Reducer> reducers;
+    public GameObject reducerPrefab;
+
+    public void LoadFromSerialised(SolutionSerialise s)
+    {
+        sName = s.name;
+        idCounter = s.idCounter;
+        reducers = new List<Reducer>();
+        foreach (var rs in s.reducers)
+        {
+            var newRed = Instantiate(reducerPrefab).GetComponent<Reducer>();
+            newRed.id = rs.id;
+            reducers.Add(newRed);
+        }
+
+        for (int i = 0; i < s.reducers.Length; i++)
+        {
+            reducers[i].LoadFromSerialised(s.reducers[i], reducers);
+        }
+    }
+
+    public Reducer ExecuteFast(Reducer black, Reducer white)
+    {
+        return reducers[0].ExecuteFast(black, white);
+    }
+}

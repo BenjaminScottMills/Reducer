@@ -1,0 +1,62 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+
+public class FixedReducerList : MonoBehaviour
+{
+    public List<ReducerButton> fixedButtons;
+    public BoxCollider2D boxCollider;
+    public Vector2 offset;
+    private Vector2 baseColliderOffset;
+    public Vector3 basePosition;
+    void Start()
+    {
+        baseColliderOffset = boxCollider.offset;
+        basePosition = transform.localPosition;
+        for (int i = 0; i < fixedButtons.Count; i++)
+        {
+            fixedButtons[i].transform.localPosition = new Vector3(0, i + 1);
+        }
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (boxCollider.OverlapPoint(Camera.main.ScreenToWorldPoint(Input.mousePosition)))
+        {
+            float maxHeight = Camera.main.ScreenToWorldPoint(new Vector3(0, Screen.height)).y - 0.5f;
+            float minHeight = Camera.main.ScreenToWorldPoint(new Vector3(0, Screen.height / 2)).y + 1;
+
+            if (fixedButtons[0].transform.position.y + (-0.5f * Input.mouseScrollDelta.y) > minHeight && fixedButtons.Last().transform.position.y + (-0.5f * Input.mouseScrollDelta.y) > maxHeight)
+            {
+                if (fixedButtons[0].transform.position.y > minHeight)
+                {
+                    offset.y += maxHeight - fixedButtons.Last().transform.position.y;
+                }
+                else
+                {
+                    offset.y += minHeight - fixedButtons[0].transform.position.y;
+                }
+            }
+            else if (fixedButtons[0].transform.position.y + (-0.5f * Input.mouseScrollDelta.y) < minHeight && fixedButtons.Last().transform.position.y + (-0.5f * Input.mouseScrollDelta.y) < maxHeight)
+            {
+                if (fixedButtons.Last().transform.position.y < maxHeight)
+                {
+                    offset.y += minHeight - fixedButtons[0].transform.position.y;
+                }
+                else
+                {
+                    offset.y += maxHeight - fixedButtons.Last().transform.position.y;
+                }
+            }
+            else
+            {
+                offset += -0.5f * Input.mouseScrollDelta;
+            }
+        }
+        boxCollider.offset = baseColliderOffset - offset;
+        transform.localPosition = basePosition + (Vector3)offset;
+    }
+}
