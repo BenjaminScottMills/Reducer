@@ -8,12 +8,13 @@ using UnityEngine;
 
 public class Reducer : MonoBehaviour
 {
-    public enum SpecialReducers { nullRed, fire, earth, plant, water, combine, black, white, local, outerBlack, outerWhite};
+    public enum SpecialReducers { nullRed, fire, earth, plant, water, combine, black, white, local, outerBlack, outerWhite, outputNode};
     public string rName;
     public string description;
     public uint id;
     public uint nodeIdCounter;
-    public List<List<Node>> cols = new List<List<Node>>();
+    public List<Node> nodes = new List<Node>();
+    public Node outNode;
     public Node fastExecOutNode;
     public bool isChild;
     public Reducer child = null;
@@ -32,39 +33,38 @@ public class Reducer : MonoBehaviour
         rName = r.name;
         description = r.description;
         nodeIdCounter = r.nodeIdCounter;
-        cols = new List<List<Node>>();
-        for (int i = r.cols.Length - 1; i >= 0; i--)
+
+        nodes = new List<Node>();
+        for (int i = 0; i < r.nodes.Length; i--)
         {
-            var newCol = new List<Node>();
-            var c = r.cols[i];
-            foreach (var n in c)
-            {
-                var newNode = Instantiate(nodePrefab).GetComponent<Node>();
-                newNode.LoadFromSerialised(n, cols.LastOrDefault(), reducers, child);
-                newCol.Add(newNode);
-            }
-            cols.Add(newCol);
+            var newNode = Instantiate(nodePrefab, new Vector3(r.nodes[i].xPos, r.nodes[i].yPos), Quaternion.identity).GetComponent<Node>();
+            newNode.InitialLoadFromSerialised(r.nodes[i], reducers, child);
+            nodes.Add(newNode);
         }
-        cols.Reverse();
+        for (int i = 0; i < r.nodes.Length; i--)
+        {
+            nodes[i].CreateLinksFromSerialised(r.nodes[i], nodes);
+        }
+
+        outNode = nodes.FirstOrDefault(n => n.id == (int)SpecialReducers.outputNode);
 
         isChild = false;
         child.nodeIdCounter = r.childNodeIdCounter;
         child.isChild = true;
 
-        child.cols = new List<List<Node>>();
-        for (int i = r.cols.Length - 1; i >= 0; i--)
+        child.nodes = new List<Node>();
+        for (int i = 0; i < r.nodes.Length; i--)
         {
-            var newCol = new List<Node>();
-            var c = r.cols[i];
-            foreach (var n in c)
-            {
-                var newNode = Instantiate(nodePrefab).GetComponent<Node>();
-                newNode.LoadFromSerialised(n, child.cols.LastOrDefault(), reducers, child);
-                newCol.Add(newNode);
-            }
-            child.cols.Add(newCol);
+            var newNode = Instantiate(nodePrefab, new Vector3(r.nodes[i].xPos, r.nodes[i].yPos), Quaternion.identity).GetComponent<Node>();
+            newNode.InitialLoadFromSerialised(r.nodes[i], reducers, child);
+            child.nodes.Add(newNode);
         }
-        child.cols.Reverse();
+        for (int i = 0; i < r.nodes.Length; i--)
+        {
+            child.nodes[i].CreateLinksFromSerialised(r.nodes[i], child.nodes);
+        }
+
+        child.outNode = child.nodes.FirstOrDefault(n => n.id == (int)SpecialReducers.outputNode);
     }
 
     public virtual Reducer ExecuteFast(Reducer black, Reducer white)
@@ -89,74 +89,78 @@ public class Reducer : MonoBehaviour
         if (child != null)
         {
             localReducer = new Reducer();
-            localReducer.cols = child.cols;
+            localReducer.nodes = child.nodes;
             localReducer.fastExecOuterBlack = black;
             localReducer.fastExecOuterWhite = white;
         }
 
-        Node fastExecOutNode = Node.FastExecMakeNode(cols.Last()[0], black, white, fastExecOuterBlack, fastExecOuterWhite, localReducer);
+        Node fastExecOutNode = Node.FastExecMakeNode(outNode, black, white, fastExecOuterBlack, fastExecOuterWhite, localReducer);
 
         return fastExecOutNode.ExecuteFast();
     }
 
     public void PositionNodes()
     {
-        for (int i = cols.Count - 1; i >= 0; i--)
+        foreach (var node in nodes)
         {
-            foreach (var node in cols[i])
-            {
-                node.transform.position = new Vector3(i * distanceBetweenNodes, node.yPos);
-                // TODO: connector based on node.transform.position and node.next.transform.position and node.blackLinks
-            }
+            // TODO: connector based on node.transform.position and node.next.transform.position and node.blackLinks
         }
     }
 
     public void AddNode(Reducer nodeReducer, Vector3 position)
     {
-        var newNode = Instantiate(nodePrefab).GetComponent<Node>();
+        var newNode = Instantiate(nodePrefab, position, Quaternion.identity).GetComponent<Node>();
         position.x /= distanceBetweenNodes;
-        newNode.yPos = position.y;
         newNode.reducer = nodeReducer;
         newNode.spriteRenderer.sprite = nodeReducer.sprite;
         newNode.id = nodeIdCounter;
         nodeIdCounter++;
-        if (position.x <= -0.5f)
-        {
-            cols.ForEach(c => c.ForEach(n => n.Translate(new Vector3(distanceBetweenNodes, 0))));
-            cols.Insert(0, new List<Node>() { newNode });
-            newNode.transform.position = new Vector3(0, newNode.yPos);
-            Camera.main.transform.position += new Vector3(distanceBetweenNodes, 0);
-        }
-        else
-        {
-            int col = (int)(position.x + 0.5);
-            if (col >= cols.Count)
-            {
-                col = cols.Count;
-                cols.Add(new List<Node>() { newNode });
-            }
-            else
-            {
-                int insertIdx = cols[col].FindIndex(c => c.yPos > newNode.yPos);
-                if (insertIdx == -1)
-                {
-                    insertIdx = cols[col].Count;
-                }
-                cols[col].Insert(insertIdx, newNode);
-                for (int i = insertIdx + 1; i < cols[col].Count && cols[col][i].yPos - cols[col][i - 1].yPos <= distanceBetweenNodes; i++)
-                {
-                    cols[col][i].yPos = distanceBetweenNodes + cols[col][i - 1].yPos;
-                    cols[col][i].RealignLinks();
-                }
-                for (int i = insertIdx - 1; i >= 0 && cols[col][i + 1].yPos - cols[col][i].yPos <= distanceBetweenNodes; i--)
-                {
-                    cols[col][i].yPos = cols[col][i + 1].yPos - distanceBetweenNodes;
-                    cols[col][i].RealignLinks();
-                }
-            }
+        nodes.Add(newNode);
 
-            newNode.transform.position = new Vector3(col * distanceBetweenNodes, newNode.yPos);
+        // Prevent collisions
+        bool collisionOccured = true;
+        List<Node> nodesNeedingRealigning = new List<Node>();
+        while (collisionOccured)
+        {
+            collisionOccured = false;
+            foreach (var node in nodes)
+            {
+                if (node == newNode) continue;
+                else if (HandlePushes(node))
+                {
+                    collisionOccured = true;
+                    if (!nodesNeedingRealigning.Contains(node)) nodesNeedingRealigning.Add(node);
+                }
+            }
         }
+
+        foreach (var node in nodesNeedingRealigning)
+        {
+            node.RealignLinks();
+        }
+    }
+
+    private bool HandlePushes(Node target)
+    {
+        const float step = 0.1f;
+        bool retval = false;
+        foreach (var n in nodes)
+        {
+            var actualDistance = Vector3.Distance(target.transform.position, n.transform.position);
+            if (actualDistance <= distanceBetweenNodes && n != target)
+            {
+                retval = true;
+                if (distanceBetweenNodes - actualDistance > step)
+                {
+                    target.transform.position += (target.transform.position - n.transform.position) * step / actualDistance;
+                }
+                else
+                {
+                    target.transform.position += (target.transform.position - n.transform.position) * (distanceBetweenNodes - actualDistance) / actualDistance;
+                }
+            }
+        }
+        return retval;
     }
 
     // Start is called before the first frame update

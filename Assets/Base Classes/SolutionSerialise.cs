@@ -23,16 +23,16 @@ public class SolutionSerialise
             description = r.description;
             id = r.id;
             nodeIdCounter = r.nodeIdCounter;
-            cols = r.cols.Select(c => c.Select(n => new NodeSerialise(n)).ToArray()).ToArray();
+            nodes = r.nodes.Select(n => new NodeSerialise(n)).ToArray();
             if (r.child == null)
             {
-                childNodeIdCounter = 0;
-                childCols = new NodeSerialise[][] { };
+                childNodeIdCounter = 100;
+                childNodes = new NodeSerialise[] { };
             }
             else
             {
                 childNodeIdCounter = r.child.nodeIdCounter;
-                childCols = r.child.cols.Select(c => c.Select(n => new NodeSerialise(n)).ToArray()).ToArray();
+                childNodes = r.child.nodes.Select(n => new NodeSerialise(n)).ToArray();
             }
         }
 
@@ -40,9 +40,9 @@ public class SolutionSerialise
         public string description;
         public uint id;
         public uint nodeIdCounter;
-        public NodeSerialise[][] cols;
+        public NodeSerialise[] nodes;
         public uint childNodeIdCounter;
-        public NodeSerialise[][] childCols;
+        public NodeSerialise[] childNodes;
     }
 
     public class NodeSerialise
@@ -51,7 +51,8 @@ public class SolutionSerialise
         {
             redId = n.reducer.id;
             id = n.id;
-            yPos = n.yPos;
+            yPos = n.transform.position.y;
+            xPos = n.transform.position.x;
             nextId = n.next.id;
             blackLink = n.blackLink;
         }
@@ -59,6 +60,7 @@ public class SolutionSerialise
         public uint redId;
         public uint id;
         public float yPos;
+        public float xPos;
         public uint nextId;
         public bool blackLink;
     }

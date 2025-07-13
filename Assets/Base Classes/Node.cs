@@ -7,17 +7,15 @@ public class Node : MonoBehaviour
 {
     public Reducer reducer;
     public uint id;
-    public float yPos;
     public Node next;
     public Node bPrev;
     public Node wPrev;
     public bool blackLink;
     public SpriteRenderer spriteRenderer;
 
-    public void LoadFromSerialised(SolutionSerialise.NodeSerialise ns, List<Node> nextRow, List<Reducer> reducers, Reducer local)
+    public void InitialLoadFromSerialised(SolutionSerialise.NodeSerialise ns, List<Reducer> reducers, Reducer local)
     {
         id = ns.id;
-        yPos = ns.yPos;
         blackLink = ns.blackLink;
         bPrev = null;
         wPrev = null;
@@ -40,8 +38,11 @@ public class Node : MonoBehaviour
         }
 
         spriteRenderer.sprite = reducer.sprite;
+    }
 
-        next = nextRow?.FirstOrDefault(n => n.id == ns.id);
+    public void CreateLinksFromSerialised(SolutionSerialise.NodeSerialise ns, List<Node> allNodes)
+    {
+        next = allNodes?.FirstOrDefault(n => n.id == ns.nextId);
         if (next != null)
         {
             if (blackLink)
@@ -97,14 +98,12 @@ public class Node : MonoBehaviour
 
     public void RealignLinks()
     {
-        transform.position = new Vector3(transform.position.x, yPos);
         // make the links correctly positioned.
     }
 
     public void Translate(Vector3 displacement)
     {
         transform.position += displacement;
-        yPos += displacement.y;
         // add displacement to forward link.
     }
 
