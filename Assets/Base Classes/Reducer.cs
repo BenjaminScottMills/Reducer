@@ -116,51 +116,6 @@ public class Reducer : MonoBehaviour
         newNode.id = nodeIdCounter;
         nodeIdCounter++;
         nodes.Add(newNode);
-
-        // Prevent collisions
-        bool collisionOccured = true;
-        List<Node> nodesNeedingRealigning = new List<Node>();
-        while (collisionOccured)
-        {
-            collisionOccured = false;
-            foreach (var node in nodes)
-            {
-                if (node == newNode) continue;
-                else if (HandlePushes(node))
-                {
-                    collisionOccured = true;
-                    if (!nodesNeedingRealigning.Contains(node)) nodesNeedingRealigning.Add(node);
-                }
-            }
-        }
-
-        foreach (var node in nodesNeedingRealigning)
-        {
-            node.RealignLinks();
-        }
-    }
-
-    private bool HandlePushes(Node target)
-    {
-        const float step = 0.1f;
-        bool retval = false;
-        foreach (var n in nodes)
-        {
-            var actualDistance = Vector3.Distance(target.transform.position, n.transform.position);
-            if (actualDistance <= distanceBetweenNodes && n != target)
-            {
-                retval = true;
-                if (distanceBetweenNodes - actualDistance > step)
-                {
-                    target.transform.position += (target.transform.position - n.transform.position) * step / actualDistance;
-                }
-                else
-                {
-                    target.transform.position += (target.transform.position - n.transform.position) * (distanceBetweenNodes - actualDistance) / actualDistance;
-                }
-            }
-        }
-        return retval;
     }
 
     // Start is called before the first frame update
