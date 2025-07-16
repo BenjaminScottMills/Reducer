@@ -12,6 +12,7 @@ public class CustomReducerList : MonoBehaviour
     public Vector2 offset;
     private Vector2 baseColliderOffset;
     public Vector3 basePosition;
+    public MouseNode mouseNode;
 
     // Start is called before the first frame update
     void Start()
@@ -33,6 +34,7 @@ public class CustomReducerList : MonoBehaviour
     {
         if (boxCollider.OverlapPoint(Camera.main.ScreenToWorldPoint(Input.mousePosition)))
         {
+            mouseNode.mouseOverUI = true;
             offset += -0.5f * Input.mouseScrollDelta;
         }
         boxCollider.offset = baseColliderOffset - offset;

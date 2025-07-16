@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,11 @@ public class Node : MonoBehaviour
     public Node bPrev;
     public Node wPrev;
     public bool blackLink;
+    public bool highlighted;
+    public MouseNode mouseNode;
+    private static float radius = 0.45f;
     public SpriteRenderer spriteRenderer;
+    public SpriteRenderer highlightSpriteRenderer;
 
     public void InitialLoadFromSerialised(SolutionSerialise.NodeSerialise ns, List<Reducer> reducers, Reducer local)
     {
@@ -19,6 +24,8 @@ public class Node : MonoBehaviour
         blackLink = ns.blackLink;
         bPrev = null;
         wPrev = null;
+        highlighted = false;
+        highlightSpriteRenderer.enabled = false;
 
         if (ns.redId < 50)
         {
@@ -101,12 +108,6 @@ public class Node : MonoBehaviour
         // make the links correctly positioned.
     }
 
-    public void Translate(Vector3 displacement)
-    {
-        transform.position += displacement;
-        // add displacement to forward link.
-    }
-
     // Start is called before the first frame update
     void Start()
     {
@@ -116,6 +117,45 @@ public class Node : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (!Input.GetMouseButtonDown(0) || mouseNode.mouseOverUI) return;
+
+        var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition) + new Vector3(0, 0, 10);
+        if (Vector3.Distance(mousePos, transform.position) < radius && !mouseNode.mouseOverUI)
+        {
+            mouseNode.currentlyDragging = true;
+
+            if (Input.GetKey(KeyCode.LeftShift))
+            {
+                if (highlighted)
+                {
+                    mouseNode.currentlyDragging = false;
+
+                    mouseNode.selectedNodes.Remove(this);
+                    highlighted = false;
+                    highlightSpriteRenderer.enabled = false;
+                }
+                else
+                {
+                    mouseNode.selectedNodes.Add(this);
+                    highlighted = true;
+                    highlightSpriteRenderer.enabled = true;
+                }
+            }
+            else
+            {
+                if (!highlighted)
+                {
+                    foreach (var node in mouseNode.selectedNodes)
+                    {
+                        node.highlighted = false;
+                        node.highlightSpriteRenderer.enabled = false;
+                    }
+
+                    highlighted = true;
+                    highlightSpriteRenderer.enabled = true;
+                    mouseNode.selectedNodes = new HashSet<Node>() { this };
+                }
+            }
+        }
     }
 }

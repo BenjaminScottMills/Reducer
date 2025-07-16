@@ -107,13 +107,14 @@ public class Reducer : MonoBehaviour
         }
     }
 
-    public void AddNode(Reducer nodeReducer, Vector3 position)
+    public void AddNode(Reducer nodeReducer, Vector3 position, MouseNode mouseNode)
     {
         var newNode = Instantiate(nodePrefab, position, Quaternion.identity).GetComponent<Node>();
         position.x /= distanceBetweenNodes;
         newNode.reducer = nodeReducer;
         newNode.spriteRenderer.sprite = nodeReducer.sprite;
         newNode.id = nodeIdCounter;
+        newNode.mouseNode = mouseNode;
         nodeIdCounter++;
         nodes.Add(newNode);
     }

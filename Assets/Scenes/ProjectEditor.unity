@@ -540,6 +540,7 @@ MonoBehaviour:
   boxCollider: {fileID: 572047290}
   offset: {x: 0, y: 0}
   basePosition: {x: -1.5, y: 0, z: 0}
+  mouseNode: {fileID: 1384790493}
 --- !u!4 &572047289
 Transform:
   m_ObjectHideFlags: 0
@@ -1006,6 +1007,7 @@ MonoBehaviour:
   boxCollider: {fileID: 761875611}
   offset: {x: 0, y: 0}
   basePosition: {x: -1.5, y: 0, z: 0}
+  mouseNode: {fileID: 1384790493}
 --- !u!61 &761875611
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1640,12 +1642,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   reducer: {fileID: 0}
-  sidebar1: {fileID: 572047288}
-  sidebar2: {fileID: 761875610}
   solution: {fileID: 1117210364}
   offset: {x: 0, y: 0, z: 0}
   spriteRenderer: {fileID: 1384790494}
   blank: {fileID: 21300000, guid: 1095fa041d2dbe545aeae84e01bb12ed, type: 3}
+  mouseOverUI: 0
+  selectedNodes: []
 --- !u!212 &1384790494
 SpriteRenderer:
   m_ObjectHideFlags: 0

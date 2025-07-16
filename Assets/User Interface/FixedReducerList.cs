@@ -11,6 +11,7 @@ public class FixedReducerList : MonoBehaviour
     public Vector2 offset;
     private Vector2 baseColliderOffset;
     public Vector3 basePosition;
+    public MouseNode mouseNode;
     void Start()
     {
         baseColliderOffset = boxCollider.offset;
@@ -26,6 +27,7 @@ public class FixedReducerList : MonoBehaviour
     {
         if (boxCollider.OverlapPoint(Camera.main.ScreenToWorldPoint(Input.mousePosition)))
         {
+            mouseNode.mouseOverUI = true;
             float maxHeight = Camera.main.ScreenToWorldPoint(new Vector3(0, Screen.height)).y - 0.5f;
             float minHeight = Camera.main.ScreenToWorldPoint(new Vector3(0, Screen.height / 2)).y + 1;
 
