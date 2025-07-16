@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class Node : MonoBehaviour
 {
@@ -17,6 +18,7 @@ public class Node : MonoBehaviour
     private static float radius = 0.45f;
     public SpriteRenderer spriteRenderer;
     public SpriteRenderer highlightSpriteRenderer;
+    public SortingGroup sortingGroup;
 
     public void InitialLoadFromSerialised(SolutionSerialise.NodeSerialise ns, List<Reducer> reducers, Reducer local)
     {
@@ -26,6 +28,8 @@ public class Node : MonoBehaviour
         wPrev = null;
         highlighted = false;
         highlightSpriteRenderer.enabled = false;
+        sortingGroup.sortingOrder = mouseNode.nodeSortingOrderCount;
+        mouseNode.nodeSortingOrderCount++;
 
         if (ns.redId < 50)
         {
@@ -111,7 +115,7 @@ public class Node : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -120,41 +124,49 @@ public class Node : MonoBehaviour
         if (!Input.GetMouseButtonDown(0) || mouseNode.mouseOverUI) return;
 
         var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition) + new Vector3(0, 0, 10);
-        if (Vector3.Distance(mousePos, transform.position) < radius && !mouseNode.mouseOverUI)
+        if (Vector3.Distance(mousePos, transform.position) < radius && !mouseNode.mouseOverUI && sortingGroup.sortingOrder >= mouseNode.highestNodeSortingOrderThisFrame)
         {
-            mouseNode.currentlyDragging = true;
+            mouseNode.highestNodeSortingOrderThisFrame = sortingGroup.sortingOrder;
+            mouseNode.clickedThisFrame = this;
+        }
+    }
 
-            if (Input.GetKey(KeyCode.LeftShift))
+    public void HandleClick()
+    {
+        mouseNode.currentlyDragging = true;
+        sortingGroup.sortingOrder = mouseNode.nodeSortingOrderCount;
+        mouseNode.nodeSortingOrderCount++;
+
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            if (highlighted)
             {
-                if (highlighted)
-                {
-                    mouseNode.currentlyDragging = false;
+                mouseNode.currentlyDragging = false;
 
-                    mouseNode.selectedNodes.Remove(this);
-                    highlighted = false;
-                    highlightSpriteRenderer.enabled = false;
-                }
-                else
-                {
-                    mouseNode.selectedNodes.Add(this);
-                    highlighted = true;
-                    highlightSpriteRenderer.enabled = true;
-                }
+                mouseNode.selectedNodes.Remove(this);
+                highlighted = false;
+                highlightSpriteRenderer.enabled = false;
             }
             else
             {
-                if (!highlighted)
+                mouseNode.selectedNodes.Add(this);
+                highlighted = true;
+                highlightSpriteRenderer.enabled = true;
+            }
+        }
+        else
+        {
+            if (!highlighted)
+            {
+                foreach (var node in mouseNode.selectedNodes)
                 {
-                    foreach (var node in mouseNode.selectedNodes)
-                    {
-                        node.highlighted = false;
-                        node.highlightSpriteRenderer.enabled = false;
-                    }
-
-                    highlighted = true;
-                    highlightSpriteRenderer.enabled = true;
-                    mouseNode.selectedNodes = new HashSet<Node>() { this };
+                    node.highlighted = false;
+                    node.highlightSpriteRenderer.enabled = false;
                 }
+
+                highlighted = true;
+                highlightSpriteRenderer.enabled = true;
+                mouseNode.selectedNodes = new HashSet<Node>() { this };
             }
         }
     }

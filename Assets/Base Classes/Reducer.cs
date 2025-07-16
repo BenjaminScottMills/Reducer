@@ -107,7 +107,7 @@ public class Reducer : MonoBehaviour
         }
     }
 
-    public void AddNode(Reducer nodeReducer, Vector3 position, MouseNode mouseNode)
+    public void AddNode(Reducer nodeReducer, Vector3 position, MouseNode mouseNode, int spotInSortingOrder)
     {
         var newNode = Instantiate(nodePrefab, position, Quaternion.identity).GetComponent<Node>();
         position.x /= distanceBetweenNodes;
@@ -116,6 +116,7 @@ public class Reducer : MonoBehaviour
         newNode.id = nodeIdCounter;
         newNode.mouseNode = mouseNode;
         nodeIdCounter++;
+        newNode.sortingGroup.sortingOrder = spotInSortingOrder;
         nodes.Add(newNode);
     }
 

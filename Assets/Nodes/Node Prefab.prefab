@@ -57,6 +57,7 @@ MonoBehaviour:
   mouseNode: {fileID: 0}
   spriteRenderer: {fileID: -4123712858957392847}
   highlightSpriteRenderer: {fileID: 7784217121649216773}
+  sortingGroup: {fileID: 2387249657422554309}
 --- !u!212 &-4123712858957392847
 SpriteRenderer:
   m_ObjectHideFlags: 0

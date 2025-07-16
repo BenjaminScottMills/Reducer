@@ -11,6 +11,9 @@ public class MouseNode : MonoBehaviour
     public Sprite blank;
     public bool currentlyDragging;
     public bool mouseOverUI;
+    public int nodeSortingOrderCount = 1;
+    public int highestNodeSortingOrderThisFrame;
+    public Node clickedThisFrame = null;
     public HashSet<Node> selectedNodes;
     // Start is called before the first frame update
     void Start()
@@ -22,6 +25,8 @@ public class MouseNode : MonoBehaviour
     void Update()
     {
         var newPos = Camera.main.ScreenToWorldPoint(Input.mousePosition) + offset;
+
+        if (clickedThisFrame != null) clickedThisFrame.HandleClick();
 
         if (!currentlyDragging && Input.GetMouseButtonDown(0) && !Input.GetKey(KeyCode.LeftShift))
         {
@@ -54,7 +59,8 @@ public class MouseNode : MonoBehaviour
         {
             if (!mouseOverUI)
             {
-                solution.reducers[solution.currentReducerIdx].AddNode(reducer, transform.position, this);
+                solution.reducers[solution.currentReducerIdx].AddNode(reducer, transform.position, this, nodeSortingOrderCount);
+                nodeSortingOrderCount++;
             }
 
             reducer = null;
@@ -64,5 +70,7 @@ public class MouseNode : MonoBehaviour
         else spriteRenderer.sprite = reducer.sprite;
 
         mouseOverUI = false;
+        highestNodeSortingOrderThisFrame = -1;
+        clickedThisFrame = null;
     }
 }
