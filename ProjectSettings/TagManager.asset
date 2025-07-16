@@ -44,3 +44,6 @@ TagManager:
   - name: Nodes
     uniqueID: 90771713
     locked: 0
+  - name: MouseNode
+    uniqueID: 2638292571
+    locked: 0
