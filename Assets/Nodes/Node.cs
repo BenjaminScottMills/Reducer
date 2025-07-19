@@ -19,6 +19,7 @@ public class Node : MonoBehaviour
     public SpriteRenderer spriteRenderer;
     public SpriteRenderer highlightSpriteRenderer;
     public SortingGroup sortingGroup;
+    public Connector nextConnector;
 
     public void InitialLoadFromSerialised(SolutionSerialise.NodeSerialise ns, List<Reducer> reducers, Reducer local)
     {
@@ -109,7 +110,9 @@ public class Node : MonoBehaviour
 
     public void RealignLinks()
     {
-        // make the links correctly positioned.
+        if (next != null) nextConnector.Align(transform.position, next.transform.position, blackLink);
+        if (bPrev != null) bPrev.nextConnector.Align(bPrev.transform.position, transform.position, true);
+        if (wPrev != null) wPrev.nextConnector.Align(wPrev.transform.position, transform.position, false);
     }
 
     // Start is called before the first frame update
