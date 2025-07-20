@@ -64,7 +64,7 @@ public class MouseNode : MonoBehaviour
                 selectedNodes.Clear();
             }
 
-            if (!mouseOverUI) highlightSquare.Enable(mousePos);
+            if (!mouseOverUI && hoveredThisFrame == null) highlightSquare.Enable(mousePos);
         }
 
         if (leftClickHeld && currentlyDragging)
