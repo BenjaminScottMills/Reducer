@@ -6,7 +6,7 @@ public class MouseNode : MonoBehaviour
 {
     public Reducer reducer;
     public Solution solution;
-    public Vector3 offset = Vector3.zero;
+    public Vector3 offset = new Vector3(0, 0, 10);
     public SpriteRenderer spriteRenderer;
     public Sprite blank;
     public bool currentlyDragging;
@@ -18,6 +18,7 @@ public class MouseNode : MonoBehaviour
     public GameObject connectorPrefab;
     public Connector newConnector;
     public Node newConnectorStart;
+    public HighlightSquare highlightSquare;
     private Vector3 prevMousePos = Vector3.zero;
     // Start is called before the first frame update
     void Start()
@@ -28,7 +29,9 @@ public class MouseNode : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        var newPos = Camera.main.ScreenToWorldPoint(Input.mousePosition) + offset;
+        var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        var newPos = mousePos + offset;
+        mousePos += new Vector3(0, 0, 10);
         bool leftClickPressed = Input.GetMouseButtonDown(0);
         bool leftClickHeld = Input.GetMouseButton(0);
         bool rightClickPressed = Input.GetMouseButtonDown(1) && !leftClickHeld;
@@ -39,14 +42,19 @@ public class MouseNode : MonoBehaviour
 
         if (hoveredThisFrame != null && leftClickPressed) hoveredThisFrame.HandleClick();
 
-        if (!currentlyDragging && leftClickPressed && noKeyHeld)
+        if (!currentlyDragging && leftClickPressed)
         {
-            foreach (var node in selectedNodes)
+            if (!shiftHeld)
             {
-                node.SetHighlighted(false);
+                foreach (var node in selectedNodes)
+                {
+                    node.SetHighlighted(false);
+                }
+
+                selectedNodes.Clear();
             }
 
-            selectedNodes.Clear();
+            if (!mouseOverUI) highlightSquare.Enable(mousePos);
         }
 
         if (leftClickHeld && currentlyDragging)
@@ -97,10 +105,6 @@ public class MouseNode : MonoBehaviour
             {
                 foreach (var node in selectedNodes) node.SetDragLayer(false, selectedNodes);
             }
-            else if (leftClickHeld)
-            {
-                // Highlight square
-            }
             currentlyDragging = false;
         }
 
@@ -141,7 +145,7 @@ public class MouseNode : MonoBehaviour
             }
             else
             {
-                newConnector.Align(newConnectorStart.transform.position, newPos - offset, true);
+                newConnector.Align(newConnectorStart.transform.position, mousePos, true);
             }
         }
         else if (noKeyHeld && rightClickPressed && hoveredThisFrame != null)
@@ -162,7 +166,7 @@ public class MouseNode : MonoBehaviour
                 newConnectorStart.nextConnector = null;
             }
             newConnector = Instantiate(connectorPrefab).GetComponent<Connector>();
-            newConnector.Align(newConnectorStart.transform.position, newPos - offset, true);
+            newConnector.Align(newConnectorStart.transform.position, mousePos, true);
         }
         else if (shiftHeld && rightClickPressed && hoveredThisFrame != null)
         {

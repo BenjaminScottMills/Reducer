@@ -15,7 +15,7 @@ public class Node : MonoBehaviour
     public bool blackLink;
     public bool highlighted;
     public MouseNode mouseNode;
-    private static float radius = 0.45f;
+    public static float radius = 0.45f;
     public SpriteRenderer spriteRenderer;
     public SpriteRenderer highlightSpriteRenderer;
     public SortingGroup sortingGroup;

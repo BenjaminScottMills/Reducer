@@ -50,6 +50,12 @@ TagManager:
   - name: RightSidebar
     uniqueID: 1316181345
     locked: 0
+  - name: DragConnector
+    uniqueID: 3853357577
+    locked: 0
   - name: MouseNode
     uniqueID: 2638292571
+    locked: 0
+  - name: HighlightSquare
+    uniqueID: 1047268271
     locked: 0
