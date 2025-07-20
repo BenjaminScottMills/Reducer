@@ -183,6 +183,11 @@ public class Node : MonoBehaviour
     {
         highlighted = setHighlight;
         highlightSpriteRenderer.enabled = setHighlight;
-        sortingGroup.sortingLayerName = setHighlight ? "MouseNode" : "Nodes";
+    }
+
+    public void SetDragLayer(bool setDrag, HashSet<Node> dragNodes)
+    {
+        sortingGroup.sortingLayerName = setDrag ? "MouseNode" : "Nodes";
+        if (next != null && dragNodes.Contains(next)) nextConnector.sortingGroup.sortingLayerName = setDrag ? "DragConnector" : "Connector";
     }
 }

@@ -55,6 +55,7 @@ public class MouseNode : MonoBehaviour
             foreach (var node in selectedNodes)
             {
                 node.transform.position += displacement;
+                node.SetDragLayer(true, selectedNodes);
             }
             foreach (var node in selectedNodes)
             {
@@ -91,6 +92,10 @@ public class MouseNode : MonoBehaviour
                 }
 
                 selectedNodes.Clear();
+            }
+            else if (currentlyDragging)
+            {
+                foreach (var node in selectedNodes) node.SetDragLayer(false, selectedNodes);
             }
             else if (leftClickHeld)
             {
