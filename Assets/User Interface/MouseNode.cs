@@ -43,11 +43,10 @@ public class MouseNode : MonoBehaviour
         {
             foreach (var node in selectedNodes)
             {
-                node.highlighted = false;
-                node.highlightSpriteRenderer.enabled = false;
+                node.SetHighlighted(false);
             }
 
-            selectedNodes = new HashSet<Node>();
+            selectedNodes.Clear();
         }
 
         if (leftClickHeld && currentlyDragging)
@@ -62,7 +61,43 @@ public class MouseNode : MonoBehaviour
                 node.RealignLinks();
             }
         }
-        else currentlyDragging = false;
+        else
+        {
+            if (currentlyDragging && mouseOverUI)
+            {
+                foreach (var node in selectedNodes)
+                {
+                    if (node.next)
+                    {
+                        Destroy(node.nextConnector.gameObject);
+                        if (node.blackLink) node.next.bPrev = null;
+                        else node.next.wPrev = null;
+                    }
+                    if (node.bPrev != null)
+                    {
+                        node.bPrev.next = null;
+                        Destroy(node.bPrev.nextConnector.gameObject);
+                        node.bPrev.nextConnector = null;
+                    }
+                    if (node.wPrev != null)
+                    {
+                        node.wPrev.next = null;
+                        Destroy(node.wPrev.nextConnector.gameObject);
+                        node.wPrev.nextConnector = null;
+                    }
+
+                    solution.reducers[solution.currentReducerIdx].nodes.Remove(node);
+                    Destroy(node.gameObject);
+                }
+
+                selectedNodes.Clear();
+            }
+            else if (leftClickHeld)
+            {
+                // Highlight square
+            }
+            currentlyDragging = false;
+        }
 
         if (newConnector != null)
         {
@@ -108,10 +143,9 @@ public class MouseNode : MonoBehaviour
         {
             foreach (var node in selectedNodes)
             {
-                node.highlighted = false;
-                node.highlightSpriteRenderer.enabled = false;
+                node.SetHighlighted(false);
             }
-            selectedNodes = new HashSet<Node>();
+            selectedNodes.Clear();
 
             newConnectorStart = hoveredThisFrame;
             if (newConnectorStart.next != null)

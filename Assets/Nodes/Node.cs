@@ -27,8 +27,7 @@ public class Node : MonoBehaviour
         blackLink = ns.blackLink;
         bPrev = null;
         wPrev = null;
-        highlighted = false;
-        highlightSpriteRenderer.enabled = false;
+        SetHighlighted(false);
         sortingGroup.sortingOrder = mouseNode.nodeSortingOrderCount;
         mouseNode.nodeSortingOrderCount++;
 
@@ -147,14 +146,12 @@ public class Node : MonoBehaviour
                 mouseNode.currentlyDragging = false;
 
                 mouseNode.selectedNodes.Remove(this);
-                highlighted = false;
-                highlightSpriteRenderer.enabled = false;
+                SetHighlighted(false);
             }
             else
             {
                 mouseNode.selectedNodes.Add(this);
-                highlighted = true;
-                highlightSpriteRenderer.enabled = true;
+                SetHighlighted(true);
             }
         }
         else
@@ -163,12 +160,10 @@ public class Node : MonoBehaviour
             {
                 foreach (var node in mouseNode.selectedNodes)
                 {
-                    node.highlighted = false;
-                    node.highlightSpriteRenderer.enabled = false;
+                    node.SetHighlighted(false);
                 }
 
-                highlighted = true;
-                highlightSpriteRenderer.enabled = true;
+                SetHighlighted(true);
                 mouseNode.selectedNodes = new HashSet<Node>() { this };
             }
         }
@@ -182,5 +177,12 @@ public class Node : MonoBehaviour
             candAncestor = candAncestor.next;
         }
         return false;
+    }
+
+    public void SetHighlighted(bool setHighlight)
+    {
+        highlighted = setHighlight;
+        highlightSpriteRenderer.enabled = setHighlight;
+        sortingGroup.sortingLayerName = setHighlight ? "MouseNode" : "Nodes";
     }
 }
