@@ -124,13 +124,13 @@ public class Node : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!Input.GetMouseButtonDown(0) || mouseNode.mouseOverUI) return;
+        if (mouseNode.mouseOverUI) return;
 
         var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition) + new Vector3(0, 0, 10);
         if (Vector3.Distance(mousePos, transform.position) < radius && !mouseNode.mouseOverUI && sortingGroup.sortingOrder >= mouseNode.highestNodeSortingOrderThisFrame)
         {
             mouseNode.highestNodeSortingOrderThisFrame = sortingGroup.sortingOrder;
-            mouseNode.clickedThisFrame = this;
+            mouseNode.hoveredThisFrame = this;
         }
     }
 
@@ -172,5 +172,15 @@ public class Node : MonoBehaviour
                 mouseNode.selectedNodes = new HashSet<Node>() { this };
             }
         }
+    }
+
+    public bool IsDescendentOf(Node candAncestor)
+    {
+        while (candAncestor != null)
+        {
+            if (candAncestor == this) return true;
+            candAncestor = candAncestor.next;
+        }
+        return false;
     }
 }

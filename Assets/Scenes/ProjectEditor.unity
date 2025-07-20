@@ -1650,7 +1650,10 @@ MonoBehaviour:
   mouseOverUI: 0
   nodeSortingOrderCount: 1
   highestNodeSortingOrderThisFrame: 0
-  clickedThisFrame: {fileID: 0}
+  hoveredThisFrame: {fileID: 0}
+  connectorPrefab: {fileID: 3098403734244718132, guid: 2d8437a6d6553ea4cb1223179b37264a, type: 3}
+  newConnector: {fileID: 0}
+  newConnectorStart: {fileID: 0}
 --- !u!212 &1384790494
 SpriteRenderer:
   m_ObjectHideFlags: 0
