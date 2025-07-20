@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -41,7 +42,7 @@ public class MouseNode : MonoBehaviour
 
         if (!mouseOverUI)
         {
-            Camera.main.orthographicSize -= Input.mouseScrollDelta.y / 1.5f;
+            Camera.main.orthographicSize = (float)Math.Round(2 * (Camera.main.orthographicSize - (Input.mouseScrollDelta.y / 2))) / 2;
 
             if (Camera.main.orthographicSize > 8)
             {
@@ -231,6 +232,8 @@ public class MouseNode : MonoBehaviour
         }
 
         transform.position = newPos;
+        var scale = Camera.main.orthographicSize / 5;
+        transform.localScale = new Vector3(scale, scale, 1);
 
         if (reducer != null && !leftClickHeld)
         {

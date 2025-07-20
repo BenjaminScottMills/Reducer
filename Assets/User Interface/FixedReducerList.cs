@@ -28,12 +28,12 @@ public class FixedReducerList : MonoBehaviour
         if (boxCollider.OverlapPoint(Camera.main.ScreenToWorldPoint(Input.mousePosition)))
         {
             mouseNode.mouseOverUI = true;
-            float maxHeight = Camera.main.ScreenToWorldPoint(new Vector3(0, Screen.height)).y - 0.5f;
-            float minHeight = Camera.main.ScreenToWorldPoint(new Vector3(0, Screen.height / 2)).y + 1;
+            float maxHeight = Camera.main.ScreenToWorldPoint(new Vector3(0, Screen.height)).y - (Camera.main.orthographicSize / 10);
+            float minHeight = Camera.main.ScreenToWorldPoint(new Vector3(0, Screen.height / 2)).y + (Camera.main.orthographicSize / 5);
 
             if (fixedButtons[0].transform.position.y + (-0.5f * Input.mouseScrollDelta.y) > minHeight && fixedButtons.Last().transform.position.y + (-0.5f * Input.mouseScrollDelta.y) > maxHeight)
             {
-                if (fixedButtons[0].transform.position.y > minHeight)
+                if (fixedButtons[0].transform.position.y > minHeight + 0.1f)
                 {
                     offset.y += maxHeight - fixedButtons.Last().transform.position.y;
                 }
@@ -44,7 +44,7 @@ public class FixedReducerList : MonoBehaviour
             }
             else if (fixedButtons[0].transform.position.y + (-0.5f * Input.mouseScrollDelta.y) < minHeight && fixedButtons.Last().transform.position.y + (-0.5f * Input.mouseScrollDelta.y) < maxHeight)
             {
-                if (fixedButtons.Last().transform.position.y < maxHeight)
+                if (fixedButtons.Last().transform.position.y < maxHeight - 0.1f)
                 {
                     offset.y += minHeight - fixedButtons[0].transform.position.y;
                 }

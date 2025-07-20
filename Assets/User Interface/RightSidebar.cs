@@ -15,5 +15,7 @@ public class RightSidebar : MonoBehaviour // This class should be for anything f
     void Update()
     {
         transform.position = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height / 2)) + offset;
+        var scale = Camera.main.orthographicSize / 5;
+        transform.localScale = new Vector3(scale, scale, 1);
     }
 }
