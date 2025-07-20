@@ -29,9 +29,9 @@ public class MouseNode : MonoBehaviour
     {
         var newPos = Camera.main.ScreenToWorldPoint(Input.mousePosition) + offset;
         bool leftClickPressed = Input.GetMouseButtonDown(0);
-        bool leftClickHovered = Input.GetMouseButton(0);
-        bool rightClickPressed = Input.GetMouseButtonDown(1) && !leftClickHovered;
-        bool rightClickHovered = Input.GetMouseButton(1) && !leftClickHovered;
+        bool leftClickHeld = Input.GetMouseButton(0);
+        bool rightClickPressed = Input.GetMouseButtonDown(1) && !leftClickHeld;
+        bool rightClickHeld = Input.GetMouseButton(1) && !leftClickHeld;
         bool shiftHeld = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
         bool ctrlHeld = !shiftHeld && (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl));
         bool noKeyHeld = !shiftHeld && !ctrlHeld;
@@ -49,7 +49,7 @@ public class MouseNode : MonoBehaviour
             selectedNodes = new HashSet<Node>();
         }
 
-        if (leftClickHovered && currentlyDragging)
+        if (leftClickHeld && currentlyDragging)
         {
             var displacement = newPos - transform.position;
             foreach (var node in selectedNodes)
@@ -65,7 +65,7 @@ public class MouseNode : MonoBehaviour
 
         if (newConnector != null)
         {
-            if (!rightClickHovered)
+            if (!rightClickHeld)
             {
                 if (hoveredThisFrame != null && hoveredThisFrame != newConnectorStart && !newConnectorStart.IsDescendentOf(hoveredThisFrame))
                 {
@@ -166,7 +166,7 @@ public class MouseNode : MonoBehaviour
 
         transform.position = newPos;
 
-        if (reducer != null && !leftClickHovered)
+        if (reducer != null && !leftClickHeld)
         {
             if (!mouseOverUI)
             {
