@@ -18,6 +18,7 @@ public class MouseNode : MonoBehaviour
     public GameObject connectorPrefab;
     public Connector newConnector;
     public Node newConnectorStart;
+    private Vector3 prevMousePos = Vector3.zero;
     // Start is called before the first frame update
     void Start()
     {
@@ -139,7 +140,7 @@ public class MouseNode : MonoBehaviour
                     if (node.wPrev != null)
                     {
                         node.wPrev.blackLink = true;
-                        node.wPrev.nextConnector.colourSpriteRenderer.color = node.bPrev.nextConnector.innerBlack;
+                        node.wPrev.nextConnector.colourSpriteRenderer.color = node.wPrev.nextConnector.innerBlack;
                     }
                     swapper = node.bPrev;
                     node.bPrev = node.wPrev;
@@ -163,6 +164,11 @@ public class MouseNode : MonoBehaviour
                 hoveredThisFrame.wPrev = swapper;
             }
         }
+        else if (rightClickHeld && hoveredThisFrame == null && !mouseOverUI)
+        {
+            Camera.main.transform.position += Camera.main.ScreenToWorldPoint(prevMousePos) - Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            newPos = transform.position;
+        }
 
         transform.position = newPos;
 
@@ -183,5 +189,6 @@ public class MouseNode : MonoBehaviour
         mouseOverUI = false;
         highestNodeSortingOrderThisFrame = -1;
         hoveredThisFrame = null;
+        prevMousePos = Input.mousePosition;
     }
 }
