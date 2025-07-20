@@ -31,7 +31,6 @@ public class MouseNode : MonoBehaviour
     {
         var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         var newPos = mousePos + offset;
-        mousePos += new Vector3(0, 0, 10);
         bool leftClickPressed = Input.GetMouseButtonDown(0);
         bool leftClickHeld = Input.GetMouseButton(0);
         bool rightClickPressed = Input.GetMouseButtonDown(1) && !leftClickHeld;
@@ -40,16 +39,24 @@ public class MouseNode : MonoBehaviour
         bool ctrlHeld = !shiftHeld && (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl));
         bool noKeyHeld = !shiftHeld && !ctrlHeld;
 
-        if (!mouseOverUI) Camera.main.orthographicSize += Input.mouseScrollDelta.y / 1.5f;
+        if (!mouseOverUI)
+        {
+            Camera.main.orthographicSize -= Input.mouseScrollDelta.y / 1.5f;
 
-        if (Camera.main.orthographicSize > 8)
-        {
-            Camera.main.orthographicSize = 8;
+            if (Camera.main.orthographicSize > 8)
+            {
+                Camera.main.orthographicSize = 8;
+            }
+            else if (Camera.main.orthographicSize < 3)
+            {
+                Camera.main.orthographicSize = 3;
+            }
+
+            Camera.main.transform.position +=  mousePos - Camera.main.ScreenToWorldPoint(Input.mousePosition);
         }
-        else if (Camera.main.orthographicSize < 3)
-        {
-            Camera.main.orthographicSize = 3;
-        }
+
+        mousePos += new Vector3(0, 0, 10);
+
         if (hoveredThisFrame != null && leftClickPressed) hoveredThisFrame.HandleClick();
 
         if (!currentlyDragging && leftClickPressed)
