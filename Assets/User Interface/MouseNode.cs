@@ -40,6 +40,16 @@ public class MouseNode : MonoBehaviour
         bool ctrlHeld = !shiftHeld && (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl));
         bool noKeyHeld = !shiftHeld && !ctrlHeld;
 
+        if (!mouseOverUI) Camera.main.orthographicSize += Input.mouseScrollDelta.y / 1.5f;
+
+        if (Camera.main.orthographicSize > 8)
+        {
+            Camera.main.orthographicSize = 8;
+        }
+        else if (Camera.main.orthographicSize < 3)
+        {
+            Camera.main.orthographicSize = 3;
+        }
         if (hoveredThisFrame != null && leftClickPressed) hoveredThisFrame.HandleClick();
 
         if (!currentlyDragging && leftClickPressed)
