@@ -133,39 +133,98 @@ public class Node : MonoBehaviour
         }
     }
 
-    public void HandleClick()
+    public void HandleShiftClick()
     {
         mouseNode.currentlyDragging = true;
         sortingGroup.sortingOrder = mouseNode.nodeSortingOrderCount;
         mouseNode.nodeSortingOrderCount++;
 
-        if (Input.GetKey(KeyCode.LeftShift))
+        if (highlighted)
         {
-            if (highlighted)
-            {
-                mouseNode.currentlyDragging = false;
+            mouseNode.currentlyDragging = false;
 
-                mouseNode.selectedNodes.Remove(this);
-                SetHighlighted(false);
-            }
-            else
-            {
-                mouseNode.selectedNodes.Add(this);
-                SetHighlighted(true);
-            }
+            mouseNode.selectedNodes.Remove(this);
+            SetHighlighted(false);
         }
         else
         {
-            if (!highlighted)
-            {
-                foreach (var node in mouseNode.selectedNodes)
-                {
-                    node.SetHighlighted(false);
-                }
+            mouseNode.selectedNodes.Add(this);
+            SetHighlighted(true);
+        }
+    }
 
-                SetHighlighted(true);
-                mouseNode.selectedNodes = new HashSet<Node>() { this };
+    public void HandleNoKeyClick()
+    {
+        mouseNode.currentlyDragging = true;
+        sortingGroup.sortingOrder = mouseNode.nodeSortingOrderCount;
+        mouseNode.nodeSortingOrderCount++;
+
+        if (!highlighted)
+        {
+            foreach (var node in mouseNode.selectedNodes)
+            {
+                node.SetHighlighted(false);
             }
+
+            SetHighlighted(true);
+            mouseNode.selectedNodes = new HashSet<Node>() { this };
+        }
+    }
+
+    public void HandleCtrlClick()
+    {
+        mouseNode.currentlyDragging = true;
+
+        if (highlighted)
+        {
+            var selectedList = mouseNode.selectedNodes.ToList();
+            var newList = new List<Node>();
+
+            foreach (var node in selectedList)
+            {
+                var newNode = mouseNode.SolutionReducer().AddNode(node.reducer, node.transform.position, mouseNode);
+                newList.Add(newNode);
+                newNode.SetHighlighted(true);
+                mouseNode.hoveredThisFrame = newNode;
+            }
+
+            for (int i = 0; i < newList.Count(); i++)
+            {
+                int nextIdx = selectedList.FindIndex((n) => n == selectedList[i].next);
+
+                if (nextIdx != -1)
+                {
+                    var newConnector = Instantiate(mouseNode.connectorPrefab).GetComponent<Connector>();
+
+                    newList[i].next = newList[nextIdx];
+                    newList[i].blackLink = selectedList[i].blackLink;
+
+                    if (selectedList[i].blackLink) newList[nextIdx].bPrev = newList[i];
+                    else newList[nextIdx].wPrev = newList[i];
+
+                    newList[i].nextConnector = newConnector;
+                    newConnector.Align(newList[i].transform.position, newList[nextIdx].transform.position, newList[i].blackLink);
+                }
+            }
+
+            foreach (var node in mouseNode.selectedNodes)
+            {
+                node.SetHighlighted(false);
+            }
+
+            mouseNode.selectedNodes = newList.ToHashSet();
+        }
+        else
+        {
+            foreach (var node in mouseNode.selectedNodes)
+            {
+                node.SetHighlighted(false);
+            }
+
+            var newNode = mouseNode.SolutionReducer().AddNode(reducer, transform.position, mouseNode);
+            mouseNode.selectedNodes = new HashSet<Node>() { newNode };
+            newNode.SetHighlighted(true);
+            mouseNode.hoveredThisFrame = newNode;
         }
     }
 

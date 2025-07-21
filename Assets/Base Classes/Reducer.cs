@@ -107,7 +107,7 @@ public class Reducer : MonoBehaviour
         }
     }
 
-    public void AddNode(Reducer nodeReducer, Vector3 position, MouseNode mouseNode, int spotInSortingOrder)
+    public Node AddNode(Reducer nodeReducer, Vector3 position, MouseNode mouseNode)
     {
         var newNode = Instantiate(nodePrefab, position, Quaternion.identity).GetComponent<Node>();
         position.x /= distanceBetweenNodes;
@@ -116,8 +116,10 @@ public class Reducer : MonoBehaviour
         newNode.id = nodeIdCounter;
         newNode.mouseNode = mouseNode;
         nodeIdCounter++;
-        newNode.sortingGroup.sortingOrder = spotInSortingOrder;
+        newNode.sortingGroup.sortingOrder = mouseNode.nodeSortingOrderCount;
+        mouseNode.nodeSortingOrderCount++;
         nodes.Add(newNode);
+        return newNode;
     }
 
     // Start is called before the first frame update

@@ -53,12 +53,17 @@ public class MouseNode : MonoBehaviour
                 Camera.main.orthographicSize = 3;
             }
 
-            Camera.main.transform.position +=  mousePos - Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Camera.main.transform.position += mousePos - Camera.main.ScreenToWorldPoint(Input.mousePosition);
         }
 
         mousePos += new Vector3(0, 0, 10);
 
-        if (hoveredThisFrame != null && leftClickPressed) hoveredThisFrame.HandleClick();
+        if (hoveredThisFrame != null && leftClickPressed)
+        {
+            if (noKeyHeld) hoveredThisFrame.HandleNoKeyClick();
+            else if (shiftHeld) hoveredThisFrame.HandleShiftClick();
+            else if (ctrlHeld) hoveredThisFrame.HandleCtrlClick();
+        }
 
         if (!currentlyDragging && leftClickPressed)
         {
@@ -113,7 +118,7 @@ public class MouseNode : MonoBehaviour
                         node.wPrev.nextConnector = null;
                     }
 
-                    solution.reducers[solution.currentReducerIdx].nodes.Remove(node);
+                    SolutionReducer().nodes.Remove(node);
                     Destroy(node.gameObject);
                 }
 
@@ -239,8 +244,7 @@ public class MouseNode : MonoBehaviour
         {
             if (!mouseOverUI)
             {
-                solution.reducers[solution.currentReducerIdx].AddNode(reducer, transform.position, this, nodeSortingOrderCount);
-                nodeSortingOrderCount++;
+                SolutionReducer().AddNode(reducer, transform.position, this);
             }
 
             reducer = null;
@@ -253,5 +257,10 @@ public class MouseNode : MonoBehaviour
         highestNodeSortingOrderThisFrame = -1;
         hoveredThisFrame = null;
         prevMousePos = Input.mousePosition;
+    }
+
+    public Reducer SolutionReducer()
+    {
+        return solution.reducers[solution.currentReducerIdx];
     }
 }

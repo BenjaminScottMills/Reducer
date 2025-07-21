@@ -29,7 +29,7 @@ public class HighlightSquare : MonoBehaviour
         }
         else
         {
-            List<Node> allNodes = mouseNode.solution.reducers[mouseNode.solution.currentReducerIdx].nodes;
+            List<Node> allNodes = mouseNode.SolutionReducer().nodes;
             HashSet<Node> selection = new HashSet<Node>();
 
             Vector3 bottomLeft;
