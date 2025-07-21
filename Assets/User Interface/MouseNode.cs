@@ -171,63 +171,71 @@ public class MouseNode : MonoBehaviour
                 newConnector.Align(newConnectorStart.transform.position, mousePos, true);
             }
         }
-        else if (noKeyHeld && rightClickPressed && hoveredThisFrame != null)
+        else if (rightClickPressed && hoveredThisFrame != null)
         {
-            foreach (var node in selectedNodes)
-            {
-                node.SetHighlighted(false);
-            }
-            selectedNodes.Clear();
-
-            newConnectorStart = hoveredThisFrame;
-            if (newConnectorStart.next != null)
-            {
-                if (newConnectorStart.blackLink) newConnectorStart.next.bPrev = null;
-                else newConnectorStart.next.wPrev = null;
-                newConnectorStart.next = null;
-                Destroy(newConnectorStart.nextConnector.gameObject);
-                newConnectorStart.nextConnector = null;
-            }
-            newConnector = Instantiate(connectorPrefab).GetComponent<Connector>();
-            newConnector.Align(newConnectorStart.transform.position, mousePos, true);
-        }
-        else if (shiftHeld && rightClickPressed && hoveredThisFrame != null)
-        {
-            Node swapper;
-            if (selectedNodes.Contains(hoveredThisFrame))
+            if (noKeyHeld)
             {
                 foreach (var node in selectedNodes)
                 {
-                    if (node.bPrev != null)
+                    node.SetHighlighted(false);
+                }
+                selectedNodes.Clear();
+
+                newConnectorStart = hoveredThisFrame;
+                if (newConnectorStart.next != null)
+                {
+                    if (newConnectorStart.blackLink) newConnectorStart.next.bPrev = null;
+                    else newConnectorStart.next.wPrev = null;
+                    newConnectorStart.next = null;
+                    Destroy(newConnectorStart.nextConnector.gameObject);
+                    newConnectorStart.nextConnector = null;
+                }
+                newConnector = Instantiate(connectorPrefab).GetComponent<Connector>();
+                newConnector.Align(newConnectorStart.transform.position, mousePos, true);
+            }
+            else if (shiftHeld)
+            {
+                Node swapper;
+                if (selectedNodes.Contains(hoveredThisFrame))
+                {
+                    foreach (var node in selectedNodes)
                     {
-                        node.bPrev.blackLink = false;
-                        node.bPrev.nextConnector.colourSpriteRenderer.color = node.bPrev.nextConnector.innerWhite;
+                        if (node.bPrev != null)
+                        {
+                            node.bPrev.blackLink = false;
+                            node.bPrev.nextConnector.colourSpriteRenderer.color = node.bPrev.nextConnector.innerWhite;
+                        }
+                        if (node.wPrev != null)
+                        {
+                            node.wPrev.blackLink = true;
+                            node.wPrev.nextConnector.colourSpriteRenderer.color = node.wPrev.nextConnector.innerBlack;
+                        }
+                        swapper = node.bPrev;
+                        node.bPrev = node.wPrev;
+                        node.wPrev = swapper;
                     }
-                    if (node.wPrev != null)
+                }
+                else
+                {
+                    if (hoveredThisFrame.bPrev != null)
                     {
-                        node.wPrev.blackLink = true;
-                        node.wPrev.nextConnector.colourSpriteRenderer.color = node.wPrev.nextConnector.innerBlack;
+                        hoveredThisFrame.bPrev.blackLink = false;
+                        hoveredThisFrame.bPrev.nextConnector.colourSpriteRenderer.color = hoveredThisFrame.bPrev.nextConnector.innerWhite;
                     }
-                    swapper = node.bPrev;
-                    node.bPrev = node.wPrev;
-                    node.wPrev = swapper;
+                    if (hoveredThisFrame.wPrev != null)
+                    {
+                        hoveredThisFrame.wPrev.blackLink = true;
+                        hoveredThisFrame.wPrev.nextConnector.colourSpriteRenderer.color = hoveredThisFrame.wPrev.nextConnector.innerBlack;
+                    }
+                    swapper = hoveredThisFrame.bPrev;
+                    hoveredThisFrame.bPrev = hoveredThisFrame.wPrev;
+                    hoveredThisFrame.wPrev = swapper;
                 }
             }
-            else
+            else if (ctrlHeld && hoveredThisFrame.next != null)
             {
-                if (hoveredThisFrame.bPrev != null)
-                {
-                    hoveredThisFrame.bPrev.blackLink = false;
-                    hoveredThisFrame.bPrev.nextConnector.colourSpriteRenderer.color = hoveredThisFrame.bPrev.nextConnector.innerWhite;
-                }
-                if (hoveredThisFrame.wPrev != null)
-                {
-                    hoveredThisFrame.wPrev.blackLink = true;
-                    hoveredThisFrame.wPrev.nextConnector.colourSpriteRenderer.color = hoveredThisFrame.wPrev.nextConnector.innerBlack;
-                }
-                swapper = hoveredThisFrame.bPrev;
-                hoveredThisFrame.bPrev = hoveredThisFrame.wPrev;
-                hoveredThisFrame.wPrev = swapper;
+                hoveredThisFrame.breakpointAfter = !hoveredThisFrame.breakpointAfter;
+                hoveredThisFrame.nextConnector.breakpointDisplay.SetActive(hoveredThisFrame.breakpointAfter);
             }
         }
         else if (rightClickHeld && hoveredThisFrame == null && !mouseOverUI)

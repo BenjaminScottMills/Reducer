@@ -13,6 +13,7 @@ public class Node : MonoBehaviour
     public Node bPrev;
     public Node wPrev;
     public bool blackLink;
+    public bool breakpointAfter;
     public bool highlighted;
     public MouseNode mouseNode;
     public static float radius = 0.45f;
