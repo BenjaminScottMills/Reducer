@@ -118,7 +118,7 @@ public class MouseNode : MonoBehaviour
                         node.wPrev.nextConnector = null;
                     }
 
-                    SolutionReducer().nodes.Remove(node);
+                    solution.currentReducer.nodes.Remove(node);
                     Destroy(node.gameObject);
                 }
 
@@ -252,7 +252,7 @@ public class MouseNode : MonoBehaviour
         {
             if (!mouseOverUI)
             {
-                SolutionReducer().AddNode(reducer, transform.position, this);
+                solution.currentReducer.AddNode(reducer, transform.position, this);
             }
 
             reducer = null;
@@ -265,10 +265,5 @@ public class MouseNode : MonoBehaviour
         highestNodeSortingOrderThisFrame = -1;
         hoveredThisFrame = null;
         prevMousePos = Input.mousePosition;
-    }
-
-    public Reducer SolutionReducer()
-    {
-        return solution.reducers[solution.currentReducerIdx];
     }
 }

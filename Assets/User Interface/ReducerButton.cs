@@ -62,7 +62,24 @@ public class ReducerButton : MonoBehaviour
                         }
                         else
                         {
-                            // swap active reducer
+                            foreach (var node in mouseNode.selectedNodes)
+                            {
+                                node.SetHighlighted(false);
+                            }
+                            mouseNode.selectedNodes.Clear();
+
+                            foreach (var node in reducer.solution.currentReducer.nodes)
+                            {
+                                node.nextConnector?.gameObject.SetActive(false);
+                                node.gameObject.SetActive(false);
+                            }
+
+                            reducer.solution.currentReducer = reducer;
+                            foreach (var node in reducer.nodes)
+                            {
+                                node.gameObject.SetActive(true);
+                                node.nextConnector?.gameObject.SetActive(true);
+                            }
                         }
                     }
                 }

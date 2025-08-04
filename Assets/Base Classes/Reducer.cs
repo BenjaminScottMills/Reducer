@@ -21,6 +21,7 @@ public class Reducer : MonoBehaviour
     public Reducer fastExecOuterBlack = null;
     public Reducer fastExecOuterWhite = null;
     public Reducer nullReducer;
+    public Solution solution;
     public Sprite sprite;
     public GameObject nodePrefab;
     public GameObject reducerPrefab;

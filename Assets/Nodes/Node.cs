@@ -183,7 +183,7 @@ public class Node : MonoBehaviour
 
             foreach (var node in selectedList)
             {
-                var newNode = mouseNode.SolutionReducer().AddNode(node.reducer, node.transform.position, mouseNode);
+                var newNode = mouseNode.solution.currentReducer.AddNode(node.reducer, node.transform.position, mouseNode);
                 newList.Add(newNode);
                 newNode.SetHighlighted(true);
                 mouseNode.hoveredThisFrame = newNode;
@@ -222,7 +222,7 @@ public class Node : MonoBehaviour
                 node.SetHighlighted(false);
             }
 
-            var newNode = mouseNode.SolutionReducer().AddNode(reducer, transform.position, mouseNode);
+            var newNode = mouseNode.solution.currentReducer.AddNode(reducer, transform.position, mouseNode);
             mouseNode.selectedNodes = new HashSet<Node>() { newNode };
             newNode.SetHighlighted(true);
             mouseNode.hoveredThisFrame = newNode;

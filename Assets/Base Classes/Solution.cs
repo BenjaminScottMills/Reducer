@@ -7,7 +7,7 @@ public class Solution : MonoBehaviour
 {
     public string sName;
     public uint idCounter;
-    public int currentReducerIdx;
+    public Reducer currentReducer; // must be present in reducers
     public List<Reducer> reducers;
     public Reducer nullReducer;
     public GameObject reducerPrefab;
@@ -44,6 +44,7 @@ public class Solution : MonoBehaviour
         newReducer.description = desc;
         newReducer.id = idCounter;
         newReducer.nullReducer = nullReducer;
+        newReducer.solution = this;
         idCounter++;
         reducers.Add(newReducer);
         customReducerList.AddReducerButton(newReducer);
