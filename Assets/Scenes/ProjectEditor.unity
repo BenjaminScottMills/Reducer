@@ -157,6 +157,8 @@ MonoBehaviour:
   boxCollider: {fileID: 129046682}
   customReducerList: {fileID: 572047288}
   fixedReducerList: {fileID: 761875610}
+  rName: {fileID: 1058681131}
+  description: {fileID: 468582256}
   mouseNode: {fileID: 1384790493}
 --- !u!212 &129046681
 SpriteRenderer:
@@ -502,7 +504,7 @@ GameObject:
   - component: {fileID: 369782140}
   - component: {fileID: 369782139}
   m_Layer: 0
-  m_Name: Text (Legacy)
+  m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2381,6 +2383,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03185d65375387a4fbc745abbe02e843, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentSolution: {fileID: 1117210364}
+  rName: {fileID: 1058681131}
+  description: {fileID: 468582256}
+  parentMenu: {fileID: 129046680}
 --- !u!1 &1288112880
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class AddReducerMenu : MonoBehaviour
 {
@@ -8,6 +9,8 @@ public class AddReducerMenu : MonoBehaviour
     public BoxCollider2D boxCollider;
     public CustomReducerList customReducerList;
     public FixedReducerList fixedReducerList;
+    public InputField rName;
+    public InputField description;
     public MouseNode mouseNode;
     void Update()
     {
@@ -28,6 +31,8 @@ public class AddReducerMenu : MonoBehaviour
         // Set all fields to default values
         var bottom = Camera.main.ScreenToWorldPoint(new Vector3(0, 0)).y;
         transform.localPosition = baseOffset;
+        description.text = "";
+        rName.text = "";
 
         if (transform.position.y - 2 < bottom)
         {

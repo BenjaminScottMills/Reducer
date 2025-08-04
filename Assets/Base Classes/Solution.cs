@@ -33,4 +33,17 @@ public class Solution : MonoBehaviour
     {
         return reducers[0].ExecuteFast(black, white);
     }
+
+    public void AddReducer(string name, string desc)
+    {
+        Reducer newReducer = Instantiate(reducerPrefab).GetComponent<Reducer>();
+
+        newReducer.rName = name;
+        newReducer.description = desc;
+        newReducer.id = idCounter;
+        idCounter++;
+        reducers.Add(newReducer);
+
+        // add button to custom reducer list.
+    }
 }
