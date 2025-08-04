@@ -13,6 +13,7 @@ public class CustomReducerList : MonoBehaviour
     private Vector2 baseColliderOffset;
     public Vector3 basePosition;
     public MouseNode mouseNode;
+    public bool overReducerMenu;
 
     // Start is called before the first frame update
     void Start()
@@ -35,9 +36,11 @@ public class CustomReducerList : MonoBehaviour
         if (boxCollider.OverlapPoint(Camera.main.ScreenToWorldPoint(Input.mousePosition)))
         {
             mouseNode.mouseOverUI = true;
-            offset += -0.5f * Input.mouseScrollDelta;
+
+            if (!overReducerMenu) offset += -0.5f * Input.mouseScrollDelta;
         }
         boxCollider.offset = baseColliderOffset - offset;
         transform.localPosition = basePosition + (Vector3)offset;
+        overReducerMenu = false;
     }
 }

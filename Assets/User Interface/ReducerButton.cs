@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEditor.U2D.Animation;
 using UnityEngine;
 
@@ -44,10 +45,24 @@ public class ReducerButton : MonoBehaviour
             {
                 spriteRenderer.enabled = true;
                 var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                if (Input.GetMouseButtonDown(0) && colliderd2d.OverlapPoint(mousePos))
+                if (colliderd2d.OverlapPoint(mousePos))
                 {
-                    mouseNode.reducer = reducer;
-                    mouseNode.offset = transform.position - Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                    if (Input.GetMouseButtonDown(0))
+                    {
+                        mouseNode.reducer = reducer;
+                        mouseNode.offset = transform.position - Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                    }
+                    else if (Input.GetMouseButtonDown(1))
+                    {
+                        if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+                        {
+                            // reducer's menu thing
+                        }
+                        else
+                        {
+                            // swap active reducer
+                        }
+                    }
                 }
             }
             else
