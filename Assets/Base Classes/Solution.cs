@@ -9,6 +9,7 @@ public class Solution : MonoBehaviour
     public uint idCounter;
     public int currentReducerIdx;
     public List<Reducer> reducers;
+    public Reducer nullReducer;
     public GameObject reducerPrefab;
 
     public void LoadFromSerialised(SolutionSerialise s)
@@ -41,6 +42,7 @@ public class Solution : MonoBehaviour
         newReducer.rName = name;
         newReducer.description = desc;
         newReducer.id = idCounter;
+        newReducer.nullReducer = nullReducer;
         idCounter++;
         reducers.Add(newReducer);
 

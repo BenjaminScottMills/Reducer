@@ -603,7 +603,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rName: 
   description: 
-  id: 0
+  id: 99
   nodeIdCounter: 100
   nodes: []
   outNode: {fileID: 0}
@@ -2054,7 +2054,8 @@ MonoBehaviour:
   currentReducerIdx: 0
   reducers:
   - {fileID: 437499320}
-  reducerPrefab: {fileID: 0}
+  nullReducer: {fileID: 1722639590}
+  reducerPrefab: {fileID: 7035577877054418780, guid: 2247df583972bd64980a0a0a0113cbab, type: 3}
 --- !u!4 &1117210365
 Transform:
   m_ObjectHideFlags: 0
