@@ -321,6 +321,7 @@ MonoBehaviour:
   colliderd2d: {fileID: 137961880}
   upperHalf: 1
   mouseNode: {fileID: 1384790493}
+  updateMenu: {fileID: 0}
 --- !u!212 &137961882
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -409,6 +410,7 @@ MonoBehaviour:
   colliderd2d: {fileID: 280742900}
   upperHalf: 1
   mouseNode: {fileID: 1384790493}
+  updateMenu: {fileID: 0}
 --- !u!58 &280742900
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -971,9 +973,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9de08c6c0cf74f648b0945ec145c1f79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttonPrefab: {fileID: 5106167088891945082, guid: a3b949a6cc5dd5347954d5d2c8147a73, type: 3}
+  buttonPrefab: {fileID: 2429191244265531964, guid: ac1061df9a1e7e54a9ebe6dc5cca503e, type: 3}
   customButtons: []
   newReducerButton: {fileID: 980996795}
+  fixedReducerList: {fileID: 761875610}
   boxCollider: {fileID: 572047290}
   offset: {x: 0, y: 0}
   basePosition: {x: -1.5, y: 0, z: 0}
@@ -1072,6 +1075,7 @@ MonoBehaviour:
   colliderd2d: {fileID: 649031548}
   upperHalf: 1
   mouseNode: {fileID: 1384790493}
+  updateMenu: {fileID: 0}
 --- !u!212 &649031547
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1191,6 +1195,7 @@ MonoBehaviour:
   colliderd2d: {fileID: 657506267}
   upperHalf: 1
   mouseNode: {fileID: 1384790493}
+  updateMenu: {fileID: 0}
 --- !u!212 &657506266
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1310,6 +1315,7 @@ MonoBehaviour:
   colliderd2d: {fileID: 692813055}
   upperHalf: 1
   mouseNode: {fileID: 1384790493}
+  updateMenu: {fileID: 0}
 --- !u!212 &692813054
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1802,6 +1808,7 @@ MonoBehaviour:
   colliderd2d: {fileID: 1056766993}
   upperHalf: 1
   mouseNode: {fileID: 1384790493}
+  updateMenu: {fileID: 0}
 --- !u!212 &1056766992
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2056,6 +2063,7 @@ MonoBehaviour:
   - {fileID: 437499320}
   nullReducer: {fileID: 1722639590}
   reducerPrefab: {fileID: 7035577877054418780, guid: 2247df583972bd64980a0a0a0113cbab, type: 3}
+  customReducerList: {fileID: 572047288}
 --- !u!4 &1117210365
 Transform:
   m_ObjectHideFlags: 0
@@ -2197,6 +2205,7 @@ MonoBehaviour:
   colliderd2d: {fileID: 1209779631}
   upperHalf: 1
   mouseNode: {fileID: 1384790493}
+  updateMenu: {fileID: 0}
 --- !u!212 &1209779633
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3144,6 +3153,7 @@ MonoBehaviour:
   colliderd2d: {fileID: 1656331999}
   upperHalf: 1
   mouseNode: {fileID: 1384790493}
+  updateMenu: {fileID: 0}
 --- !u!212 &1656331998
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3374,6 +3384,7 @@ MonoBehaviour:
   colliderd2d: {fileID: 1677925299}
   upperHalf: 1
   mouseNode: {fileID: 1384790493}
+  updateMenu: {fileID: 0}
 --- !u!58 &1677925299
 CircleCollider2D:
   m_ObjectHideFlags: 0

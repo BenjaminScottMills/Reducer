@@ -12,6 +12,7 @@ public class ReducerButton : MonoBehaviour
     public Collider2D colliderd2d;
     public bool upperHalf;
     public MouseNode mouseNode;
+    public UpdateReducerMenu updateMenu;
 
     // Start is called before the first frame update
     void Start()
@@ -52,11 +53,12 @@ public class ReducerButton : MonoBehaviour
                         mouseNode.reducer = reducer;
                         mouseNode.offset = transform.position - Camera.main.ScreenToWorldPoint(Input.mousePosition);
                     }
-                    else if (Input.GetMouseButtonDown(1))
+                    else if (Input.GetMouseButtonDown(1) && !upperHalf)
                     {
                         if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
                         {
-                            // reducer's menu thing
+                            updateMenu.gameObject.SetActive(true);
+                            updateMenu.Setup();
                         }
                         else
                         {

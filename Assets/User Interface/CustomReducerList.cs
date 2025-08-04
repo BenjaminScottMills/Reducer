@@ -8,6 +8,7 @@ public class CustomReducerList : MonoBehaviour
     public GameObject buttonPrefab;
     public List<ReducerButton> customButtons;
     public NewReducerButton newReducerButton;
+    public FixedReducerList fixedReducerList;
     public BoxCollider2D boxCollider;
     public Vector2 offset;
     private Vector2 baseColliderOffset;
@@ -22,10 +23,17 @@ public class CustomReducerList : MonoBehaviour
         basePosition = transform.localPosition;
     }
 
-    void AddReducerButton(Reducer r)
+    public void AddReducerButton(Reducer r)
     {
-        var newButton = Instantiate(buttonPrefab, transform.localPosition + new Vector3(0, (customButtons.Count + 1) * -1), Quaternion.identity, transform).GetComponent<ReducerButton>();
+        var newButton = Instantiate(buttonPrefab, Vector3.zero, Quaternion.identity, transform).GetComponent<ReducerButton>();
         newButton.reducer = r;
+        newButton.transform.localPosition = new Vector3(0, transform.localPosition.y + ((customButtons.Count + 1) * -1));
+        newButton.updateMenu.customReducerList = this;
+        newButton.updateMenu.fixedReducerList = fixedReducerList;
+        newButton.updateMenu.mouseNode = mouseNode;
+        newButton.updateMenu.canvas.worldCamera = Camera.main;
+        newButton.updateMenu.reducer = r;
+        newButton.mouseNode = mouseNode;
         customButtons.Add(newButton);
         newReducerButton.transform.localPosition += new Vector3(0, -1);
     }

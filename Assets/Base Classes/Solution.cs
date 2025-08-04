@@ -11,6 +11,7 @@ public class Solution : MonoBehaviour
     public List<Reducer> reducers;
     public Reducer nullReducer;
     public GameObject reducerPrefab;
+    public CustomReducerList customReducerList;
 
     public void LoadFromSerialised(SolutionSerialise s)
     {
@@ -45,6 +46,7 @@ public class Solution : MonoBehaviour
         newReducer.nullReducer = nullReducer;
         idCounter++;
         reducers.Add(newReducer);
+        customReducerList.AddReducerButton(newReducer);
 
         // add button to custom reducer list.
     }
