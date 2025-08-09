@@ -34,9 +34,9 @@ public class AddReducerMenu : MonoBehaviour
         description.text = "";
         rName.text = "";
 
-        if (transform.position.y - 2 < bottom)
+        if (transform.position.y - (Camera.main.orthographicSize / 2) < bottom)
         {
-            transform.position = new Vector3(transform.position.x, bottom + 2);
+            transform.position = new Vector3(transform.position.x, bottom + (Camera.main.orthographicSize / 2));
         }
     }
 }

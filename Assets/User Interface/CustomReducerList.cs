@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
+using System.Linq;
 using UnityEngine;
 
 public class CustomReducerList : MonoBehaviour
@@ -27,7 +27,7 @@ public class CustomReducerList : MonoBehaviour
     {
         var newButton = Instantiate(buttonPrefab, Vector3.zero, Quaternion.identity, transform).GetComponent<ReducerButton>();
         newButton.reducer = r;
-        newButton.transform.localPosition = new Vector3(0, transform.localPosition.y + ((customButtons.Count + 1) * -1));
+        newButton.transform.localPosition = new Vector3(0, customButtons.Last().transform.localPosition.y - 1);
         newButton.updateMenu.customReducerList = this;
         newButton.updateMenu.fixedReducerList = fixedReducerList;
         newButton.updateMenu.mouseNode = mouseNode;
@@ -36,6 +36,21 @@ public class CustomReducerList : MonoBehaviour
         newButton.mouseNode = mouseNode;
         customButtons.Add(newButton);
         newReducerButton.transform.localPosition += new Vector3(0, -1);
+
+        float minHeight = Camera.main.ScreenToWorldPoint(new Vector3(0, 0)).y + (Camera.main.orthographicSize / 10);
+        float maxHeight = Camera.main.ScreenToWorldPoint(new Vector3(0, Screen.height / 2)).y - (Camera.main.orthographicSize / 5);
+
+        if (newReducerButton.transform.position.y + -0.5f < minHeight && customButtons[0].transform.position.y + -0.5f < maxHeight)
+        {
+            if (customButtons[0].transform.position.y < maxHeight - 0.01f)
+            {
+                offset.y += minHeight - newReducerButton.transform.position.y;
+            }
+            else
+            {
+                offset.y += maxHeight - customButtons[0].transform.position.y;
+            }
+        }
     }
 
     // Update is called once per frame
@@ -45,7 +60,38 @@ public class CustomReducerList : MonoBehaviour
         {
             mouseNode.mouseOverUI = true;
 
-            if (!overReducerMenu) offset += -0.5f * Input.mouseScrollDelta;
+            if (!overReducerMenu)
+            {
+                float minHeight = Camera.main.ScreenToWorldPoint(new Vector3(0, 0)).y + (Camera.main.orthographicSize / 10);
+                float maxHeight = Camera.main.ScreenToWorldPoint(new Vector3(0, Screen.height / 2)).y - (Camera.main.orthographicSize / 5);
+
+                if (newReducerButton.transform.position.y + (-0.5f * Input.mouseScrollDelta.y) > minHeight && customButtons[0].transform.position.y + (-0.5f * Input.mouseScrollDelta.y) > maxHeight)
+                {
+                    if (newReducerButton.transform.position.y > minHeight + 0.01f)
+                    {
+                        offset.y += maxHeight - customButtons[0].transform.position.y;
+                    }
+                    else
+                    {
+                        offset.y += minHeight - newReducerButton.transform.position.y;
+                    }
+                }
+                else if (newReducerButton.transform.position.y + (-0.5f * Input.mouseScrollDelta.y) < minHeight && customButtons[0].transform.position.y + (-0.5f * Input.mouseScrollDelta.y) < maxHeight)
+                {
+                    if (customButtons[0].transform.position.y < maxHeight - 0.01f)
+                    {
+                        offset.y += minHeight - newReducerButton.transform.position.y;
+                    }
+                    else
+                    {
+                        offset.y += maxHeight - customButtons[0].transform.position.y;
+                    }
+                }
+                else
+                {
+                    offset += -0.5f * Input.mouseScrollDelta;
+                }
+            }
         }
         boxCollider.offset = baseColliderOffset - offset;
         transform.localPosition = basePosition + (Vector3)offset;
