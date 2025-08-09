@@ -40,7 +40,7 @@ public class CustomReducerList : MonoBehaviour
         float minHeight = Camera.main.ScreenToWorldPoint(new Vector3(0, 0)).y + (Camera.main.orthographicSize / 10);
         float maxHeight = Camera.main.ScreenToWorldPoint(new Vector3(0, Screen.height / 2)).y - (Camera.main.orthographicSize / 5);
 
-        if (newReducerButton.transform.position.y + -0.5f < minHeight && customButtons[0].transform.position.y + -0.5f < maxHeight)
+        if (newReducerButton.transform.position.y - 0.5f < minHeight && customButtons[0].transform.position.y - 0.5f < maxHeight)
         {
             if (customButtons[0].transform.position.y < maxHeight - 0.01f)
             {
@@ -49,6 +49,18 @@ public class CustomReducerList : MonoBehaviour
             else
             {
                 offset.y += maxHeight - customButtons[0].transform.position.y;
+            }
+        }
+
+        if (newReducerButton.transform.position.y - 0.5f > minHeight && customButtons[0].transform.position.y -0.5f > maxHeight)
+        {
+            if (newReducerButton.transform.position.y > minHeight + 0.01f)
+            {
+                offset.y += maxHeight - customButtons[0].transform.position.y;
+            }
+            else
+            {
+                offset.y += minHeight - newReducerButton.transform.position.y;
             }
         }
     }
