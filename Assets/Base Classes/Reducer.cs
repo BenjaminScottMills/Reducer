@@ -13,6 +13,9 @@ public class Reducer : MonoBehaviour
     public string description;
     public uint id;
     public uint nodeIdCounter;
+    public int foregroundColour;
+    public int backgroundColour;
+    public int foregroundSprite;
     public List<Node> nodes = new List<Node>();
     public Node outNode;
     public Node fastExecOutNode;
@@ -22,7 +25,6 @@ public class Reducer : MonoBehaviour
     public Reducer fastExecOuterWhite = null;
     public Reducer nullReducer;
     public Solution solution;
-    public Sprite sprite;
     public GameObject nodePrefab;
     public GameObject reducerPrefab;
     private static float distanceBetweenNodes = 1.5f;
@@ -34,6 +36,10 @@ public class Reducer : MonoBehaviour
         rName = r.name;
         description = r.description;
         nodeIdCounter = r.nodeIdCounter;
+
+        backgroundColour = r.backgroundColour;
+        foregroundColour = r.foregroundColour;
+        foregroundSprite = r.foregroundSprite;
 
         nodes = new List<Node>();
         for (int i = 0; i < r.nodes.Length; i--)
@@ -113,7 +119,7 @@ public class Reducer : MonoBehaviour
         var newNode = Instantiate(nodePrefab, position, Quaternion.identity).GetComponent<Node>();
         position.x /= distanceBetweenNodes;
         newNode.reducer = nodeReducer;
-        newNode.spriteRenderer.sprite = nodeReducer.sprite;
+        newNode.reducerVisual.SetVisual(nodeReducer.backgroundColour, nodeReducer.foregroundColour, nodeReducer.foregroundSprite);
         newNode.id = nodeIdCounter;
         newNode.mouseNode = mouseNode;
         nodeIdCounter++;

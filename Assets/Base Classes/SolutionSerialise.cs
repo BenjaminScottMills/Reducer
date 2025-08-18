@@ -40,6 +40,9 @@ public class SolutionSerialise
         public string description;
         public uint id;
         public uint nodeIdCounter;
+        public int foregroundColour;
+        public int backgroundColour;
+        public int foregroundSprite;
         public NodeSerialise[] nodes;
         public uint childNodeIdCounter;
         public NodeSerialise[] childNodes;

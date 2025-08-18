@@ -17,7 +17,7 @@ public class Node : MonoBehaviour
     public bool highlighted;
     public MouseNode mouseNode;
     public static float radius = 0.45f;
-    public SpriteRenderer spriteRenderer;
+    public ReducerVisual reducerVisual;
     public SpriteRenderer highlightSpriteRenderer;
     public SortingGroup sortingGroup;
     public Connector nextConnector;
@@ -49,7 +49,7 @@ public class Node : MonoBehaviour
             reducer = reducers.First(r => r.id == ns.redId);
         }
 
-        spriteRenderer.sprite = reducer.sprite;
+        reducerVisual.SetVisual(reducer.backgroundColour, reducer.foregroundColour, reducer.foregroundSprite);
     }
 
     public void CreateLinksFromSerialised(SolutionSerialise.NodeSerialise ns, List<Node> allNodes)

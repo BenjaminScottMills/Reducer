@@ -8,7 +8,7 @@ public class MouseNode : MonoBehaviour
     public Reducer reducer;
     public Solution solution;
     public Vector3 offset = new Vector3(0, 0, 10);
-    public SpriteRenderer spriteRenderer;
+    public ReducerVisual reducerVisual;
     public Sprite blank;
     public bool currentlyDragging;
     public bool mouseOverUI;
@@ -258,8 +258,12 @@ public class MouseNode : MonoBehaviour
             reducer = null;
         }
 
-        if (reducer == null) spriteRenderer.sprite = blank;
-        else spriteRenderer.sprite = reducer.sprite;
+        if (reducer == null) reducerVisual.gameObject.SetActive(false);
+        else
+        {
+            reducerVisual.gameObject.SetActive(true);
+            reducerVisual.SetVisual(reducer.backgroundColour, reducer.foregroundColour, reducer.foregroundSprite);
+        }
 
         mouseOverUI = false;
         highestNodeSortingOrderThisFrame = -1;
