@@ -36,7 +36,7 @@ public class Solution : MonoBehaviour
         return reducers[0].ExecuteFast(black, white);
     }
 
-    public void AddReducer(string name, string desc)
+    public void AddReducer(string name, string desc, ReducerVisual reducerVisual)
     {
         Reducer newReducer = Instantiate(reducerPrefab).GetComponent<Reducer>();
 
@@ -45,6 +45,9 @@ public class Solution : MonoBehaviour
         newReducer.id = idCounter;
         newReducer.nullReducer = nullReducer;
         newReducer.solution = this;
+        newReducer.foregroundColour = reducerVisual.foregroundColour;
+        newReducer.backgroundColour = reducerVisual.backgroundColour;
+        newReducer.foregroundSprite = reducerVisual.foregroundSprite;
         idCounter++;
         reducers.Add(newReducer);
         customReducerList.AddReducerButton(newReducer);

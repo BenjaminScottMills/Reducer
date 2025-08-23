@@ -12,6 +12,9 @@ public class AddReducerMenu : MonoBehaviour
     public InputField rName;
     public InputField description;
     public MouseNode mouseNode;
+    public ReducerVisual reducerVisual;
+    public Image resultBackground;
+    public Image resultForeground;
     void Update()
     {
         if (boxCollider.OverlapPoint(Camera.main.ScreenToWorldPoint(Input.mousePosition)))
@@ -33,6 +36,10 @@ public class AddReducerMenu : MonoBehaviour
         transform.localPosition = baseOffset;
         description.text = "";
         rName.text = "";
+        reducerVisual.SetVisual(0, 1, 0);
+        resultForeground.sprite = reducerVisual.foreground.sprite;
+        resultForeground.color = reducerVisual.foreground.color;
+        resultBackground.color = reducerVisual.background.color;
 
         if (transform.position.y - (Camera.main.orthographicSize / 2) < bottom)
         {

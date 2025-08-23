@@ -12,7 +12,7 @@ public class CreateReducerButton : MonoBehaviour, IPointerClickHandler
     public AddReducerMenu parentMenu;
     public void OnPointerClick(PointerEventData pointerEventData)
     {
-        currentSolution.AddReducer(rName.text, description.text);
+        currentSolution.AddReducer(rName.text, description.text, parentMenu.reducerVisual);
         parentMenu.gameObject.SetActive(false);
     }
 }
