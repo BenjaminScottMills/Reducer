@@ -8,7 +8,7 @@ public class UpdateReducerButton : MonoBehaviour, IPointerClickHandler
 {
     public InputField rName;
     public InputField description;
-    public AddReducerMenu parentMenu;
+    public ReducerMenu parentMenu;
 
     public void OnPointerClick(PointerEventData pointerEventData)
     {

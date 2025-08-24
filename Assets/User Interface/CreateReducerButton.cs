@@ -9,7 +9,7 @@ public class CreateReducerButton : MonoBehaviour, IPointerClickHandler
     public Solution currentSolution;
     public InputField rName;
     public InputField description;
-    public AddReducerMenu parentMenu;
+    public ReducerMenu parentMenu;
     public void OnPointerClick(PointerEventData pointerEventData)
     {
         currentSolution.AddReducer(rName.text, description.text, parentMenu.reducerVisual);

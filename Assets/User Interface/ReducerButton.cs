@@ -12,7 +12,7 @@ public class ReducerButton : MonoBehaviour
     public Collider2D colliderd2d;
     public bool upperHalf;
     public MouseNode mouseNode;
-    public AddReducerMenu updateMenu;
+    public ReducerMenu updateMenu;
 
     // Start is called before the first frame update
     void Start()

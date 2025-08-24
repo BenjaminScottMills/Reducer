@@ -5105,7 +5105,7 @@ GameObject:
   - component: {fileID: 2692748726864418669}
   - component: {fileID: 2692748726864418671}
   m_Layer: 0
-  m_Name: AddReducerMenu
+  m_Name: ReducerMenu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

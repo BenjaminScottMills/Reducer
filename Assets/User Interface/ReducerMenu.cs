@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class AddReducerMenu : MonoBehaviour
+public class ReducerMenu : MonoBehaviour
 {
     static Vector3 baseOffset = new Vector3(-4.2f, 0);
     public BoxCollider2D boxCollider;

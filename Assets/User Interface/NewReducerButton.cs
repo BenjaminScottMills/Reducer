@@ -5,7 +5,7 @@ using UnityEngine;
 public class NewReducerButton : MonoBehaviour
 {
     public SpriteRenderer spriteRenderer;
-    public AddReducerMenu addReducerMenu;
+    public ReducerMenu addReducerMenu;
     public Collider2D colliderd2d;
 
     // Update is called once per frame

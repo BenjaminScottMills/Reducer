@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class ReducerStyleButton : MonoBehaviour, IPointerClickHandler
 {
-    public AddReducerMenu menu;
+    public ReducerMenu menu;
     public Image targetImage;
     public int indexInRow;
     public int row;
