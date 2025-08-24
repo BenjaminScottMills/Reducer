@@ -15,6 +15,9 @@ public class AddReducerMenu : MonoBehaviour
     public ReducerVisual reducerVisual;
     public Image resultBackground;
     public Image resultForeground;
+    public Reducer reducer;
+    public ReducerButton reducerButton;
+    public Canvas canvas;
     void Update()
     {
         if (boxCollider.OverlapPoint(Camera.main.ScreenToWorldPoint(Input.mousePosition)))
@@ -34,9 +37,20 @@ public class AddReducerMenu : MonoBehaviour
         // Set all fields to default values
         var bottom = Camera.main.ScreenToWorldPoint(new Vector3(0, 0)).y;
         transform.localPosition = baseOffset;
-        description.text = "";
-        rName.text = "";
-        reducerVisual.SetVisual(0, 1, 0);
+
+        if (reducer != null)
+        {
+            reducerVisual.SetVisual(reducer.backgroundColour, reducer.foregroundColour, reducer.foregroundSprite);
+            description.text = reducer.description;
+            rName.text = reducer.rName;
+        }
+        else
+        {
+            reducerVisual.SetVisual(0, 1, 0);
+            description.text = "";
+            rName.text = "";
+        }
+
         resultForeground.sprite = reducerVisual.foreground.sprite;
         resultForeground.color = reducerVisual.foreground.color;
         resultBackground.color = reducerVisual.background.color;
@@ -45,5 +59,28 @@ public class AddReducerMenu : MonoBehaviour
         {
             transform.position = new Vector3(transform.position.x, bottom + (Camera.main.orthographicSize / 2));
         }
+    }
+
+    public void UpdateReducer(string rName, string desc)
+    {
+        reducer.rName = rName;
+        reducer.description = desc;
+
+        reducer.foregroundColour = reducerVisual.foregroundColour;
+        reducer.backgroundColour = reducerVisual.backgroundColour;
+        reducer.foregroundSprite = reducerVisual.foregroundSprite;
+
+        foreach (var solReducer in reducer.solution.reducers)
+        {
+            foreach (var node in solReducer.nodes)
+            {
+                if (node.reducer == reducer)
+                {
+                    node.reducerVisual.SetVisual(reducerVisual.backgroundColour, reducerVisual.foregroundColour, reducerVisual.foregroundSprite);
+                }
+            }
+        }
+
+        reducerButton.UpdateVisuals();
     }
 }

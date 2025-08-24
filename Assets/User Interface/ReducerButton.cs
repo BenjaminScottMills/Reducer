@@ -12,10 +12,15 @@ public class ReducerButton : MonoBehaviour
     public Collider2D colliderd2d;
     public bool upperHalf;
     public MouseNode mouseNode;
-    public UpdateReducerMenu updateMenu;
+    public AddReducerMenu updateMenu;
 
     // Start is called before the first frame update
     void Start()
+    {
+        UpdateVisuals();
+    }
+
+    public void UpdateVisuals()
     {
         reducerVisual.SetVisual(reducer.backgroundColour, reducer.foregroundColour, reducer.foregroundSprite);
     }
