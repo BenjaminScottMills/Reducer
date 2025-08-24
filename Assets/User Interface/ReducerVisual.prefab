@@ -332,14 +332,14 @@ MonoBehaviour:
   foregroundSprites:
   - {fileID: 21300000, guid: 1095fa041d2dbe545aeae84e01bb12ed, type: 3}
   - {fileID: 21300000, guid: 4ba462061fa9fb24dbc1b3eadda37fcb, type: 3}
-  - {fileID: 21300000, guid: 6878241f154fe9342b8120a906839f39, type: 3}
+  - {fileID: 21300000, guid: 9c63d463a7a2b4a4f902271f3ab9aeb7, type: 3}
   - {fileID: 21300000, guid: faac265e7bb15844e87ff2d83b25a9a6, type: 3}
   - {fileID: 21300000, guid: b828b8e2c59360b4ba002ad5297c8f34, type: 3}
   - {fileID: 21300000, guid: 43b5699f0334d1f499d16ebc1081da98, type: 3}
   - {fileID: 21300000, guid: a983f6a65e9f9014fabc261417f6a5c9, type: 3}
-  - {fileID: 21300000, guid: e233eb6023f3c894aa0794c4c2eaaa5e, type: 3}
+  - {fileID: 21300000, guid: d889442fed5ecfc47a6a43af52920809, type: 3}
   - {fileID: 21300000, guid: e6373dbf0ecdd834783e62a7d66ce159, type: 3}
-  - {fileID: 21300000, guid: 5dded657533ee534fbabfe8b3368db04, type: 3}
+  - {fileID: 21300000, guid: 2401302cd2161a14cbc759b8fc62183f, type: 3}
   - {fileID: 21300000, guid: 10328bb06728fa04ba1fdd7259514478, type: 3}
   - {fileID: 21300000, guid: 988d48520f23de74d9ac99ce35303da8, type: 3}
   - {fileID: 21300000, guid: e820a831a4dcffa4288a6ba393eff318, type: 3}
