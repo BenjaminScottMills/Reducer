@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -82,5 +83,54 @@ public class ReducerMenu : MonoBehaviour
         }
 
         reducerButton.UpdateVisuals();
+    }
+
+    public void DeleteReducer()
+    {
+        reducer.solution.reducers.Remove(reducer);
+
+        foreach (var solReducer in reducer.solution.reducers)
+        {
+            foreach (var node in solReducer.nodes)
+            {
+                if (node.reducer == reducer)
+                {
+                    if (node.next != null)
+                    {
+                        if (node.blackLink) node.next.bPrev = null;
+                        else node.next.wPrev = null;
+                        Destroy(node.nextConnector.gameObject);
+                    }
+
+                    if (node.bPrev != null)
+                    {
+                        node.bPrev.next = null;
+                        Destroy(node.bPrev.nextConnector.gameObject);
+                    }
+
+                    if (node.wPrev != null)
+                    {
+                        node.wPrev.next = null;
+                        Destroy(node.wPrev.nextConnector.gameObject);
+                    }
+
+                    Destroy(node.gameObject);
+                }
+            }
+
+            solReducer.nodes = solReducer.nodes.Where(n => n.reducer != reducer).ToList();
+        }
+
+        int buttonIdx = customReducerList.customButtons.FindIndex(b => b == reducerButton);
+        for (int i = buttonIdx; i < customReducerList.customButtons.Count(); i++)
+        {
+            customReducerList.customButtons[i].transform.localPosition += new Vector3(0, 1);
+        }
+        customReducerList.newReducerButton.transform.localPosition += new Vector3(0, 1);
+        customReducerList.customButtons.RemoveAt(buttonIdx);
+
+        customReducerList.ButtonRemoveUpdate();
+        
+        Destroy(reducerButton.gameObject);
     }
 }
