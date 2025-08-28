@@ -13,6 +13,7 @@ public class ReducerButton : MonoBehaviour
     public bool upperHalf;
     public MouseNode mouseNode;
     public ReducerMenu updateMenu;
+    public SpriteRenderer highlight;
 
     // Start is called before the first frame update
     void Start()
@@ -47,6 +48,8 @@ public class ReducerButton : MonoBehaviour
         }
         else
         {
+            highlight.enabled = reducer.solution.currentReducer == reducer;
+
             if (transform.position.y < Camera.main.ScreenToWorldPoint(new Vector3(0, Screen.height / 2)).y)
             {
                 reducerVisual.gameObject.SetActive(true);
