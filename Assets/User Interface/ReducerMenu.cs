@@ -87,7 +87,25 @@ public class ReducerMenu : MonoBehaviour
 
     public void DeleteReducer()
     {
+        if (reducer.solution.currentReducer == reducer)
+        {
+            int reducerIdx = reducer.solution.reducers.FindIndex(r => r == reducer);
+            reducer.solution.currentReducer = reducer.solution.reducers[reducerIdx - 1];
+            mouseNode.selectedNodes.Clear();
+            foreach (var node in reducer.solution.currentReducer.nodes)
+            {
+                node.gameObject.SetActive(true);
+                node.nextConnector?.gameObject.SetActive(true);
+            }
+        }
+
         reducer.solution.reducers.Remove(reducer);
+
+        foreach (var node in reducer.nodes)
+        {
+            if (node?.nextConnector?.gameObject != null) Destroy(node.nextConnector.gameObject);
+            Destroy(node.gameObject);
+        }
 
         foreach (var solReducer in reducer.solution.reducers)
         {
@@ -121,6 +139,8 @@ public class ReducerMenu : MonoBehaviour
             solReducer.nodes = solReducer.nodes.Where(n => n.reducer != reducer).ToList();
         }
 
+        mouseNode.selectedNodes = mouseNode.selectedNodes.Where(n => n.reducer != reducer).ToHashSet();
+
         int buttonIdx = customReducerList.customButtons.FindIndex(b => b == reducerButton);
         for (int i = buttonIdx; i < customReducerList.customButtons.Count(); i++)
         {
@@ -130,7 +150,16 @@ public class ReducerMenu : MonoBehaviour
         customReducerList.customButtons.RemoveAt(buttonIdx);
 
         customReducerList.ButtonRemoveUpdate();
-        
+
         Destroy(reducerButton.gameObject);
+        Destroy(reducer.gameObject);
+        if (reducer.child != null)
+        {
+            Destroy(reducer.child.gameObject);
+        }
+        if (reducerButton.childButton != null)
+        {
+            Destroy(reducerButton.childButton.gameObject);
+        }
     }
 }

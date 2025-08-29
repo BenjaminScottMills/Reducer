@@ -14,6 +14,7 @@ public class ReducerButton : MonoBehaviour
     public MouseNode mouseNode;
     public ReducerMenu updateMenu;
     public SpriteRenderer highlight;
+    public ReducerButton childButton;
 
     // Start is called before the first frame update
     void Start()
