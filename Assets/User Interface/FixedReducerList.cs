@@ -39,23 +39,27 @@ public class FixedReducerList : MonoBehaviour
                 {
                     if (fixedButtons[0].transform.position.y > minHeight + 0.01f)
                     {
-                        offset.y += maxHeight - fixedButtons.Last().transform.position.y;
+                        transform.position += new Vector3(0, maxHeight - fixedButtons.Last().transform.position.y);
                     }
                     else
                     {
-                        offset.y += minHeight - fixedButtons[0].transform.position.y;
+                        transform.position += new Vector3(0, minHeight - fixedButtons[0].transform.position.y);
                     }
+
+                    offset = transform.localPosition - basePosition;
                 }
                 else if (fixedButtons[0].transform.position.y + (-0.5f * Input.mouseScrollDelta.y) < minHeight && fixedButtons.Last().transform.position.y + (-0.5f * Input.mouseScrollDelta.y) < maxHeight)
                 {
                     if (fixedButtons.Last().transform.position.y < maxHeight - 0.01f)
                     {
-                        offset.y += minHeight - fixedButtons[0].transform.position.y;
+                        transform.position += new Vector3(0, minHeight - fixedButtons[0].transform.position.y);
                     }
                     else
                     {
-                        offset.y += maxHeight - fixedButtons.Last().transform.position.y;
+                        transform.position += new Vector3(0, maxHeight - fixedButtons.Last().transform.position.y);
                     }
+
+                    offset = transform.localPosition - basePosition;
                 }
                 else
                 {

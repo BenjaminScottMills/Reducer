@@ -280,6 +280,7 @@ MonoBehaviour:
   upperHalf: 1
   mouseNode: {fileID: 1384790493}
   updateMenu: {fileID: 0}
+  highlight: {fileID: 0}
 --- !u!1 &280742898
 GameObject:
   m_ObjectHideFlags: 0
@@ -316,6 +317,7 @@ MonoBehaviour:
   upperHalf: 1
   mouseNode: {fileID: 1384790493}
   updateMenu: {fileID: 0}
+  highlight: {fileID: 0}
 --- !u!58 &280742900
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -680,6 +682,7 @@ MonoBehaviour:
   basePosition: {x: -1.5, y: 0, z: 0}
   mouseNode: {fileID: 1384790493}
   overReducerMenu: 0
+  localReducersUnlocked: 1
 --- !u!4 &572047289
 Transform:
   m_ObjectHideFlags: 0
@@ -775,6 +778,7 @@ MonoBehaviour:
   upperHalf: 1
   mouseNode: {fileID: 1384790493}
   updateMenu: {fileID: 0}
+  highlight: {fileID: 0}
 --- !u!58 &649031548
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -843,6 +847,7 @@ MonoBehaviour:
   upperHalf: 1
   mouseNode: {fileID: 1384790493}
   updateMenu: {fileID: 0}
+  highlight: {fileID: 0}
 --- !u!58 &657506267
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -984,6 +989,7 @@ MonoBehaviour:
   upperHalf: 1
   mouseNode: {fileID: 1384790493}
   updateMenu: {fileID: 0}
+  highlight: {fileID: 0}
 --- !u!58 &692813055
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -1571,6 +1577,7 @@ MonoBehaviour:
   upperHalf: 1
   mouseNode: {fileID: 1384790493}
   updateMenu: {fileID: 0}
+  highlight: {fileID: 0}
 --- !u!58 &1056766993
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -1769,6 +1776,7 @@ MonoBehaviour:
   upperHalf: 1
   mouseNode: {fileID: 1384790493}
   updateMenu: {fileID: 0}
+  highlight: {fileID: 0}
 --- !u!1 &1288112880
 GameObject:
   m_ObjectHideFlags: 0
@@ -2295,6 +2303,7 @@ MonoBehaviour:
   upperHalf: 1
   mouseNode: {fileID: 1384790493}
   updateMenu: {fileID: 0}
+  highlight: {fileID: 0}
 --- !u!58 &1656331999
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -2498,6 +2507,7 @@ MonoBehaviour:
   upperHalf: 1
   mouseNode: {fileID: 1384790493}
   updateMenu: {fileID: 0}
+  highlight: {fileID: 0}
 --- !u!58 &1677925299
 CircleCollider2D:
   m_ObjectHideFlags: 0

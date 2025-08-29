@@ -45,24 +45,28 @@ public class CustomReducerList : MonoBehaviour
         {
             if (customButtons[0].transform.position.y < maxHeight - 0.01f)
             {
-                offset.y += minHeight - newReducerButton.transform.position.y;
+                transform.position += new Vector3(0, minHeight - newReducerButton.transform.position.y);
             }
             else
             {
-                offset.y += maxHeight - customButtons[0].transform.position.y;
+                transform.position += new Vector3(0, maxHeight - customButtons[0].transform.position.y);
             }
+
+            offset = transform.localPosition - basePosition;
         }
 
         if (newReducerButton.transform.position.y - 0.5f > minHeight && customButtons[0].transform.position.y - 0.5f > maxHeight)
         {
             if (newReducerButton.transform.position.y > minHeight + 0.01f)
             {
-                offset.y += maxHeight - customButtons[0].transform.position.y;
+                transform.position += new Vector3(0, maxHeight - customButtons[0].transform.position.y);
             }
             else
             {
-                offset.y += minHeight - newReducerButton.transform.position.y;
+                transform.position += new Vector3(0, minHeight - newReducerButton.transform.position.y);
             }
+
+            offset = transform.localPosition - basePosition;
         }
 
         if (localReducersUnlocked)
@@ -98,12 +102,14 @@ public class CustomReducerList : MonoBehaviour
         {
             if (customButtons[0].transform.position.y + (minHeight - newReducerButton.transform.position.y) - 0.5f > maxHeight)
             {
-                offset.y += minHeight - newReducerButton.transform.position.y;
+                transform.position += new Vector3(0, minHeight - newReducerButton.transform.position.y);
             }
             else
             {
-                offset.y += maxHeight - customButtons[0].transform.position.y;
+                transform.position += new Vector3(0, maxHeight - customButtons[0].transform.position.y);
             }
+
+            offset = transform.localPosition - basePosition;
         }
     }
 
@@ -123,23 +129,27 @@ public class CustomReducerList : MonoBehaviour
                 {
                     if (newReducerButton.transform.position.y > minHeight + 0.01f)
                     {
-                        offset.y += maxHeight - customButtons[0].transform.position.y;
+                        transform.position += new Vector3(0, maxHeight - customButtons[0].transform.position.y);
                     }
                     else
                     {
-                        offset.y += minHeight - newReducerButton.transform.position.y;
+                        transform.position += new Vector3(0, minHeight - newReducerButton.transform.position.y);
                     }
+
+                    offset = transform.localPosition - basePosition;
                 }
                 else if (newReducerButton.transform.position.y + (-0.5f * Input.mouseScrollDelta.y) < minHeight && customButtons[0].transform.position.y + (-0.5f * Input.mouseScrollDelta.y) < maxHeight)
                 {
                     if (customButtons[0].transform.position.y < maxHeight - 0.01f)
                     {
-                        offset.y += minHeight - newReducerButton.transform.position.y;
+                        transform.position += new Vector3(0, minHeight - newReducerButton.transform.position.y);
                     }
                     else
                     {
-                        offset.y += maxHeight - customButtons[0].transform.position.y;
+                        transform.position += new Vector3(0, maxHeight - customButtons[0].transform.position.y);
                     }
+
+                    offset = transform.localPosition - basePosition;
                 }
                 else
                 {
