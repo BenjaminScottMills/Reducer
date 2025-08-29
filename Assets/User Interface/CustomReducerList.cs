@@ -15,6 +15,7 @@ public class CustomReducerList : MonoBehaviour
     public Vector3 basePosition;
     public MouseNode mouseNode;
     public bool overReducerMenu;
+    public bool localReducersUnlocked = true;
 
     // Start is called before the first frame update
     void Start()
@@ -62,6 +63,29 @@ public class CustomReducerList : MonoBehaviour
             {
                 offset.y += minHeight - newReducerButton.transform.position.y;
             }
+        }
+
+        if (localReducersUnlocked)
+        {
+            var localButton = Instantiate(buttonPrefab, Vector3.zero, Quaternion.identity, transform).GetComponent<ReducerButton>();
+            var localReducer = Instantiate(r.solution.reducerPrefab).GetComponent<Reducer>();
+            r.child = localReducer;
+            localReducer.isChild = true;
+            localReducer.rName = r.rName + " - child";
+            localReducer.description = "";
+            localReducer.id = (int)Reducer.SpecialReducers.local;
+            localReducer.nullReducer = r.nullReducer;
+            localReducer.solution = r.solution;
+            localReducer.foregroundColour = 1;
+            localReducer.backgroundColour = 0;
+            localReducer.foregroundSprite = 9;
+
+            localButton.reducer = localReducer;
+            localButton.transform.localPosition = newButton.transform.localPosition;
+            localButton.mouseNode = mouseNode;
+
+            localButton.transform.localPosition += new Vector3(0.55f, 0);
+            newButton.transform.localPosition += new Vector3(-0.55f, 0);
         }
     }
 

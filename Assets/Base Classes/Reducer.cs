@@ -101,7 +101,7 @@ public class Reducer : MonoBehaviour
             localReducer.fastExecOuterWhite = white;
         }
 
-        Node fastExecOutNode = Node.FastExecMakeNode(outNode, black, white, fastExecOuterBlack, fastExecOuterWhite, localReducer);
+        Node fastExecOutNode = Node.FastExecMakeNode(outNode, black, white, fastExecOuterBlack, fastExecOuterWhite, localReducer, this);
 
         return fastExecOutNode.ExecuteFast();
     }

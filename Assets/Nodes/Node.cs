@@ -73,7 +73,7 @@ public class Node : MonoBehaviour
         return reducer.ExecuteFast(bPrev.ExecuteFast(), wPrev.ExecuteFast());
     }
 
-    public static Node FastExecMakeNode(Node toAdd, Reducer black, Reducer white, Reducer outerBlack, Reducer outerWhite, Reducer local) // keep in mind args may be null. If they are null that means don't change the reducers.
+    public static Node FastExecMakeNode(Node toAdd, Reducer black, Reducer white, Reducer outerBlack, Reducer outerWhite, Reducer local, Reducer currentReducer) // keep in mind args may be null. If they are null that means don't change the reducers.
     {
         if (toAdd == null) return null;
 
@@ -94,17 +94,24 @@ public class Node : MonoBehaviour
         {
             outNode.reducer = outerWhite;
         }
-        else if (toAdd.reducer.id == (int)Reducer.SpecialReducers.local && local != null)
+        else if (toAdd.reducer.id == (int)Reducer.SpecialReducers.local)
         {
-            outNode.reducer = local;
+            if (local == null)
+            {
+                outNode.reducer = currentReducer;
+            }
+            else
+            {
+                outNode.reducer = local;
+            }
         }
         else
         {
             outNode.reducer = toAdd.reducer;
         }
 
-        outNode.bPrev = FastExecMakeNode(toAdd.bPrev, black, white, outerBlack, outerWhite, local);
-        outNode.wPrev = FastExecMakeNode(toAdd.wPrev, black, white, outerBlack, outerWhite, local);
+        outNode.bPrev = FastExecMakeNode(toAdd.bPrev, black, white, outerBlack, outerWhite, local, currentReducer);
+        outNode.wPrev = FastExecMakeNode(toAdd.wPrev, black, white, outerBlack, outerWhite, local, currentReducer);
         return outNode;
     }
 

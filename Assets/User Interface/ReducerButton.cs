@@ -48,15 +48,14 @@ public class ReducerButton : MonoBehaviour
         }
         else
         {
-            highlight.enabled = reducer.solution.currentReducer == reducer;
-
             if (transform.position.y < Camera.main.ScreenToWorldPoint(new Vector3(0, Screen.height / 2)).y)
             {
+                highlight.enabled = reducer.solution.currentReducer == reducer;
                 reducerVisual.gameObject.SetActive(true);
                 var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 if (colliderd2d.OverlapPoint(mousePos))
                 {
-                    if (Input.GetMouseButtonDown(0))
+                    if (Input.GetMouseButtonDown(0) && !reducer.isChild)
                     {
                         mouseNode.reducer = reducer;
                         mouseNode.offset = transform.position - Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -65,8 +64,11 @@ public class ReducerButton : MonoBehaviour
                     {
                         if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
                         {
-                            updateMenu.gameObject.SetActive(true);
-                            updateMenu.Setup();
+                            if (!reducer.isChild)
+                            {
+                                updateMenu.gameObject.SetActive(true);
+                                updateMenu.Setup();
+                            }
                         }
                         else
                         {
@@ -94,6 +96,7 @@ public class ReducerButton : MonoBehaviour
             }
             else
             {
+                highlight.enabled = false;
                 reducerVisual.gameObject.SetActive(false);
             }
         }
