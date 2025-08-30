@@ -47,6 +47,9 @@ TagManager:
   - name: Nodes
     uniqueID: 90771713
     locked: 0
+  - name: TopMenu
+    uniqueID: 943511197
+    locked: 0
   - name: RightSidebar
     uniqueID: 1316181345
     locked: 0
