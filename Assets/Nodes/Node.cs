@@ -202,7 +202,7 @@ public class Node : MonoBehaviour
 
                 if (nextIdx != -1)
                 {
-                    var newConnector = Instantiate(mouseNode.connectorPrefab).GetComponent<Connector>();
+                    var newConnector = Instantiate(mouseNode.connectorPrefab, Vector3.zero, Quaternion.identity, transform.parent).GetComponent<Connector>();
 
                     newList[i].next = newList[nextIdx];
                     newList[i].blackLink = selectedList[i].blackLink;

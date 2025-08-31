@@ -20,7 +20,7 @@ public class Solution : MonoBehaviour
         reducers = new List<Reducer>();
         foreach (var rs in s.reducers)
         {
-            var newRed = Instantiate(reducerPrefab).GetComponent<Reducer>();
+            var newRed = Instantiate(reducerPrefab, Vector3.zero, Quaternion.identity, transform.parent).GetComponent<Reducer>();
             newRed.id = rs.id;
             reducers.Add(newRed);
         }
@@ -38,7 +38,7 @@ public class Solution : MonoBehaviour
 
     public void AddReducer(string name, string desc, ReducerVisual reducerVisual)
     {
-        Reducer newReducer = Instantiate(reducerPrefab).GetComponent<Reducer>();
+        Reducer newReducer = Instantiate(reducerPrefab, Vector3.zero, Quaternion.identity, transform.parent).GetComponent<Reducer>();
 
         newReducer.rName = name;
         newReducer.description = desc;

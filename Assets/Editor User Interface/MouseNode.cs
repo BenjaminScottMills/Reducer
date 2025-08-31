@@ -190,7 +190,7 @@ public class MouseNode : MonoBehaviour
                     Destroy(newConnectorStart.nextConnector.gameObject);
                     newConnectorStart.nextConnector = null;
                 }
-                newConnector = Instantiate(connectorPrefab).GetComponent<Connector>();
+                newConnector = Instantiate(connectorPrefab, Vector3.zero, Quaternion.identity, transform.parent).GetComponent<Connector>();
                 newConnector.Align(newConnectorStart.transform.position, mousePos, true);
             }
             else if (shiftHeld)

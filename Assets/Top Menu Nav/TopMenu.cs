@@ -7,11 +7,9 @@ public class TopMenu : MonoBehaviour
     private Vector3 offset = new Vector3(0, 0, 10);
     public BoxCollider2D boxCollider;
     public MouseNode mouseNode;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-    }
+    public char selectedScreen;
+    public GameObject editorScreen;
+    public GameObject rightSidebar;
 
     // Update is called once per frame
     void Update()
@@ -21,5 +19,15 @@ public class TopMenu : MonoBehaviour
         transform.localScale = new Vector3(scale, scale, 1);
 
         if (boxCollider.OverlapPoint(Camera.main.ScreenToWorldPoint(Input.mousePosition))) mouseNode.mouseOverUI = true;
+    }
+
+    public void UpdateSelectedScreen(char newScreen)
+    {
+        if (newScreen == selectedScreen) return;
+
+        editorScreen.SetActive(newScreen == 'E');
+        rightSidebar.SetActive(newScreen != 'R');
+
+        selectedScreen = newScreen;
     }
 }

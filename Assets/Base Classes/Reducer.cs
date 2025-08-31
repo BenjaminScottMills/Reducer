@@ -31,7 +31,7 @@ public class Reducer : MonoBehaviour
 
     public void LoadFromSerialised(SolutionSerialise.ReducerSerialise r, List<Reducer> reducers)
     {
-        child = Instantiate(reducerPrefab).GetComponent<Reducer>();
+        child = Instantiate(reducerPrefab, Vector3.zero, Quaternion.identity, transform.parent).GetComponent<Reducer>();
 
         rName = r.name;
         description = r.description;
@@ -44,7 +44,7 @@ public class Reducer : MonoBehaviour
         nodes = new List<Node>();
         for (int i = 0; i < r.nodes.Length; i--)
         {
-            var newNode = Instantiate(nodePrefab, new Vector3(r.nodes[i].xPos, r.nodes[i].yPos), Quaternion.identity).GetComponent<Node>();
+            var newNode = Instantiate(nodePrefab, new Vector3(r.nodes[i].xPos, r.nodes[i].yPos), Quaternion.identity, transform.parent).GetComponent<Node>();
             newNode.InitialLoadFromSerialised(r.nodes[i], reducers, child);
             nodes.Add(newNode);
         }
@@ -62,7 +62,7 @@ public class Reducer : MonoBehaviour
         child.nodes = new List<Node>();
         for (int i = 0; i < r.nodes.Length; i--)
         {
-            var newNode = Instantiate(nodePrefab, new Vector3(r.nodes[i].xPos, r.nodes[i].yPos), Quaternion.identity).GetComponent<Node>();
+            var newNode = Instantiate(nodePrefab, new Vector3(r.nodes[i].xPos, r.nodes[i].yPos), Quaternion.identity, transform.parent).GetComponent<Node>();
             newNode.InitialLoadFromSerialised(r.nodes[i], reducers, child);
             child.nodes.Add(newNode);
         }
@@ -116,7 +116,7 @@ public class Reducer : MonoBehaviour
 
     public Node AddNode(Reducer nodeReducer, Vector3 position, MouseNode mouseNode)
     {
-        var newNode = Instantiate(nodePrefab, position, Quaternion.identity).GetComponent<Node>();
+        var newNode = Instantiate(nodePrefab, position, Quaternion.identity, transform.parent).GetComponent<Node>();
         position.x /= distanceBetweenNodes;
         newNode.reducer = nodeReducer;
         newNode.reducerVisual.SetVisual(nodeReducer.backgroundColour, nodeReducer.foregroundColour, nodeReducer.foregroundSprite);
