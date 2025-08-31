@@ -10,6 +10,8 @@ public class TopMenu : MonoBehaviour
     public char selectedScreen;
     public GameObject editorScreen;
     public GameObject rightSidebar;
+    public CustomReducerList customReducerList;
+    public FixedReducerList fixedReducerList;
 
     // Update is called once per frame
     void Update()
@@ -27,6 +29,17 @@ public class TopMenu : MonoBehaviour
 
         editorScreen.SetActive(newScreen == 'E');
         rightSidebar.SetActive(newScreen != 'R');
+
+        if (newScreen == 'T')
+        {
+            customReducerList.ActivateTestMode();
+            fixedReducerList.ActivateTestMode();
+        }
+        else if (selectedScreen == 'T')
+        {
+            customReducerList.DeactivateTestMode();
+            fixedReducerList.ActivateTestMode();
+        }
 
         selectedScreen = newScreen;
     }

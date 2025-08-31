@@ -51,7 +51,7 @@ public class ReducerButton : MonoBehaviour
         {
             if (transform.position.y < Camera.main.ScreenToWorldPoint(new Vector3(0, Screen.height / 2)).y)
             {
-                highlight.enabled = reducer.solution.currentReducer == reducer;
+                highlight.enabled = reducer.solution.currentReducer == reducer && mouseNode.topMenu.selectedScreen != 'T';
                 reducerVisual.gameObject.SetActive(true);
                 var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 if (colliderd2d.OverlapPoint(mousePos))
@@ -61,7 +61,7 @@ public class ReducerButton : MonoBehaviour
                         mouseNode.reducer = reducer;
                         mouseNode.offset = transform.position - Camera.main.ScreenToWorldPoint(Input.mousePosition);
                     }
-                    else if (Input.GetMouseButtonDown(1) && !upperHalf)
+                    else if (Input.GetMouseButtonDown(1) && mouseNode.topMenu.selectedScreen != 'T')
                     {
                         if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
                         {

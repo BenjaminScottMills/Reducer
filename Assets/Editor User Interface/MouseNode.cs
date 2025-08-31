@@ -18,6 +18,7 @@ public class MouseNode : MonoBehaviour
     public HashSet<Node> selectedNodes;
     public GameObject connectorPrefab;
     public Connector newConnector;
+    public TopMenu topMenu;
     public Node newConnectorStart;
     public HighlightSquare highlightSquare;
     private Vector3 prevMousePos = Vector3.zero;

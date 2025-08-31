@@ -38,36 +38,7 @@ public class CustomReducerList : MonoBehaviour
         customButtons.Add(newButton);
         newReducerButton.transform.localPosition += new Vector3(0, -1);
 
-        float minHeight = Camera.main.ScreenToWorldPoint(new Vector3(0, 0)).y + (Camera.main.orthographicSize / 10);
-        float maxHeight = Camera.main.ScreenToWorldPoint(new Vector3(0, Screen.height / 2)).y - (Camera.main.orthographicSize / 5);
-
-        if (newReducerButton.transform.position.y - 0.5f < minHeight && customButtons[0].transform.position.y - 0.5f < maxHeight)
-        {
-            if (customButtons[0].transform.position.y < maxHeight - 0.01f)
-            {
-                transform.position += new Vector3(0, minHeight - newReducerButton.transform.position.y);
-            }
-            else
-            {
-                transform.position += new Vector3(0, maxHeight - customButtons[0].transform.position.y);
-            }
-
-            offset = transform.localPosition - basePosition;
-        }
-
-        if (newReducerButton.transform.position.y - 0.5f > minHeight && customButtons[0].transform.position.y - 0.5f > maxHeight)
-        {
-            if (newReducerButton.transform.position.y > minHeight + 0.01f)
-            {
-                transform.position += new Vector3(0, maxHeight - customButtons[0].transform.position.y);
-            }
-            else
-            {
-                transform.position += new Vector3(0, minHeight - newReducerButton.transform.position.y);
-            }
-
-            offset = transform.localPosition - basePosition;
-        }
+        AddReducerButtonPositionUpdate();
 
         if (localReducersUnlocked)
         {
@@ -95,14 +66,14 @@ public class CustomReducerList : MonoBehaviour
         }
     }
 
-    public void ButtonRemoveUpdate()
+    private void AddReducerButtonPositionUpdate()
     {
         float minHeight = Camera.main.ScreenToWorldPoint(new Vector3(0, 0)).y + (Camera.main.orthographicSize / 10);
         float maxHeight = Camera.main.ScreenToWorldPoint(new Vector3(0, Screen.height / 2)).y - (Camera.main.orthographicSize / 5);
 
-        if (newReducerButton.transform.position.y - 0.5f > minHeight && customButtons[0].transform.position.y - 0.5f > maxHeight)
+        if (newReducerButton.transform.position.y < minHeight && customButtons[0].transform.position.y < maxHeight)
         {
-            if (customButtons[0].transform.position.y + (minHeight - newReducerButton.transform.position.y) - 0.5f > maxHeight)
+            if (customButtons[0].transform.position.y + (minHeight - newReducerButton.transform.position.y) < maxHeight)
             {
                 transform.position += new Vector3(0, minHeight - newReducerButton.transform.position.y);
             }
@@ -112,6 +83,60 @@ public class CustomReducerList : MonoBehaviour
             }
 
             offset = transform.localPosition - basePosition;
+        }
+    }
+
+    public void ButtonRemoveUpdate()
+    {
+        float minHeight = Camera.main.ScreenToWorldPoint(new Vector3(0, 0)).y + (Camera.main.orthographicSize / 10);
+        float maxHeight = Camera.main.ScreenToWorldPoint(new Vector3(0, Screen.height / 2)).y - (Camera.main.orthographicSize / 5);
+
+        if (newReducerButton.transform.position.y > minHeight && customButtons[0].transform.position.y > maxHeight)
+        {
+            if (customButtons[0].transform.position.y + (minHeight - newReducerButton.transform.position.y) > maxHeight)
+            {
+                transform.position += new Vector3(0, minHeight - newReducerButton.transform.position.y);
+            }
+            else
+            {
+                transform.position += new Vector3(0, maxHeight - customButtons[0].transform.position.y);
+            }
+
+            offset = transform.localPosition - basePosition;
+        }
+    }
+
+    public void ActivateTestMode()
+    {
+        newReducerButton.transform.localPosition += new Vector3(0, 1);
+        newReducerButton.gameObject.SetActive(false);
+
+        ButtonRemoveUpdate();
+
+        foreach (var button in customButtons)
+        {
+            if (button.childButton != null)
+            {
+                button.childButton.gameObject.SetActive(false);
+                button.transform.localPosition += new Vector3(0.55f, 0);
+            }
+        }
+    }
+
+    public void DeactivateTestMode()
+    {
+        newReducerButton.transform.localPosition += new Vector3(0, -1);
+        newReducerButton.gameObject.SetActive(true);
+
+        AddReducerButtonPositionUpdate();
+
+        foreach (var button in customButtons)
+        {
+            if (button.childButton != null)
+            {
+                button.childButton.gameObject.SetActive(true);
+                button.transform.localPosition += new Vector3(-0.55f, 0);
+            }
         }
     }
 
