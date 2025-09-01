@@ -41,229 +41,264 @@ public class MouseNode : MonoBehaviour
         bool ctrlHeld = !shiftHeld && (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl));
         bool noKeyHeld = !shiftHeld && !ctrlHeld;
 
-        if (!mouseOverUI)
+        if (topMenu.selectedScreen == 'E')
         {
-            Camera.main.orthographicSize = (float)Math.Round(2 * (Camera.main.orthographicSize - (Input.mouseScrollDelta.y / 2))) / 2;
-
-            if (Camera.main.orthographicSize > 8)
+            if (!mouseOverUI)
             {
-                Camera.main.orthographicSize = 8;
-            }
-            else if (Camera.main.orthographicSize < 3)
-            {
-                Camera.main.orthographicSize = 3;
-            }
+                Camera.main.orthographicSize = (float)Math.Round(2 * (Camera.main.orthographicSize - (Input.mouseScrollDelta.y / 2))) / 2;
 
-            Camera.main.transform.position += mousePos - Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        }
-
-        mousePos += new Vector3(0, 0, 10);
-
-        if (hoveredThisFrame != null && leftClickPressed)
-        {
-            if (noKeyHeld) hoveredThisFrame.HandleNoKeyClick();
-            else if (shiftHeld) hoveredThisFrame.HandleShiftClick();
-            else if (ctrlHeld) hoveredThisFrame.HandleCtrlClick();
-        }
-
-        if (!currentlyDragging && leftClickPressed)
-        {
-            if (!shiftHeld)
-            {
-                foreach (var node in selectedNodes)
+                if (Camera.main.orthographicSize > 8)
                 {
-                    node.SetHighlighted(false);
+                    Camera.main.orthographicSize = 8;
+                }
+                else if (Camera.main.orthographicSize < 3)
+                {
+                    Camera.main.orthographicSize = 3;
                 }
 
-                selectedNodes.Clear();
+                Camera.main.transform.position += mousePos - Camera.main.ScreenToWorldPoint(Input.mousePosition);
             }
 
-            if (!mouseOverUI && hoveredThisFrame == null) highlightSquare.Enable(mousePos);
-        }
+            mousePos += new Vector3(0, 0, 10);
 
-        if (leftClickHeld && currentlyDragging)
-        {
-            var displacement = newPos - transform.position;
-            foreach (var node in selectedNodes)
+            if (hoveredThisFrame != null && leftClickPressed)
             {
-                node.transform.position += displacement;
-                node.SetDragLayer(true, selectedNodes);
+                if (noKeyHeld) hoveredThisFrame.HandleNoKeyClick();
+                else if (shiftHeld) hoveredThisFrame.HandleShiftClick();
+                else if (ctrlHeld) hoveredThisFrame.HandleCtrlClick();
             }
-            foreach (var node in selectedNodes)
+
+            if (!currentlyDragging && leftClickPressed)
             {
-                node.RealignLinks();
-            }
-        }
-        else
-        {
-            if (currentlyDragging && mouseOverUI)
-            {
-                foreach (var node in selectedNodes)
+                if (!shiftHeld)
                 {
-                    if (node.next)
+                    foreach (var node in selectedNodes)
                     {
-                        Destroy(node.nextConnector.gameObject);
-                        if (node.blackLink) node.next.bPrev = null;
-                        else node.next.wPrev = null;
-                    }
-                    if (node.bPrev != null)
-                    {
-                        node.bPrev.next = null;
-                        Destroy(node.bPrev.nextConnector.gameObject);
-                        node.bPrev.nextConnector = null;
-                    }
-                    if (node.wPrev != null)
-                    {
-                        node.wPrev.next = null;
-                        Destroy(node.wPrev.nextConnector.gameObject);
-                        node.wPrev.nextConnector = null;
+                        node.SetHighlighted(false);
                     }
 
-                    solution.currentReducer.nodes.Remove(node);
-                    Destroy(node.gameObject);
+                    selectedNodes.Clear();
                 }
 
-                selectedNodes.Clear();
+                if (!mouseOverUI && hoveredThisFrame == null) highlightSquare.Enable(mousePos);
             }
-            else if (currentlyDragging)
-            {
-                foreach (var node in selectedNodes) node.SetDragLayer(false, selectedNodes);
-            }
-            currentlyDragging = false;
-        }
 
-        if (newConnector != null)
-        {
-            if (!rightClickHeld)
+            if (leftClickHeld && currentlyDragging)
             {
-                if (hoveredThisFrame != null && hoveredThisFrame != newConnectorStart && !newConnectorStart.IsDescendentOf(hoveredThisFrame))
+                var displacement = newPos - transform.position;
+                foreach (var node in selectedNodes)
                 {
-                    if (hoveredThisFrame.bPrev == null)
+                    node.transform.position += displacement;
+                    node.SetDragLayer(true, selectedNodes);
+                }
+                foreach (var node in selectedNodes)
+                {
+                    node.RealignLinks();
+                }
+            }
+            else
+            {
+                if (currentlyDragging && mouseOverUI)
+                {
+                    foreach (var node in selectedNodes)
                     {
-                        hoveredThisFrame.bPrev = newConnectorStart;
-                        newConnectorStart.next = hoveredThisFrame;
-                        newConnectorStart.nextConnector = newConnector;
-                        newConnectorStart.blackLink = true;
-                        newConnector.Align(newConnectorStart.transform.position, hoveredThisFrame.transform.position, true);
+                        if (node.next)
+                        {
+                            Destroy(node.nextConnector.gameObject);
+                            if (node.blackLink) node.next.bPrev = null;
+                            else node.next.wPrev = null;
+                        }
+                        if (node.bPrev != null)
+                        {
+                            node.bPrev.next = null;
+                            Destroy(node.bPrev.nextConnector.gameObject);
+                            node.bPrev.nextConnector = null;
+                        }
+                        if (node.wPrev != null)
+                        {
+                            node.wPrev.next = null;
+                            Destroy(node.wPrev.nextConnector.gameObject);
+                            node.wPrev.nextConnector = null;
+                        }
+
+                        solution.currentReducer.nodes.Remove(node);
+                        Destroy(node.gameObject);
                     }
-                    else if (hoveredThisFrame.wPrev == null)
+
+                    selectedNodes.Clear();
+                }
+                else if (currentlyDragging)
+                {
+                    foreach (var node in selectedNodes) node.SetDragLayer(false, selectedNodes);
+                }
+                currentlyDragging = false;
+            }
+
+            if (newConnector != null)
+            {
+                if (!rightClickHeld)
+                {
+                    if (hoveredThisFrame != null && hoveredThisFrame != newConnectorStart && !newConnectorStart.IsDescendentOf(hoveredThisFrame))
                     {
-                        hoveredThisFrame.wPrev = newConnectorStart;
-                        newConnectorStart.next = hoveredThisFrame;
-                        newConnectorStart.nextConnector = newConnector;
-                        newConnectorStart.blackLink = false;
-                        newConnector.Align(newConnectorStart.transform.position, hoveredThisFrame.transform.position, false);
+                        if (hoveredThisFrame.bPrev == null)
+                        {
+                            hoveredThisFrame.bPrev = newConnectorStart;
+                            newConnectorStart.next = hoveredThisFrame;
+                            newConnectorStart.nextConnector = newConnector;
+                            newConnectorStart.blackLink = true;
+                            newConnector.Align(newConnectorStart.transform.position, hoveredThisFrame.transform.position, true);
+                        }
+                        else if (hoveredThisFrame.wPrev == null)
+                        {
+                            hoveredThisFrame.wPrev = newConnectorStart;
+                            newConnectorStart.next = hoveredThisFrame;
+                            newConnectorStart.nextConnector = newConnector;
+                            newConnectorStart.blackLink = false;
+                            newConnector.Align(newConnectorStart.transform.position, hoveredThisFrame.transform.position, false);
+                        }
+                        else
+                        {
+                            Destroy(newConnector.gameObject);
+                        }
                     }
                     else
                     {
                         Destroy(newConnector.gameObject);
                     }
+
+                    newConnectorStart = null;
+                    newConnector = null;
                 }
                 else
                 {
-                    Destroy(newConnector.gameObject);
+                    newConnector.Align(newConnectorStart.transform.position, mousePos, true);
                 }
-
-                newConnectorStart = null;
-                newConnector = null;
             }
-            else
+            else if (rightClickPressed && hoveredThisFrame != null)
             {
-                newConnector.Align(newConnectorStart.transform.position, mousePos, true);
-            }
-        }
-        else if (rightClickPressed && hoveredThisFrame != null)
-        {
-            if (noKeyHeld)
-            {
-                foreach (var node in selectedNodes)
-                {
-                    node.SetHighlighted(false);
-                }
-                selectedNodes.Clear();
-
-                newConnectorStart = hoveredThisFrame;
-                if (newConnectorStart.next != null)
-                {
-                    if (newConnectorStart.blackLink) newConnectorStart.next.bPrev = null;
-                    else newConnectorStart.next.wPrev = null;
-                    newConnectorStart.next = null;
-                    Destroy(newConnectorStart.nextConnector.gameObject);
-                    newConnectorStart.nextConnector = null;
-                }
-                newConnector = Instantiate(connectorPrefab, Vector3.zero, Quaternion.identity, transform.parent).GetComponent<Connector>();
-                newConnector.Align(newConnectorStart.transform.position, mousePos, true);
-            }
-            else if (shiftHeld)
-            {
-                Node swapper;
-                if (selectedNodes.Contains(hoveredThisFrame))
+                if (noKeyHeld)
                 {
                     foreach (var node in selectedNodes)
                     {
-                        if (node.bPrev != null)
-                        {
-                            node.bPrev.blackLink = false;
-                            node.bPrev.nextConnector.colourSpriteRenderer.color = node.bPrev.nextConnector.innerWhite;
-                        }
-                        if (node.wPrev != null)
-                        {
-                            node.wPrev.blackLink = true;
-                            node.wPrev.nextConnector.colourSpriteRenderer.color = node.wPrev.nextConnector.innerBlack;
-                        }
-                        swapper = node.bPrev;
-                        node.bPrev = node.wPrev;
-                        node.wPrev = swapper;
+                        node.SetHighlighted(false);
                     }
+                    selectedNodes.Clear();
+
+                    newConnectorStart = hoveredThisFrame;
+                    if (newConnectorStart.next != null)
+                    {
+                        if (newConnectorStart.blackLink) newConnectorStart.next.bPrev = null;
+                        else newConnectorStart.next.wPrev = null;
+                        newConnectorStart.next = null;
+                        Destroy(newConnectorStart.nextConnector.gameObject);
+                        newConnectorStart.nextConnector = null;
+                    }
+                    newConnector = Instantiate(connectorPrefab, Vector3.zero, Quaternion.identity, transform.parent).GetComponent<Connector>();
+                    newConnector.Align(newConnectorStart.transform.position, mousePos, true);
                 }
-                else
+                else if (shiftHeld)
                 {
-                    if (hoveredThisFrame.bPrev != null)
+                    Node swapper;
+                    if (selectedNodes.Contains(hoveredThisFrame))
                     {
-                        hoveredThisFrame.bPrev.blackLink = false;
-                        hoveredThisFrame.bPrev.nextConnector.colourSpriteRenderer.color = hoveredThisFrame.bPrev.nextConnector.innerWhite;
+                        foreach (var node in selectedNodes)
+                        {
+                            if (node.bPrev != null)
+                            {
+                                node.bPrev.blackLink = false;
+                                node.bPrev.nextConnector.colourSpriteRenderer.color = node.bPrev.nextConnector.innerWhite;
+                            }
+                            if (node.wPrev != null)
+                            {
+                                node.wPrev.blackLink = true;
+                                node.wPrev.nextConnector.colourSpriteRenderer.color = node.wPrev.nextConnector.innerBlack;
+                            }
+                            swapper = node.bPrev;
+                            node.bPrev = node.wPrev;
+                            node.wPrev = swapper;
+                        }
                     }
-                    if (hoveredThisFrame.wPrev != null)
+                    else
                     {
-                        hoveredThisFrame.wPrev.blackLink = true;
-                        hoveredThisFrame.wPrev.nextConnector.colourSpriteRenderer.color = hoveredThisFrame.wPrev.nextConnector.innerBlack;
+                        if (hoveredThisFrame.bPrev != null)
+                        {
+                            hoveredThisFrame.bPrev.blackLink = false;
+                            hoveredThisFrame.bPrev.nextConnector.colourSpriteRenderer.color = hoveredThisFrame.bPrev.nextConnector.innerWhite;
+                        }
+                        if (hoveredThisFrame.wPrev != null)
+                        {
+                            hoveredThisFrame.wPrev.blackLink = true;
+                            hoveredThisFrame.wPrev.nextConnector.colourSpriteRenderer.color = hoveredThisFrame.wPrev.nextConnector.innerBlack;
+                        }
+                        swapper = hoveredThisFrame.bPrev;
+                        hoveredThisFrame.bPrev = hoveredThisFrame.wPrev;
+                        hoveredThisFrame.wPrev = swapper;
                     }
-                    swapper = hoveredThisFrame.bPrev;
-                    hoveredThisFrame.bPrev = hoveredThisFrame.wPrev;
-                    hoveredThisFrame.wPrev = swapper;
+                }
+                else if (ctrlHeld && hoveredThisFrame.next != null)
+                {
+                    hoveredThisFrame.breakpointAfter = !hoveredThisFrame.breakpointAfter;
+                    hoveredThisFrame.nextConnector.breakpointDisplay.SetActive(hoveredThisFrame.breakpointAfter);
                 }
             }
-            else if (ctrlHeld && hoveredThisFrame.next != null)
+            else if (rightClickHeld && hoveredThisFrame == null && !mouseOverUI)
             {
-                hoveredThisFrame.breakpointAfter = !hoveredThisFrame.breakpointAfter;
-                hoveredThisFrame.nextConnector.breakpointDisplay.SetActive(hoveredThisFrame.breakpointAfter);
-            }
-        }
-        else if (rightClickHeld && hoveredThisFrame == null && !mouseOverUI)
-        {
-            Camera.main.transform.position += Camera.main.ScreenToWorldPoint(prevMousePos) - Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            newPos = transform.position;
-        }
-
-        transform.position = newPos;
-        var scale = Camera.main.orthographicSize / 5;
-        transform.localScale = new Vector3(scale, scale, 1);
-
-        if (reducer != null && !leftClickHeld)
-        {
-            if (!mouseOverUI)
-            {
-                solution.currentReducer.AddNode(reducer, transform.position, this);
+                Camera.main.transform.position += Camera.main.ScreenToWorldPoint(prevMousePos) - Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                newPos = transform.position;
             }
 
-            reducer = null;
-        }
+            transform.position = newPos;
+            var scale = Camera.main.orthographicSize / 5;
+            transform.localScale = new Vector3(scale, scale, 1);
 
-        if (reducer == null) reducerVisual.gameObject.SetActive(false);
-        else
+            if (reducer != null && !leftClickHeld)
+            {
+                if (!mouseOverUI)
+                {
+                    solution.currentReducer.AddNode(reducer, transform.position, this);
+                }
+
+                reducer = null;
+            }
+
+            if (reducer == null) reducerVisual.gameObject.SetActive(false);
+            else
+            {
+                reducerVisual.gameObject.SetActive(true);
+                reducerVisual.SetVisual(reducer.backgroundColour, reducer.foregroundColour, reducer.foregroundSprite);
+            }
+        }
+        else if (topMenu.selectedScreen == 'T')
         {
-            reducerVisual.gameObject.SetActive(true);
-            reducerVisual.SetVisual(reducer.backgroundColour, reducer.foregroundColour, reducer.foregroundSprite);
+            if (hoveredThisFrame != null && leftClickPressed)
+            {
+                if (noKeyHeld) hoveredThisFrame.HandleNoKeyClick();
+                else if (shiftHeld) hoveredThisFrame.HandleShiftClick();
+                else if (ctrlHeld) hoveredThisFrame.HandleCtrlClick();
+            }
+
+            transform.position = newPos;
+            var scale = Camera.main.orthographicSize / 5;
+            transform.localScale = new Vector3(scale, scale, 1);
+
+            if (reducer != null && !leftClickHeld)
+            {
+                if (!mouseOverUI)
+                {
+                    Debug.Log("Handle add to slot");
+                }
+
+                reducer = null;
+            }
+
+            if (reducer == null) reducerVisual.gameObject.SetActive(false);
+            else
+            {
+                reducerVisual.gameObject.SetActive(true);
+                reducerVisual.SetVisual(reducer.backgroundColour, reducer.foregroundColour, reducer.foregroundSprite);
+            }
+
+            currentlyDragging = false;
         }
 
         mouseOverUI = false;
