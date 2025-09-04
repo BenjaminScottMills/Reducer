@@ -21,6 +21,8 @@ public class MouseNode : MonoBehaviour
     public TopMenu topMenu;
     public Node newConnectorStart;
     public HighlightSquare highlightSquare;
+    public GameObject editorScreen;
+    public List<ReducerPlacementSlot> testScreenPlacementSlots;
     private Vector3 prevMousePos = Vector3.zero;
     // Start is called before the first frame update
     void Start()
@@ -193,7 +195,7 @@ public class MouseNode : MonoBehaviour
                         Destroy(newConnectorStart.nextConnector.gameObject);
                         newConnectorStart.nextConnector = null;
                     }
-                    newConnector = Instantiate(connectorPrefab, Vector3.zero, Quaternion.identity, transform.parent).GetComponent<Connector>();
+                    newConnector = Instantiate(connectorPrefab, Vector3.zero, Quaternion.identity, editorScreen.transform).GetComponent<Connector>();
                     newConnector.Align(newConnectorStart.transform.position, mousePos, true);
                 }
                 else if (shiftHeld)
@@ -265,7 +267,7 @@ public class MouseNode : MonoBehaviour
             else
             {
                 reducerVisual.gameObject.SetActive(true);
-                reducerVisual.SetVisual(reducer.backgroundColour, reducer.foregroundColour, reducer.foregroundSprite);
+                reducerVisual.SetVisual(reducer);
             }
         }
         else if (topMenu.selectedScreen == 'T')
@@ -285,7 +287,7 @@ public class MouseNode : MonoBehaviour
             {
                 if (!mouseOverUI)
                 {
-                    Debug.Log("Handle add to slot");
+                    testScreenPlacementSlots.ForEach(s => s.CheckPlaced(reducer));
                 }
 
                 reducer = null;
@@ -295,7 +297,7 @@ public class MouseNode : MonoBehaviour
             else
             {
                 reducerVisual.gameObject.SetActive(true);
-                reducerVisual.SetVisual(reducer.backgroundColour, reducer.foregroundColour, reducer.foregroundSprite);
+                reducerVisual.SetVisual(reducer);
             }
 
             currentlyDragging = false;

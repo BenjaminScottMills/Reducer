@@ -41,7 +41,7 @@ public class ReducerMenu : MonoBehaviour
 
         if (reducer != null)
         {
-            reducerVisual.SetVisual(reducer.backgroundColour, reducer.foregroundColour, reducer.foregroundSprite);
+            reducerVisual.SetVisual(reducer);
             description.text = reducer.description;
             rName.text = reducer.rName;
         }

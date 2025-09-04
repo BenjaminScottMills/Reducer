@@ -12,6 +12,16 @@ public class ReducerVisual : MonoBehaviour
     public List<Color> colours;
     public List<Sprite> foregroundSprites;
 
+    public void SetVisual(ReducerVisual r)
+    {
+        SetVisual(r.backgroundColour, r.foregroundColour, r.foregroundSprite);
+    }
+
+    public void SetVisual(Reducer r)
+    {
+        SetVisual(r.backgroundColour, r.foregroundColour, r.foregroundSprite);
+    }
+
     public void SetVisual(int bgc, int fgc, int fgs)
     {
         backgroundColour = bgc;

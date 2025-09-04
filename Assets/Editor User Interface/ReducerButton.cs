@@ -24,7 +24,7 @@ public class ReducerButton : MonoBehaviour
 
     public void UpdateVisuals()
     {
-        reducerVisual.SetVisual(reducer.backgroundColour, reducer.foregroundColour, reducer.foregroundSprite);
+        reducerVisual.SetVisual(reducer);
     }
 
     // Update is called once per frame

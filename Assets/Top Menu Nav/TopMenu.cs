@@ -9,6 +9,7 @@ public class TopMenu : MonoBehaviour
     public MouseNode mouseNode;
     public char selectedScreen;
     public GameObject editorScreen;
+    public GameObject testScreen;
     public GameObject rightSidebar;
     public CustomReducerList customReducerList;
     public FixedReducerList fixedReducerList;
@@ -28,6 +29,7 @@ public class TopMenu : MonoBehaviour
         if (newScreen == selectedScreen) return;
 
         editorScreen.SetActive(newScreen == 'E');
+        testScreen.SetActive(newScreen == 'T');
         rightSidebar.SetActive(newScreen != 'R');
 
         if (newScreen == 'T')

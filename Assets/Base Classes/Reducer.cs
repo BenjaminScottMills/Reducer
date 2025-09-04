@@ -119,7 +119,7 @@ public class Reducer : MonoBehaviour
         var newNode = Instantiate(nodePrefab, position, Quaternion.identity, transform.parent).GetComponent<Node>();
         position.x /= distanceBetweenNodes;
         newNode.reducer = nodeReducer;
-        newNode.reducerVisual.SetVisual(nodeReducer.backgroundColour, nodeReducer.foregroundColour, nodeReducer.foregroundSprite);
+        newNode.reducerVisual.SetVisual(nodeReducer);
         newNode.id = nodeIdCounter;
         newNode.mouseNode = mouseNode;
         nodeIdCounter++;

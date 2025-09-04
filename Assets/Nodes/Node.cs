@@ -49,7 +49,7 @@ public class Node : MonoBehaviour
             reducer = reducers.First(r => r.id == ns.redId);
         }
 
-        reducerVisual.SetVisual(reducer.backgroundColour, reducer.foregroundColour, reducer.foregroundSprite);
+        reducerVisual.SetVisual(reducer);
     }
 
     public void CreateLinksFromSerialised(SolutionSerialise.NodeSerialise ns, List<Node> allNodes)
