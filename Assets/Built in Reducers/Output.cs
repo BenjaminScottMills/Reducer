@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Output : Reducer
 {
-    public override Reducer ExecuteFast(Reducer black, Reducer white)
+    public override ExecuteReducer Execute(ExecuteReducer black, ExecuteReducer white)
     {
         if (black == null && white == null)
         {

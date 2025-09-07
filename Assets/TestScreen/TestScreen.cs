@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -26,5 +27,12 @@ public class TestScreen : MonoBehaviour
         var scale = Camera.main.orthographicSize / 5;
         transform.localScale = new Vector3(scale, scale, 1);
         transform.position = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width / 2, Screen.height)) + new Vector3(0, -1.5f * scale, 10);
+    }
+
+    public void RunTest()
+    {
+        var outputReducer = functionReducer.reducer.Execute(blackIn.reducer, whiteIn.reducer);
+
+        Debug.Log(outputReducer.selfRed.name);
     }
 }

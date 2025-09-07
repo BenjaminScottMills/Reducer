@@ -8,7 +8,7 @@ using UnityEngine;
 
 public class Reducer : MonoBehaviour
 {
-    public enum SpecialReducers { nullRed, fire, earth, plant, water, combine, black, white, local, outerBlack, outerWhite, outputNode};
+    public enum SpecialReducers { nullRed, fire, earth, plant, water, combine, black, white, local, outerBlack, outerWhite, outputNode };
     public string rName;
     public string description;
     public uint id;
@@ -74,36 +74,15 @@ public class Reducer : MonoBehaviour
         child.outNode = child.nodes.FirstOrDefault(n => n.id == (int)SpecialReducers.outputNode);
     }
 
-    public virtual Reducer ExecuteFast(Reducer black, Reducer white)
+    public ExecuteReducer Execute(Reducer black, Reducer white)
     {
-        if (black == null && white == null)
-        {
-            return this;
-        }
-        else
-        {
-            if (black == null)
-            {
-                black = nullReducer;
-            }
-            else if (white == null)
-            {
-                white = nullReducer;
-            }
-        }
+        return Execute(new ExecuteReducer(black), new ExecuteReducer(white));
+    }
 
-        Reducer localReducer = null;
-        if (child != null)
-        {
-            localReducer = new Reducer();
-            localReducer.nodes = child.nodes;
-            localReducer.fastExecOuterBlack = black;
-            localReducer.fastExecOuterWhite = white;
-        }
-
-        Node fastExecOutNode = Node.FastExecMakeNode(outNode, black, white, fastExecOuterBlack, fastExecOuterWhite, localReducer, this);
-
-        return fastExecOutNode.ExecuteFast();
+    public virtual ExecuteReducer Execute(ExecuteReducer black, ExecuteReducer white)
+    {
+        var execRed = new ExecuteReducer(this);
+        return execRed.Execute(black, white);
     }
 
     public void PositionNodes()
@@ -127,5 +106,46 @@ public class Reducer : MonoBehaviour
         mouseNode.nodeSortingOrderCount++;
         nodes.Add(newNode);
         return newNode;
+    }
+
+    public class ExecuteReducer
+    {
+        public Reducer selfRed;
+        public ExecuteReducer parentWhiteIn;
+        public ExecuteReducer parentBlackIn;
+
+        public ExecuteReducer(Reducer selfRedArg, ExecuteReducer parentBlackInArg = null, ExecuteReducer parentWhiteInArg = null)
+        {
+            selfRed = selfRedArg;
+            parentBlackIn = parentBlackInArg;
+            parentWhiteIn = parentWhiteInArg;
+        }
+
+        public ExecuteReducer Execute(ExecuteReducer blackIn, ExecuteReducer whiteIn)
+        {
+            if (selfRed is Primitive || selfRed is Output || selfRed is Combine)
+            {
+                return selfRed.Execute(blackIn, whiteIn);
+            }
+
+            if (blackIn == null && whiteIn == null)
+            {
+                return this;
+            }
+            else
+            {
+                if (blackIn == null)
+                {
+                    blackIn = new ExecuteReducer(selfRed.nullReducer);
+                }
+                else if (whiteIn == null)
+                {
+                    whiteIn = new ExecuteReducer(selfRed.nullReducer);
+                }
+            }
+
+            var outNode = selfRed.nodes.FirstOrDefault(n => n.id == (int)SpecialReducers.outputNode);
+            return outNode.Execute(blackIn, whiteIn, selfRed.isChild ? this : new ExecuteReducer(selfRed.child, blackIn, whiteIn), parentBlackIn, parentWhiteIn);
+        }
     }
 }

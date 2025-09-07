@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Primitive : Reducer
 {
-    public override Reducer ExecuteFast(Reducer black, Reducer white)
+    public override ExecuteReducer Execute(ExecuteReducer black, ExecuteReducer white)
     {
-        return this;
+        return new ExecuteReducer(this);
     }
 }

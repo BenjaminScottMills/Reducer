@@ -31,9 +31,9 @@ public class Solution : MonoBehaviour
         }
     }
 
-    public Reducer ExecuteFast(Reducer black, Reducer white)
+    public Reducer.ExecuteReducer Execute(Reducer black, Reducer white)
     {
-        return reducers[0].ExecuteFast(black, white);
+        return reducers[0].Execute(black, white);
     }
 
     public void AddReducer(string name, string desc, ReducerVisual reducerVisual)

@@ -68,9 +68,33 @@ public class Node : MonoBehaviour
         }
     }
 
-    public Reducer ExecuteFast()
+    public Reducer.ExecuteReducer Execute(Reducer.ExecuteReducer blackIn, Reducer.ExecuteReducer whiteIn, Reducer.ExecuteReducer childRed, Reducer.ExecuteReducer parentBlackIn, Reducer.ExecuteReducer parentWhiteIn)
     {
-        return reducer.ExecuteFast(bPrev.ExecuteFast(), wPrev.ExecuteFast());
+        var executeRed = new Reducer.ExecuteReducer(reducer);
+
+        if (reducer.id == (int)Reducer.SpecialReducers.black)
+        {
+            executeRed = blackIn;
+        }
+        else if (reducer.id == (int)Reducer.SpecialReducers.white)
+        {
+            executeRed = whiteIn;
+        }
+        else if (reducer.id == (int)Reducer.SpecialReducers.outerBlack)
+        {
+            executeRed = parentBlackIn;
+        }
+        else if (reducer.id == (int)Reducer.SpecialReducers.outerWhite)
+        {
+            executeRed = parentWhiteIn;
+        }
+        else if (reducer.id == (int)Reducer.SpecialReducers.local)
+        {
+            executeRed = childRed;
+        }
+
+
+        return executeRed.Execute(bPrev?.Execute(blackIn, whiteIn, childRed, parentBlackIn, parentWhiteIn), wPrev?.Execute(blackIn, whiteIn, childRed, parentBlackIn, parentWhiteIn));
     }
 
     public static Node FastExecMakeNode(Node toAdd, Reducer black, Reducer white, Reducer outerBlack, Reducer outerWhite, Reducer local, Reducer currentReducer) // keep in mind args may be null. If they are null that means don't change the reducers.
