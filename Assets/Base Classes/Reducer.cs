@@ -17,8 +17,6 @@ public class Reducer : MonoBehaviour
     public int backgroundColour;
     public int foregroundSprite;
     public List<Node> nodes = new List<Node>();
-    public Node outNode;
-    public Node fastExecOutNode;
     public bool isChild;
     public Reducer child = null;
     public Reducer fastExecOuterBlack = null;
@@ -27,7 +25,6 @@ public class Reducer : MonoBehaviour
     public Solution solution;
     public GameObject nodePrefab;
     public GameObject reducerPrefab;
-    private static float distanceBetweenNodes = 1.5f;
 
     public void LoadFromSerialised(SolutionSerialise.ReducerSerialise r, List<Reducer> reducers)
     {
@@ -53,8 +50,6 @@ public class Reducer : MonoBehaviour
             nodes[i].CreateLinksFromSerialised(r.nodes[i], nodes);
         }
 
-        outNode = nodes.FirstOrDefault(n => n.id == (int)SpecialReducers.outputNode);
-
         isChild = false;
         child.nodeIdCounter = r.childNodeIdCounter;
         child.isChild = true;
@@ -70,8 +65,6 @@ public class Reducer : MonoBehaviour
         {
             child.nodes[i].CreateLinksFromSerialised(r.nodes[i], child.nodes);
         }
-
-        child.outNode = child.nodes.FirstOrDefault(n => n.id == (int)SpecialReducers.outputNode);
     }
 
     public ExecuteReducer Execute(Reducer black, Reducer white)
@@ -96,7 +89,6 @@ public class Reducer : MonoBehaviour
     public Node AddNode(Reducer nodeReducer, Vector3 position, MouseNode mouseNode)
     {
         var newNode = Instantiate(nodePrefab, position, Quaternion.identity, transform.parent).GetComponent<Node>();
-        position.x /= distanceBetweenNodes;
         newNode.reducer = nodeReducer;
         newNode.reducerVisual.SetVisual(nodeReducer);
         newNode.id = nodeIdCounter;
@@ -144,7 +136,7 @@ public class Reducer : MonoBehaviour
                 }
             }
 
-            var outNode = selfRed.nodes.FirstOrDefault(n => n.id == (int)SpecialReducers.outputNode);
+            var outNode = selfRed.nodes.FirstOrDefault(n => n.reducer.id == (int)SpecialReducers.outputNode);
             return outNode.Execute(blackIn, whiteIn, selfRed.isChild ? this : new ExecuteReducer(selfRed.child, blackIn, whiteIn), parentBlackIn, parentWhiteIn);
         }
     }
