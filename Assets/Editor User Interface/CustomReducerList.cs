@@ -43,7 +43,7 @@ public class CustomReducerList : MonoBehaviour
         if (localReducersUnlocked)
         {
             var localButton = Instantiate(buttonPrefab, Vector3.zero, Quaternion.identity, transform).GetComponent<ReducerButton>();
-            var localReducer = Instantiate(r.solution.reducerPrefab).GetComponent<Reducer>();
+            var localReducer = Instantiate(r.solution.reducerPrefab, Vector3.zero, Quaternion.identity, r.transform.parent).GetComponent<Reducer>();
             r.child = localReducer;
             localReducer.isChild = true;
             localReducer.rName = r.rName + " - child";

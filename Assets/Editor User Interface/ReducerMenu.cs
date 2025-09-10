@@ -80,6 +80,17 @@ public class ReducerMenu : MonoBehaviour
                     node.reducerVisual.SetVisual(reducerVisual.backgroundColour, reducerVisual.foregroundColour, reducerVisual.foregroundSprite);
                 }
             }
+
+            if (solReducer.child != null)
+            {
+                foreach (var node in solReducer.child.nodes)
+                {
+                    if (node.reducer == reducer)
+                    {
+                        node.reducerVisual.SetVisual(reducerVisual.backgroundColour, reducerVisual.foregroundColour, reducerVisual.foregroundSprite);
+                    }
+                }
+            }
         }
 
         reducerButton.UpdateVisuals();
@@ -87,7 +98,7 @@ public class ReducerMenu : MonoBehaviour
 
     public void DeleteReducer()
     {
-        if (reducer.solution.currentReducer == reducer)
+        if (reducer.solution.currentReducer == reducer || reducer.solution.currentReducer == reducer.child)
         {
             int reducerIdx = reducer.solution.reducers.FindIndex(r => r == reducer);
             reducer.solution.currentReducer = reducer.solution.reducers[reducerIdx - 1];
@@ -105,6 +116,15 @@ public class ReducerMenu : MonoBehaviour
         {
             if (node?.nextConnector?.gameObject != null) Destroy(node.nextConnector.gameObject);
             Destroy(node.gameObject);
+        }
+
+        if (reducer.child != null)
+        {
+            foreach (var node in reducer.child.nodes)
+            {
+                if (node?.nextConnector?.gameObject != null) Destroy(node.nextConnector.gameObject);
+                Destroy(node.gameObject);
+            }
         }
 
         foreach (var solReducer in reducer.solution.reducers)
@@ -137,6 +157,38 @@ public class ReducerMenu : MonoBehaviour
             }
 
             solReducer.nodes = solReducer.nodes.Where(n => n.reducer != reducer).ToList();
+
+            if (solReducer.child != null)
+            {
+                foreach (var node in solReducer.child.nodes)
+                {
+                    if (node.reducer == reducer)
+                    {
+                        if (node.next != null)
+                        {
+                            if (node.blackLink) node.next.bPrev = null;
+                            else node.next.wPrev = null;
+                            Destroy(node.nextConnector.gameObject);
+                        }
+
+                        if (node.bPrev != null)
+                        {
+                            node.bPrev.next = null;
+                            Destroy(node.bPrev.nextConnector.gameObject);
+                        }
+
+                        if (node.wPrev != null)
+                        {
+                            node.wPrev.next = null;
+                            Destroy(node.wPrev.nextConnector.gameObject);
+                        }
+
+                        Destroy(node.gameObject);
+                    }
+                }
+
+                solReducer.child.nodes = solReducer.child.nodes.Where(n => n.reducer != reducer).ToList();
+            }
         }
 
         mouseNode.selectedNodes = mouseNode.selectedNodes.Where(n => n.reducer != reducer).ToHashSet();
