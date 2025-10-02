@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TestScreen : MonoBehaviour
+public class TestScreenMenu : MonoBehaviour
 {
     public ReducerPlacementSlot whiteIn;
     public ReducerPlacementSlot blackIn;

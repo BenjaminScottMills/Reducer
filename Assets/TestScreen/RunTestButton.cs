@@ -5,7 +5,7 @@ using UnityEngine;
 public class RunTestButton : MonoBehaviour
 {
     public CircleCollider2D circleCollider;
-    public TestScreen testScreen;
+    public TestScreenMenu testScreen;
 
     // Update is called once per frame
     void Update()
