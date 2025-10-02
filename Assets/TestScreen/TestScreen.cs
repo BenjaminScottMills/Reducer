@@ -33,6 +33,6 @@ public class TestScreen : MonoBehaviour
     {
         var outputReducer = functionReducer.reducer.Execute(blackIn.reducer, whiteIn.reducer);
 
-        Debug.Log(outputReducer.selfRed.name);
+        Debug.Log(outputReducer.selfRed.rName);
     }
 }
