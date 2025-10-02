@@ -12,6 +12,7 @@ public class Solution : MonoBehaviour
     public Reducer nullReducer;
     public GameObject reducerPrefab;
     public CustomReducerList customReducerList;
+    public bool localReducersUnlocked = true;
 
     public void LoadFromSerialised(SolutionSerialise s)
     {
@@ -50,8 +51,19 @@ public class Solution : MonoBehaviour
         newReducer.foregroundSprite = reducerVisual.foregroundSprite;
         idCounter++;
         reducers.Add(newReducer);
-        customReducerList.AddReducerButton(newReducer);
 
-        // add button to custom reducer list.
+        var localReducer = Instantiate(reducerPrefab, Vector3.zero, Quaternion.identity, newReducer.transform.parent).GetComponent<Reducer>();
+        newReducer.child = localReducer;
+        localReducer.isChild = true;
+        localReducer.rName = name + " - child";
+        localReducer.description = "";
+        localReducer.id = (int)Reducer.SpecialReducers.local;
+        localReducer.nullReducer = nullReducer;
+        localReducer.solution = this;
+        localReducer.foregroundColour = 1;
+        localReducer.backgroundColour = 0;
+        localReducer.foregroundSprite = 9;
+
+        customReducerList.AddReducerButton(newReducer);
     }
 }
