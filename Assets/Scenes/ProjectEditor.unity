@@ -149,7 +149,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 18116513}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.70495033, y: 0.14091301, z: 0.08230565}
+  m_LocalPosition: {x: 0, y: 3.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -174,7 +174,7 @@ SortingGroup:
   m_GameObject: {fileID: 18116513}
   m_Enabled: 1
   m_SortingLayerID: 448549359
-  m_SortingLayer: 1
+  m_SortingLayer: 3
   m_SortingOrder: 0
 --- !u!114 &18116516
 MonoBehaviour:
@@ -195,6 +195,7 @@ MonoBehaviour:
   whiteInCon: {fileID: 1075479479}
   blackInCon: {fileID: 1547406465}
   outCon: {fileID: 1571080630}
+  testScreen: {fileID: 315940833}
 --- !u!1 &19305121
 GameObject:
   m_ObjectHideFlags: 0
@@ -752,6 +753,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 315940832}
+  - component: {fileID: 315940833}
   m_Layer: 0
   m_Name: TestScreen
   m_TagString: Untagged
@@ -767,7 +769,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 315940831}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.70495033, y: 3.359087, z: -0.08230565}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -775,6 +777,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &315940833
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 315940831}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b71f297391403254d9b10b9edb147093, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  reducerNodeHolder: {fileID: 0}
+  displayNodePrefab: {fileID: 7741549015240918284, guid: 099b5299ef39ed1468b65e57c81d608c, type: 3}
+  mouseNode: {fileID: 1384790493}
 --- !u!1 &331134597
 GameObject:
   m_ObjectHideFlags: 0
@@ -1096,7 +1113,7 @@ SortingGroup:
   m_GameObject: {fileID: 560070433}
   m_Enabled: 1
   m_SortingLayerID: 90771713
-  m_SortingLayer: 3
+  m_SortingLayer: 2
   m_SortingOrder: 1
 --- !u!58 &560070436
 CircleCollider2D:
@@ -1325,7 +1342,6 @@ MonoBehaviour:
   basePosition: {x: -1.5, y: 0, z: 0}
   mouseNode: {fileID: 1384790493}
   overReducerMenu: 0
-  localReducersUnlocked: 1
 --- !u!4 &572047289
 Transform:
   m_ObjectHideFlags: 0
@@ -2872,6 +2888,7 @@ MonoBehaviour:
   nullReducer: {fileID: 1722639590}
   reducerPrefab: {fileID: 7035577877054418780, guid: 2247df583972bd64980a0a0a0113cbab, type: 3}
   customReducerList: {fileID: 572047288}
+  localReducersUnlocked: 1
 --- !u!4 &1117210365
 Transform:
   m_ObjectHideFlags: 0
@@ -4991,8 +5008,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 448549359
-  m_SortingLayer: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 0.7028302, g: 1, b: 0.97023827, a: 1}

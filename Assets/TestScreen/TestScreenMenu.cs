@@ -12,6 +12,8 @@ public class TestScreenMenu : MonoBehaviour
     public Connector whiteInCon;
     public Connector blackInCon;
     public Connector outCon;
+    public TestScreen testScreen;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -33,6 +35,6 @@ public class TestScreenMenu : MonoBehaviour
     {
         var outputReducer = functionReducer.reducer.Execute(blackIn.reducer, whiteIn.reducer);
 
-        Debug.Log(outputReducer.selfRed.rName);
+        testScreen.ShowOutput(outputReducer);
     }
 }

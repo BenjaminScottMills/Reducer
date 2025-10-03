@@ -78,14 +78,6 @@ public class Reducer : MonoBehaviour
         return execRed.Execute(black, white);
     }
 
-    public void PositionNodes()
-    {
-        foreach (var node in nodes)
-        {
-            // TODO: connector based on node.transform.position and node.next.transform.position and node.blackLinks
-        }
-    }
-
     public Node AddNode(Reducer nodeReducer, Vector3 position, MouseNode mouseNode)
     {
         var newNode = Instantiate(nodePrefab, position, Quaternion.identity, transform.parent).GetComponent<Node>();

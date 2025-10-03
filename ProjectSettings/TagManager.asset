@@ -41,14 +41,14 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: TestScreenMenu
-    uniqueID: 448549359
-    locked: 0
   - name: Connector
     uniqueID: 985181
     locked: 0
   - name: Nodes
     uniqueID: 90771713
+    locked: 0
+  - name: TestScreenMenu
+    uniqueID: 448549359
     locked: 0
   - name: TopMenu
     uniqueID: 943511197
