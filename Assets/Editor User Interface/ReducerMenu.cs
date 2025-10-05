@@ -144,12 +144,14 @@ public class ReducerMenu : MonoBehaviour
                     {
                         node.bPrev.next = null;
                         Destroy(node.bPrev.nextConnector.gameObject);
+                        node.bPrev.nextConnector = null;
                     }
 
                     if (node.wPrev != null)
                     {
                         node.wPrev.next = null;
                         Destroy(node.wPrev.nextConnector.gameObject);
+                        node.wPrev.nextConnector = null;
                     }
 
                     Destroy(node.gameObject);
@@ -175,12 +177,14 @@ public class ReducerMenu : MonoBehaviour
                         {
                             node.bPrev.next = null;
                             Destroy(node.bPrev.nextConnector.gameObject);
+                            node.bPrev.nextConnector = null;
                         }
 
                         if (node.wPrev != null)
                         {
                             node.wPrev.next = null;
                             Destroy(node.wPrev.nextConnector.gameObject);
+                            node.wPrev.nextConnector = null;
                         }
 
                         Destroy(node.gameObject);
