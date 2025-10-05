@@ -69,7 +69,7 @@ public class Reducer : MonoBehaviour
 
     public ExecuteReducer Execute(Reducer black, Reducer white)
     {
-        return Execute(new ExecuteReducer(black), new ExecuteReducer(white));
+        return Execute(black == null ? null : new ExecuteReducer(black), white == null ? null : new ExecuteReducer(white));
     }
 
     public virtual ExecuteReducer Execute(ExecuteReducer black, ExecuteReducer white)
@@ -112,7 +112,7 @@ public class Reducer : MonoBehaviour
                 return selfRed.Execute(blackIn, whiteIn);
             }
 
-            if (blackIn == null && whiteIn == null)
+            if (blackIn?.selfRed == null && whiteIn?.selfRed == null)
             {
                 return this;
             }
