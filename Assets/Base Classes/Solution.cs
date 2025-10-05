@@ -17,6 +17,7 @@ public class Solution : MonoBehaviour
     void Start()
     {
         CreateMainReducer();
+        currentReducer = reducers[0];
     }
 
     void CreateMainReducer()

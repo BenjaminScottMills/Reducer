@@ -27,7 +27,7 @@ public class MouseNode : MonoBehaviour
     public List<ReducerPlacementSlot> testScreenPlacementSlots;
     private Vector3 prevMousePos = Vector3.zero;
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         selectedNodes = new HashSet<Node>();
     }
