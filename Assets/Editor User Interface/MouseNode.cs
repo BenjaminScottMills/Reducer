@@ -89,15 +89,18 @@ public class MouseNode : MonoBehaviour
 
             if (leftClickHeld && currentlyDragging)
             {
-                var displacement = newPos - transform.position;
-                foreach (var node in selectedNodes)
+                if (!leftClickPressed)
                 {
-                    node.transform.position += displacement;
-                    node.SetDragLayer(true, selectedNodes);
-                }
-                foreach (var node in selectedNodes)
-                {
-                    node.RealignLinks();
+                    var displacement = newPos - transform.position;
+                    foreach (var node in selectedNodes)
+                    {
+                        node.transform.position += displacement;
+                        node.SetDragLayer(true, selectedNodes);
+                    }
+                    foreach (var node in selectedNodes)
+                    {
+                        node.RealignLinks();
+                    }
                 }
             }
             else
@@ -245,7 +248,7 @@ public class MouseNode : MonoBehaviour
                     hoveredThisFrame.nextConnector.breakpointDisplay.SetActive(hoveredThisFrame.breakpointAfter);
                 }
             }
-            else if (rightClickHeld && hoveredThisFrame == null && !mouseOverUI)
+            else if (rightClickHeld && !mouseOverUI && !rightClickPressed)
             {
                 Camera.main.transform.position += Camera.main.ScreenToWorldPoint(prevMousePos) - Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 newPos = transform.position;
