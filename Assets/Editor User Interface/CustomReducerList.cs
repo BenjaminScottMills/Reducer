@@ -27,7 +27,7 @@ public class CustomReducerList : MonoBehaviour
     {
         var newButton = Instantiate(buttonPrefab, Vector3.zero, Quaternion.identity, transform).GetComponent<ReducerButton>();
         newButton.reducer = r;
-        newButton.transform.localPosition = new Vector3(0, customButtons.Last().transform.localPosition.y - 1);
+        newButton.transform.localPosition = newReducerButton.transform.localPosition;
         newButton.updateMenu.customReducerList = this;
         newButton.updateMenu.fixedReducerList = fixedReducerList;
         newButton.updateMenu.mouseNode = mouseNode;

@@ -14,6 +14,16 @@ public class Solution : MonoBehaviour
     public CustomReducerList customReducerList;
     public bool localReducersUnlocked = true;
 
+    void Start()
+    {
+        CreateMainReducer();
+    }
+
+    void CreateMainReducer()
+    {
+        AddReducer("Main", "", 1, 0, 12);
+    }
+
     public void LoadFromSerialised(SolutionSerialise s)
     {
         sName = s.name;
@@ -39,6 +49,11 @@ public class Solution : MonoBehaviour
 
     public void AddReducer(string name, string desc, ReducerVisual reducerVisual)
     {
+        AddReducer(name, desc, reducerVisual.foregroundColour, reducerVisual.backgroundColour, reducerVisual.foregroundSprite);
+    }
+
+    public void AddReducer(string name, string desc, int fgc, int bgc, int fgs)
+    {
         Reducer newReducer = Instantiate(reducerPrefab, Vector3.zero, Quaternion.identity, transform.parent).GetComponent<Reducer>();
 
         newReducer.rName = name;
@@ -46,9 +61,9 @@ public class Solution : MonoBehaviour
         newReducer.id = idCounter;
         newReducer.nullReducer = nullReducer;
         newReducer.solution = this;
-        newReducer.foregroundColour = reducerVisual.foregroundColour;
-        newReducer.backgroundColour = reducerVisual.backgroundColour;
-        newReducer.foregroundSprite = reducerVisual.foregroundSprite;
+        newReducer.foregroundColour = fgc;
+        newReducer.backgroundColour = bgc;
+        newReducer.foregroundSprite = fgs;
         idCounter++;
         reducers.Add(newReducer);
 
