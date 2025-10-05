@@ -91,6 +91,8 @@ public class ReducerButton : MonoBehaviour
                                 node.gameObject.SetActive(true);
                                 node.nextConnector?.gameObject.SetActive(true);
                             }
+
+                            Camera.main.transform.position = TestScreen.cameraDefaultPos;
                         }
                     }
                 }

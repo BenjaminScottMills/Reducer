@@ -1,13 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class TestScreen : MonoBehaviour
 {
+    [HideInInspector]
+    public static Vector3 cameraDefaultPos = new Vector3(0, 0, -10);
     public GameObject reducerNodeHolder;
     public GameObject displayNodePrefab;
+    public GameObject reducerNodeHolderPrefab;
     public MouseNode mouseNode;
-    Stack<Reducer.ExecuteReducer> eReducerStack = new();
+    public Stack<Reducer.ExecuteReducer> eReducerStack = new();
 
     public void ShowOutput(Reducer.ExecuteReducer outputReducer)
     {
@@ -18,26 +22,37 @@ public class TestScreen : MonoBehaviour
         DisplayReducer(outputReducer);
     }
 
-    private void DisplayReducer(Reducer.ExecuteReducer outputReducer)
+    public void ExitReducer()
+    {
+        if (eReducerStack.ToArray().Length > 1)
+        {
+            eReducerStack.Pop();
+            DisplayReducer(eReducerStack.Peek());
+        }
+    }
+
+    public void DisplayReducer(Reducer.ExecuteReducer outputReducer)
     {
         if (reducerNodeHolder != null)
         {
             Destroy(reducerNodeHolder);
         }
 
-        reducerNodeHolder = Instantiate(new GameObject("OutputReducerNodeHolder"), transform);
+        reducerNodeHolder = Instantiate(reducerNodeHolderPrefab, transform);
 
-        if (outputReducer.selfRed is Primitive || outputReducer.selfRed is Combine)
+        if (!outputReducer.Selectable())
         {
             var dispNode = Instantiate(displayNodePrefab, Vector3.zero, Quaternion.identity, reducerNodeHolder.transform).GetComponent<TestScreenDisplayNode>();
             dispNode.rVisual.SetVisual(outputReducer.selfRed);
             dispNode.eReducer = outputReducer;
+            dispNode.testScreen = this;
             dispNode.transform.localScale *= 5;
         }
 
         foreach (var node in outputReducer.selfRed.nodes)
         {
             var dispNode = Instantiate(displayNodePrefab, node.transform.position, Quaternion.identity, reducerNodeHolder.transform).GetComponent<TestScreenDisplayNode>();
+            dispNode.testScreen = this;
             dispNode.sortingGroup.sortingOrder = node.sortingGroup.sortingOrder;
 
             switch (node.reducer.id)
@@ -77,5 +92,8 @@ public class TestScreen : MonoBehaviour
                 connectorScript.linkVisuals.localScale = node.nextConnector.linkVisuals.localScale;
             }
         }
+
+        reducerNodeHolder.transform.position = new Vector3(0, -1.5f);
+        Camera.main.transform.position = cameraDefaultPos;
     }
 }

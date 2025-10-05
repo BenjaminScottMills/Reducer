@@ -15,6 +15,8 @@ public class MouseNode : MonoBehaviour
     public int nodeSortingOrderCount = 1;
     public int highestNodeSortingOrderThisFrame;
     public Node hoveredThisFrame = null;
+    public TestScreenDisplayNode testHoveredThisFrame = null;
+    public TestScreen testScreen;
     public HashSet<Node> selectedNodes;
     public GameObject connectorPrefab;
     public Connector newConnector;
@@ -272,11 +274,39 @@ public class MouseNode : MonoBehaviour
         }
         else if (topMenu.selectedScreen == 'T')
         {
-            if (hoveredThisFrame != null && leftClickPressed)
+            if (!mouseOverUI)
             {
-                if (noKeyHeld) hoveredThisFrame.HandleNoKeyClick();
-                else if (shiftHeld) hoveredThisFrame.HandleShiftClick();
-                else if (ctrlHeld) hoveredThisFrame.HandleCtrlClick();
+                Camera.main.orthographicSize = (float)Math.Round(2 * (Camera.main.orthographicSize - (Input.mouseScrollDelta.y / 2))) / 2;
+
+                if (Camera.main.orthographicSize > 8)
+                {
+                    Camera.main.orthographicSize = 8;
+                }
+                else if (Camera.main.orthographicSize < 3)
+                {
+                    Camera.main.orthographicSize = 3;
+                }
+
+                Camera.main.transform.position += mousePos - Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            }
+
+            if (testHoveredThisFrame != null) testHoveredThisFrame.highlight.enabled = true;
+
+            if (leftClickPressed)
+            {
+                if (testHoveredThisFrame != null)
+                {
+                    testHoveredThisFrame.EnterReducer();
+                }
+                else
+                {
+                    testScreen.ExitReducer();
+                }
+            }
+            else if (reducer == null && rightClickHeld && !mouseOverUI)
+            {
+                Camera.main.transform.position += Camera.main.ScreenToWorldPoint(prevMousePos) - Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                newPos = transform.position;
             }
 
             transform.position = newPos;
@@ -306,6 +336,7 @@ public class MouseNode : MonoBehaviour
         mouseOverUI = false;
         highestNodeSortingOrderThisFrame = -1;
         hoveredThisFrame = null;
+        testHoveredThisFrame = null;
         prevMousePos = Input.mousePosition;
     }
 }

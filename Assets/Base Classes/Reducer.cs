@@ -131,5 +131,10 @@ public class Reducer : MonoBehaviour
             var outNode = selfRed.nodes.FirstOrDefault(n => n.reducer.id == (int)SpecialReducers.outputNode);
             return outNode.Execute(blackIn, whiteIn, selfRed.isChild ? this : new ExecuteReducer(selfRed.child, blackIn, whiteIn), parentBlackIn, parentWhiteIn);
         }
+
+        public bool Selectable()
+        {
+            return selfRed.id > 30 || selfRed.id == (int)Reducer.SpecialReducers.local;
+        }
     }
 }
