@@ -197,6 +197,11 @@ public class ReducerMenu : MonoBehaviour
         for (int i = buttonIdx; i < customReducerList.customButtons.Count(); i++)
         {
             customReducerList.customButtons[i].transform.localPosition += new Vector3(0, 1);
+
+            if (mouseNode.solution.localReducersUnlocked)
+            {
+                customReducerList.customButtons[i].childButton.transform.localPosition += new Vector3(0, 1);
+            }
         }
         customReducerList.newReducerButton.transform.localPosition += new Vector3(0, 1);
         customReducerList.customButtons.RemoveAt(buttonIdx);
