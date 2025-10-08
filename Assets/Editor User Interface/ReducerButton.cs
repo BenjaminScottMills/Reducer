@@ -88,28 +88,6 @@ public class ReducerButton : MonoBehaviour
 
     public void SetReducerActive()
     {
-        foreach (var node in mouseNode.selectedNodes)
-        {
-            node.SetHighlighted(false);
-        }
-        mouseNode.selectedNodes.Clear();
-
-        if (reducer.solution.currentReducer != null)
-        {
-            foreach (var node in reducer.solution.currentReducer.nodes)
-            {
-                node.nextConnector?.gameObject.SetActive(false);
-                node.gameObject.SetActive(false);
-            }
-        }
-
-        reducer.solution.currentReducer = reducer;
-        foreach (var node in reducer.nodes)
-        {
-            node.gameObject.SetActive(true);
-            node.nextConnector?.gameObject.SetActive(true);
-        }
-
-        Camera.main.transform.position = TestScreen.cameraDefaultPos;
+        reducer.SetReducerActive(mouseNode);
     }
 }

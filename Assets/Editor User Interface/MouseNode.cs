@@ -242,10 +242,19 @@ public class MouseNode : MonoBehaviour
                         hoveredThisFrame.wPrev = swapper;
                     }
                 }
-                else if (ctrlHeld && hoveredThisFrame.next != null)
+                else if (ctrlHeld)
                 {
-                    hoveredThisFrame.breakpointAfter = !hoveredThisFrame.breakpointAfter;
-                    hoveredThisFrame.nextConnector.breakpointDisplay.SetActive(hoveredThisFrame.breakpointAfter);
+                    if (hoveredThisFrame.reducer.Selectable())
+                    {
+                        if (hoveredThisFrame.reducer.id == (int)Reducer.SpecialReducers.local)
+                        {
+                            if (!solution.currentReducer.isChild) solution.currentReducer.child.SetReducerActive(this);
+                        }
+                        else
+                        {
+                            hoveredThisFrame.reducer.SetReducerActive(this);
+                        }
+                    }
                 }
             }
             else if (rightClickHeld && !mouseOverUI && !rightClickPressed)

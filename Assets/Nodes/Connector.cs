@@ -11,7 +11,6 @@ public class Connector : MonoBehaviour
     public Transform linkVisuals;
     public SpriteRenderer colourSpriteRenderer;
     public SortingGroup sortingGroup;
-    public GameObject breakpointDisplay;
 
     public void Align(Vector3 start, Vector3 end, bool black)
     {

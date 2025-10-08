@@ -92,6 +92,38 @@ public class Reducer : MonoBehaviour
         return newNode;
     }
 
+    public bool Selectable()
+    {
+        return id > 30 || id == (int)Reducer.SpecialReducers.local;
+    }
+
+    public void SetReducerActive(MouseNode mouseNode)
+    {
+        foreach (var node in mouseNode.selectedNodes)
+        {
+            node.SetHighlighted(false);
+        }
+        mouseNode.selectedNodes.Clear();
+
+        if (solution.currentReducer != null)
+        {
+            foreach (var node in solution.currentReducer.nodes)
+            {
+                node.nextConnector?.gameObject.SetActive(false);
+                node.gameObject.SetActive(false);
+            }
+        }
+
+        solution.currentReducer = this;
+        foreach (var node in nodes)
+        {
+            node.gameObject.SetActive(true);
+            node.nextConnector?.gameObject.SetActive(true);
+        }
+
+        Camera.main.transform.position = TestScreen.cameraDefaultPos;
+    }
+
     public class ExecuteReducer
     {
         public Reducer selfRed;
@@ -134,7 +166,7 @@ public class Reducer : MonoBehaviour
 
         public bool Selectable()
         {
-            return selfRed.id > 30 || selfRed.id == (int)Reducer.SpecialReducers.local;
+            return selfRed.Selectable();
         }
     }
 }
