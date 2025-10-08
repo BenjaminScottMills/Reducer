@@ -13,6 +13,11 @@ public class TestScreen : MonoBehaviour
     public MouseNode mouseNode;
     public Stack<Reducer.ExecuteReducer> eReducerStack = new();
 
+    void OnEnable()
+    {
+        ClearOutput();
+    }
+
     public void ShowOutput(Reducer.ExecuteReducer outputReducer)
     {
         Debug.Log(outputReducer.selfRed.rName);
@@ -20,6 +25,12 @@ public class TestScreen : MonoBehaviour
         eReducerStack.Push(outputReducer);
 
         DisplayReducer(outputReducer);
+    }
+
+    public void ClearOutput()
+    {
+        eReducerStack.Clear();
+        if (reducerNodeHolder != null) Destroy(reducerNodeHolder);
     }
 
     public void ExitReducer()
