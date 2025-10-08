@@ -53,7 +53,7 @@ public class CustomReducerList : MonoBehaviour
             newButton.transform.localPosition += new Vector3(-0.55f, 0);
         }
 
-        newButton.SetReducerActive();
+        r.SetReducerActive(mouseNode);
     }
 
     private void AddReducerButtonPositionUpdate()

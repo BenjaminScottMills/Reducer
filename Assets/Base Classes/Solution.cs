@@ -17,12 +17,12 @@ public class Solution : MonoBehaviour
     void Start()
     {
         CreateMainReducer();
-        currentReducer = reducers[0];
     }
 
     void CreateMainReducer()
     {
         AddReducer("Main", "", 1, 0, 12);
+        customReducerList.customButtons[0].DisableMenu();
     }
 
     public void LoadFromSerialised(SolutionSerialise s)

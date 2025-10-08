@@ -65,7 +65,7 @@ public class ReducerButton : MonoBehaviour
                     {
                         if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
                         {
-                            if (!reducer.isChild)
+                            if (!reducer.isChild && updateMenu != null)
                             {
                                 updateMenu.gameObject.SetActive(true);
                                 updateMenu.Setup();
@@ -73,7 +73,7 @@ public class ReducerButton : MonoBehaviour
                         }
                         else
                         {
-                            SetReducerActive();
+                            reducer.SetReducerActive(mouseNode);
                         }
                     }
                 }
@@ -86,8 +86,9 @@ public class ReducerButton : MonoBehaviour
         }
     }
 
-    public void SetReducerActive()
+    public void DisableMenu()
     {
-        reducer.SetReducerActive(mouseNode);
+        Destroy(updateMenu.gameObject);
+        updateMenu = null;
     }
 }
