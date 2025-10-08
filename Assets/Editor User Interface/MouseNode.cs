@@ -304,7 +304,7 @@ public class MouseNode : MonoBehaviour
 
             if (testHoveredThisFrame != null) testHoveredThisFrame.highlight.enabled = true;
 
-            if (leftClickPressed)
+            if (leftClickPressed || (rightClickPressed && ctrlHeld))
             {
                 if (testHoveredThisFrame != null)
                 {
