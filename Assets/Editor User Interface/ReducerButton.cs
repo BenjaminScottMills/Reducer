@@ -56,9 +56,17 @@ public class ReducerButton : MonoBehaviour
                 var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 if (colliderd2d.OverlapPoint(mousePos))
                 {
-                    if (Input.GetMouseButtonDown(0) && !reducer.isChild)
+                    if (Input.GetMouseButtonDown(0))
                     {
-                        mouseNode.reducer = reducer;
+                        if (reducer.isChild)
+                        {
+                            if (mouseNode.solution.currentReducer == reducer || mouseNode.solution.currentReducer.child == reducer)
+                                mouseNode.reducer = mouseNode.solution.customReducerList.fixedReducerList.localReducer; // Hell yeah
+                        }
+                        else
+                        {
+                            mouseNode.reducer = reducer;
+                        }
                         mouseNode.offset = transform.position - Camera.main.ScreenToWorldPoint(Input.mousePosition);
                     }
                     else if (Input.GetMouseButtonDown(1) && mouseNode.topMenu.selectedScreen != 'T')

@@ -1886,6 +1886,7 @@ MonoBehaviour:
   basePosition: {x: -1.5, y: 0, z: 0}
   mouseNode: {fileID: 1384790493}
   overReducerMenu: 0
+  localReducer: {fileID: 607400305}
 --- !u!61 &761875611
 BoxCollider2D:
   m_ObjectHideFlags: 0

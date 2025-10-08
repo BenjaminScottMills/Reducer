@@ -14,6 +14,7 @@ public class FixedReducerList : MonoBehaviour
     public Vector3 basePosition;
     public MouseNode mouseNode;
     public bool overReducerMenu;
+    public Reducer localReducer;
     void Start()
     {
         baseColliderOffset = boxCollider.offset;
