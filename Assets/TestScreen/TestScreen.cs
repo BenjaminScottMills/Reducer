@@ -12,10 +12,12 @@ public class TestScreen : MonoBehaviour
     public GameObject reducerNodeHolderPrefab;
     public MouseNode mouseNode;
     public Stack<Reducer.ExecuteReducer> eReducerStack = new();
+    public bool collapseMenus;
 
     void OnEnable()
     {
         ClearOutput();
+        collapseMenus = false;
     }
 
     public void ShowOutput(Reducer.ExecuteReducer outputReducer)
@@ -58,6 +60,10 @@ public class TestScreen : MonoBehaviour
             dispNode.eReducer = outputReducer;
             dispNode.testScreen = this;
             dispNode.transform.localScale *= 5;
+        }
+        else
+        {
+            collapseMenus = true;
         }
 
         foreach (var node in outputReducer.selfRed.nodes)

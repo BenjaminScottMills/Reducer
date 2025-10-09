@@ -302,9 +302,11 @@ public class MouseNode : MonoBehaviour
                 Camera.main.transform.position += mousePos - Camera.main.ScreenToWorldPoint(Input.mousePosition);
             }
 
+            if (reducer != null) testScreen.collapseMenus = false;
+
             if (testHoveredThisFrame != null) testHoveredThisFrame.highlight.enabled = true;
 
-            if (leftClickPressed || (rightClickPressed && ctrlHeld))
+            if (!mouseOverUI && (leftClickPressed || (rightClickPressed && ctrlHeld)))
             {
                 if (testHoveredThisFrame != null)
                 {
