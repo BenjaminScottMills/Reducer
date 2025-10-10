@@ -36,10 +36,14 @@ public class ReducerButton : MonoBehaviour
             {
                 reducerVisual.gameObject.SetActive(true);
                 var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                if (Input.GetMouseButtonDown(0) && colliderd2d.OverlapPoint(mousePos))
+                if (colliderd2d.OverlapPoint(mousePos))
                 {
-                    mouseNode.reducer = reducer;
-                    mouseNode.offset = transform.position - Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                    mouseNode.tooltipText.text = reducer.rName;
+                    if (Input.GetMouseButtonDown(0))
+                    {
+                        mouseNode.reducer = reducer;
+                        mouseNode.offset = transform.position - Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                    }
                 }
             }
             else
@@ -56,6 +60,7 @@ public class ReducerButton : MonoBehaviour
                 var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 if (colliderd2d.OverlapPoint(mousePos))
                 {
+                    mouseNode.tooltipText.text = reducer.rName;
                     if (Input.GetMouseButtonDown(0))
                     {
                         if (reducer.isChild)

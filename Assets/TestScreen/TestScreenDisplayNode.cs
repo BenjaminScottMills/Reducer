@@ -18,7 +18,7 @@ public class TestScreenDisplayNode : MonoBehaviour
         if (testScreen.mouseNode.mouseOverUI) return;
 
         var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition) + new Vector3(0, 0, 10);
-        if (eReducer.Selectable() && Vector3.Distance(mousePos, transform.position) < (Node.radius * transform.localScale.x) && !testScreen.mouseNode.mouseOverUI && sortingGroup.sortingOrder >= testScreen.mouseNode.highestNodeSortingOrderThisFrame)
+        if (Vector3.Distance(mousePos, transform.position) < (Node.radius * transform.localScale.x) && !testScreen.mouseNode.mouseOverUI && sortingGroup.sortingOrder >= testScreen.mouseNode.highestNodeSortingOrderThisFrame)
         {
             testScreen.mouseNode.highestNodeSortingOrderThisFrame = sortingGroup.sortingOrder;
             testScreen.mouseNode.testHoveredThisFrame = this;

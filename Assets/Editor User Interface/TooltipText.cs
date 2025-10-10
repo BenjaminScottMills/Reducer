@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -14,13 +15,13 @@ public class TooltipText : MonoBehaviour
     float standStillCounter;
     const float standStillCounterMax = 0.75f;
     Vector3 offset = new Vector3(0, 0, 10);
-    Vector3 lastFramePosition;
+    Vector3 lastFrameMousePosition;
     public GameObject canvas;
     // Start is called before the first frame update
     void Start()
     {
         standStillCounter = 0;
-        lastFramePosition = Vector3.zero;
+        lastFrameMousePosition = Vector3.zero;
     }
 
     // Update is called once per frame
@@ -32,7 +33,7 @@ public class TooltipText : MonoBehaviour
         transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition) + offset;
         transform.localScale = new Vector3(Camera.main.orthographicSize / 5, Camera.main.orthographicSize / 5, 1);
 
-        if (text != "" && Vector3.Distance(lastFramePosition, transform.position) < 0.01f)
+        if (text != "" && !Input.GetMouseButton(0) && !Input.GetMouseButton(1) && Math.Abs(Input.mouseScrollDelta.y) < 0.05f && Vector3.Distance(lastFrameMousePosition, Input.mousePosition) < 2)
         {
             standStillCounter += Time.deltaTime;
             if (standStillCounter > standStillCounterMax)
@@ -45,7 +46,7 @@ public class TooltipText : MonoBehaviour
             standStillCounter = 0;
             canvas.SetActive(false);
         }
-        lastFramePosition = transform.position;
+        lastFrameMousePosition = Input.mousePosition;
 
         if (transform.position.y > Camera.main.ScreenToWorldPoint(new Vector2(0, 0.95f * Screen.height)).y)
         {
@@ -65,5 +66,7 @@ public class TooltipText : MonoBehaviour
                 txtDuplicateTransform.pivot = new Vector2(0, 0);
             }
         }
+
+        text = "";
     }
 }

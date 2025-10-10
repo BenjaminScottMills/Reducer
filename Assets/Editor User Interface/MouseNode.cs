@@ -52,10 +52,6 @@ public class MouseNode : MonoBehaviour
             {
                 tooltipText.text = hoveredThisFrame.reducer.rName;
             }
-            else
-            {
-                tooltipText.text = "";
-            }
 
             if (!mouseOverUI)
             {
@@ -300,10 +296,6 @@ public class MouseNode : MonoBehaviour
             {
                 tooltipText.text = testHoveredThisFrame.eReducer.selfRed.rName;
             }
-            else
-            {
-                tooltipText.text = "";
-            }
 
             if (!mouseOverUI)
             {
@@ -323,11 +315,11 @@ public class MouseNode : MonoBehaviour
 
             if (reducer != null) testScreen.collapseMenus = false;
 
-            if (testHoveredThisFrame != null) testHoveredThisFrame.highlight.enabled = true;
+            if (testHoveredThisFrame != null && testHoveredThisFrame.eReducer.Selectable()) testHoveredThisFrame.highlight.enabled = true;
 
             if (!mouseOverUI && (leftClickPressed || (rightClickPressed && ctrlHeld)))
             {
-                if (testHoveredThisFrame != null)
+                if (testHoveredThisFrame != null && testHoveredThisFrame.eReducer.Selectable())
                 {
                     testHoveredThisFrame.EnterReducer();
                 }

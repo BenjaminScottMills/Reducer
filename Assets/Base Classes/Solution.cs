@@ -71,7 +71,7 @@ public class Solution : MonoBehaviour
         var localReducer = Instantiate(reducerPrefab, Vector3.zero, Quaternion.identity, newReducer.transform.parent).GetComponent<Reducer>();
         newReducer.child = localReducer;
         localReducer.isChild = true;
-        localReducer.rName = name + " - child";
+        localReducer.rName = name + " - Child";
         localReducer.description = "";
         localReducer.id = (int)Reducer.SpecialReducers.local;
         localReducer.nullReducer = nullReducer;
