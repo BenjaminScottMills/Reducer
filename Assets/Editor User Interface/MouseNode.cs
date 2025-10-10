@@ -23,6 +23,7 @@ public class MouseNode : MonoBehaviour
     public TopMenu topMenu;
     public Node newConnectorStart;
     public HighlightSquare highlightSquare;
+    public TooltipText tooltipText;
     public GameObject editorScreen;
     public List<ReducerPlacementSlot> testScreenPlacementSlots;
     private Vector3 prevMousePos = Vector3.zero;
@@ -47,6 +48,15 @@ public class MouseNode : MonoBehaviour
 
         if (topMenu.selectedScreen == 'E')
         {
+            if (hoveredThisFrame != null)
+            {
+                tooltipText.text = hoveredThisFrame.reducer.rName;
+            }
+            else
+            {
+                tooltipText.text = "";
+            }
+
             if (!mouseOverUI)
             {
                 Camera.main.orthographicSize = (float)Math.Round(2 * (Camera.main.orthographicSize - (Input.mouseScrollDelta.y / 2))) / 2;

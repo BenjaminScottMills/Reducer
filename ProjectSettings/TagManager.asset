@@ -68,3 +68,6 @@ TagManager:
   - name: ReducerMenu
     uniqueID: 2116323469
     locked: 0
+  - name: TooltipText
+    uniqueID: 1913085139
+    locked: 0
