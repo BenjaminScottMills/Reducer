@@ -296,6 +296,15 @@ public class MouseNode : MonoBehaviour
         }
         else if (topMenu.selectedScreen == 'T')
         {
+            if (testHoveredThisFrame != null)
+            {
+                tooltipText.text = testHoveredThisFrame.eReducer.selfRed.rName;
+            }
+            else
+            {
+                tooltipText.text = "";
+            }
+
             if (!mouseOverUI)
             {
                 Camera.main.orthographicSize = (float)Math.Round(2 * (Camera.main.orthographicSize - (Input.mouseScrollDelta.y / 2))) / 2;

@@ -952,7 +952,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b99eae60db53b394aac35c6758f1c2b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rName: Local Outer Black
+  rName: Child Outer Black
   description: 
   id: 9
   nodeIdCounter: 0
@@ -1483,7 +1483,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b99eae60db53b394aac35c6758f1c2b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rName: Local
+  rName: Child
   description: 
   id: 8
   nodeIdCounter: 0
@@ -6049,7 +6049,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b99eae60db53b394aac35c6758f1c2b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rName: Local Outer White
+  rName: Child Outer White
   description: 
   id: 10
   nodeIdCounter: 0
