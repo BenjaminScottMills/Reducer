@@ -10,6 +10,9 @@ public class CollapseHandler : MonoBehaviour
     public TopMenu tMenu;
     public bool mouseInRange;
     public TestScreen tScreen;
+    Vector3 targetPosition = Vector3.zero;
+    const int speedMultiple = 15;
+
     // Update is called once per frame
     void Update()
     {
@@ -21,11 +24,39 @@ public class CollapseHandler : MonoBehaviour
 
         if (tMenu.selectedScreen == 'T' && tScreen.collapseMenus && !mouseInRange)
         {
-            transform.localPosition = collapseOffset;
+            targetPosition = collapseOffset;
         }
         else
         {
-            transform.localPosition = Vector3.zero;
+            targetPosition = Vector3.zero;
+        }
+
+        float speed = Time.deltaTime * speedMultiple;
+
+        if (targetPosition.x > transform.localPosition.x + speed)
+        {
+            transform.localPosition += new Vector3(speed, 0);
+        }
+        else if (targetPosition.x < transform.localPosition.x - speed)
+        {
+            transform.localPosition += new Vector3(-speed, 0);
+        }
+        else
+        {
+            transform.localPosition = new Vector3(targetPosition.x, transform.localPosition.y);
+        }
+
+        if (targetPosition.y > transform.localPosition.y + speed)
+        {
+            transform.localPosition += new Vector3(0, speed);
+        }
+        else if (targetPosition.y < transform.localPosition.y - speed)
+        {
+            transform.localPosition += new Vector3(0, -speed);
+        }
+        else
+        {
+            transform.localPosition = new Vector3(transform.localPosition.x, targetPosition.y);
         }
 
         mouseInRange = false;
