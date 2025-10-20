@@ -36,7 +36,7 @@ public class LevelButton : MonoBehaviour, IPointerClickHandler
     {
         if (!unlocked) return;
 
-        LevelMenu lm = Instantiate(levelMenuPrefab, Vector3.zero, Quaternion.identity, transform.parent.parent).GetComponent<LevelMenu>();
+        LevelMenu lm = Instantiate(levelMenuPrefab, chapterMenu.transform.position, Quaternion.identity, chapterMenu.transform.parent).GetComponent<LevelMenu>();
         chapterMenu.mainMenuController.levelMenu = lm.gameObject;
         lm.chapterMenu = chapterMenu;
         lm.levelPath = levelPath;
