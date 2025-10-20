@@ -13,8 +13,8 @@ public class ChapterMenu : MonoBehaviour
     public RectTransform scrollViewContent;
     public MainMenuController mainMenuController;
     public bool completed;
-    // Start is called before the first frame update
-    void Start()
+
+    void Awake()
     {
         string location = Path.Combine(Application.persistentDataPath, "chapters", chapterDirectory);
         string[] levels = Directory.GetDirectories(location);

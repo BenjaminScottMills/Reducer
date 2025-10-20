@@ -7,10 +7,19 @@ using UnityEngine.UI;
 public class ChapterSelectButton : MonoBehaviour, IPointerClickHandler
 {
     public MainMenuController controller;
-    public GameObject chapterMenu;
+    public ChapterMenu chapterMenu;
+    public ChapterSelectButton previousChapterButton;
+    public bool unlocked;
     public bool selected = false;
     public Image unselectedImage;
     public Image selectedImage;
+    public GameObject lockedImage;
+
+    void Start()
+    {
+        unlocked = previousChapterButton == null || previousChapterButton.chapterMenu.completed;
+        lockedImage.SetActive(!unlocked);
+    }
 
     void Update()
     {
@@ -20,6 +29,8 @@ public class ChapterSelectButton : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData pointerEventData)
     {
+        if (!unlocked) return;
+
         if (selected)
         {
             selected = false;
@@ -28,7 +39,7 @@ public class ChapterSelectButton : MonoBehaviour, IPointerClickHandler
         else
         {
             selected = true;
-            controller.SetChapter(chapterMenu);
+            controller.SetChapter(chapterMenu.gameObject);
         }
     }
 }
