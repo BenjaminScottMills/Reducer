@@ -19,7 +19,7 @@ public class LevelMenu : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        levelNameZone.text = Path.GetFileName(levelPath);
+        levelNameZone.text = Path.GetFileName(levelPath).Substring(2);
         string[] solutions = Directory.GetDirectories(Path.Combine(levelPath, "solutions"));
         Array.Sort(solutions);
 

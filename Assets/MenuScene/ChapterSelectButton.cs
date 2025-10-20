@@ -9,6 +9,14 @@ public class ChapterSelectButton : MonoBehaviour, IPointerClickHandler
     public MainMenuController controller;
     public GameObject chapterMenu;
     public bool selected = false;
+    public Image unselectedImage;
+    public Image selectedImage;
+
+    void Update()
+    {
+        selectedImage.enabled = selected;
+        unselectedImage.enabled = !selected;
+    }
 
     public void OnPointerClick(PointerEventData pointerEventData)
     {
