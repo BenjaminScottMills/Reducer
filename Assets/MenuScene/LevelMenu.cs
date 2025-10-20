@@ -14,7 +14,7 @@ public class LevelMenu : MonoBehaviour
     public Vector3 solutionListOffset;
     public GameObject solutionButtonPrefab;
     public RectTransform scrollViewContent;
-    public GameObject newSolutionButton;
+    public GameObject addSolutionButton;
 
     // Start is called before the first frame update
     void Start()
@@ -25,7 +25,7 @@ public class LevelMenu : MonoBehaviour
 
         Vector3 newButtonPos = firstSolutionLocation;
 
-        scrollViewContent.sizeDelta = new Vector2(scrollViewContent.sizeDelta.x, scrollViewContent.sizeDelta.y + Math.Abs(solutionListOffset.y * (solutions.Length - 1)));
+        scrollViewContent.sizeDelta = new Vector2(scrollViewContent.sizeDelta.x, scrollViewContent.sizeDelta.y + Math.Abs(solutionListOffset.y * solutions.Length)); // 1 extra to account for add solution button
 
         foreach (string solution in solutions)
         {
@@ -36,7 +36,7 @@ public class LevelMenu : MonoBehaviour
             newButtonPos += solutionListOffset;
         }
 
-        newSolutionButton.transform.position = newButtonPos;
+        addSolutionButton.transform.localPosition = newButtonPos;
     }
 
     // Update is called once per frame
