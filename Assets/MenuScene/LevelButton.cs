@@ -14,10 +14,22 @@ public class LevelButton : MonoBehaviour, IPointerClickHandler
     public bool completed;
     public ChapterMenu chapterMenu;
     public GameObject levelMenuPrefab;
+    public Image completedCheckmark;
+    public GameObject lockedGraphic;
     // Start is called before the first frame update
     void Start()
     {
-        
+        completedCheckmark.enabled = completed;
+
+        if (unlocked)
+        {
+            lockedGraphic.SetActive(false);
+        }
+        else
+        {
+            text.text = "";
+            lockedGraphic.SetActive(true);
+        }
     }
 
     // Update is called once per frame
