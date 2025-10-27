@@ -310,7 +310,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.00000650505}
+  m_AnchoredPosition: {x: 0, y: 0.0001596375}
   m_SizeDelta: {x: 0, y: 50}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &4720481695335009547
@@ -531,6 +531,7 @@ GameObject:
   - component: {fileID: 7768019681258327716}
   - component: {fileID: 4645136991487836274}
   - component: {fileID: 1262985253345082015}
+  - component: {fileID: 8375036572588768690}
   - component: {fileID: 39254960913812766}
   m_Layer: 5
   m_Name: Exit button
@@ -557,7 +558,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 109.9, y: -57.1}
+  m_AnchoredPosition: {x: 161.6, y: -97.6}
   m_SizeDelta: {x: 30, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4645136991487836274
@@ -598,6 +599,19 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &8375036572588768690
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5939094134034040704}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50187852ebe2f2141bc6b521b6c024f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lm: {fileID: 7980541316251549737}
 --- !u!114 &39254960913812766
 MonoBehaviour:
   m_ObjectHideFlags: 0
