@@ -26,9 +26,14 @@ public class SolutionButton : MonoBehaviour, IPointerClickHandler
 
     public void SetSolution(string path, string name, string number)
     {
+        SetSolution(path, name, int.Parse(number));
+    }
+
+    public void SetSolution(string path, string name, int number)
+    {
         solutionPath = path;
         text.text = name;
-        levelNumber = int.Parse(number);
+        levelNumber = number;
 
         completedCheckmark.enabled = JsonUtility.FromJson<ChapterMenu.LevelStatus>(File.ReadAllText(Path.Combine(path, "status.json"))).completed;
         // THIS CLASS NEEDS THE FOLLOWING: Probably pencil button that enters into editing the text box.

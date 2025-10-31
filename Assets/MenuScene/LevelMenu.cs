@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -66,6 +68,25 @@ public class LevelMenu : MonoBehaviour
 
         solutionButtons.RemoveAt(sbLocation);
         Destroy(sb.gameObject);
+        PositionSolutionButtons(false);
+    }
+
+    public void AddSolution()
+    {
+        int newNumber;
+        if (solutionButtons.Count == 0) newNumber = 0;
+        else newNumber = solutionButtons.Last().levelNumber + 1;
+
+        string newDirectory = Path.Combine(levelPath, "solutions", (newNumber < 10 ? "0" : "") + newNumber + "New Solution");
+        Directory.CreateDirectory(newDirectory);
+
+        File.WriteAllText(Path.Combine(newDirectory, "status.json"), JsonUtility.ToJson(new ChapterMenu.LevelStatus{completed = false}));
+
+        SolutionButton sb = Instantiate(solutionButtonPrefab, addSolutionButton.transform.position, Quaternion.identity, scrollViewContent).GetComponent<SolutionButton>();
+        sb.SetSolution(newDirectory, "New Solution", newNumber); // First 2 characters are for ordering, ie "04".
+        sb.levelMenu = this;
+        solutionButtons.Add(sb);
+
         PositionSolutionButtons(false);
     }
 
