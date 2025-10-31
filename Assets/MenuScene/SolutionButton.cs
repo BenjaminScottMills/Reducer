@@ -29,7 +29,7 @@ public class SolutionButton : MonoBehaviour, IPointerClickHandler
         text.text = name;
 
         completedCheckmark.enabled = JsonUtility.FromJson<ChapterMenu.LevelStatus>(File.ReadAllText(Path.Combine(path, "status.json"))).completed;
-        // THIS CLASS NEEDS THE FOLLOWING: solution name, delete button (which spawns confirm / deny button), marker showing if solution completed the level or not. Probably pencil button that enters into editing the text box.
+        // THIS CLASS NEEDS THE FOLLOWING: delete button (which spawns confirm / deny button). Probably pencil button that enters into editing the text box.
     }
 
     public void OnPointerClick(PointerEventData pointerEventData)
