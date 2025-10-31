@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class SolutionButton : MonoBehaviour, IPointerClickHandler
 {
-    public Text text;
+    public InputField inputField;
     public string solutionPath;
     public LevelMenu levelMenu;
     public Image completedCheckmark;
@@ -15,7 +15,7 @@ public class SolutionButton : MonoBehaviour, IPointerClickHandler
     // Start is called before the first frame update
     void Start()
     {
-        
+        inputField.onEndEdit.AddListener((string newName) => {RenameSolution(newName);});
     }
 
     // Update is called once per frame
@@ -32,7 +32,7 @@ public class SolutionButton : MonoBehaviour, IPointerClickHandler
     public void SetSolution(string path, string name, int number)
     {
         solutionPath = path;
-        text.text = name;
+        inputField.text = name;
         levelNumber = number;
 
         completedCheckmark.enabled = JsonUtility.FromJson<ChapterMenu.LevelStatus>(File.ReadAllText(Path.Combine(path, "status.json"))).completed;
@@ -42,9 +42,14 @@ public class SolutionButton : MonoBehaviour, IPointerClickHandler
     public void DecrementName(string rootDir)
     {
         --levelNumber;
-        string newPath = Path.Combine(rootDir, (levelNumber < 10 ? "0" : "") + levelNumber + text.text);
+        string newPath = Path.Combine(rootDir, (levelNumber < 10 ? "0" : "") + levelNumber + inputField.text);
         Directory.Move(solutionPath, newPath);
         solutionPath = newPath;
+    }
+
+    void RenameSolution(string newName)
+    {
+        Debug.Log(newName);
     }
 
     public void OnPointerClick(PointerEventData pointerEventData)
