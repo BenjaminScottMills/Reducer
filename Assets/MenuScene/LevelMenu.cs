@@ -15,7 +15,7 @@ public class LevelMenu : MonoBehaviour
     public GameObject solutionButtonPrefab;
     public RectTransform scrollViewContent;
     public GameObject addSolutionButton;
-    List<GameObject> solutionButtonsAndAdd = new List<GameObject>();
+    List<SolutionButton> solutionButtons = new List<SolutionButton>();
     float baseScrollViewHeight;
 
     // Start is called before the first frame update
@@ -30,9 +30,9 @@ public class LevelMenu : MonoBehaviour
         foreach (string solution in solutions)
         {
             SolutionButton sb = Instantiate(solutionButtonPrefab, Vector3.zero, Quaternion.identity, scrollViewContent).GetComponent<SolutionButton>();
-            sb.SetSolution(solution, Path.GetFileName(solution).Substring(2)); // First 2 characters are for ordering, ie "04".
+            sb.SetSolution(solution, Path.GetFileName(solution).Substring(2), Path.GetFileName(solution).Substring(0, 2)); // First 2 characters are for ordering, ie "04".
             sb.levelMenu = this;
-            solutionButtonsAndAdd.Add(sb.gameObject);
+            solutionButtons.Add(sb);
         }
 
         PositionSolutionButtons(true);
@@ -42,9 +42,9 @@ public class LevelMenu : MonoBehaviour
     {
         Vector3 newButtonPos = firstSolutionLocation;
 
-        scrollViewContent.sizeDelta = new Vector2(scrollViewContent.sizeDelta.x, baseScrollViewHeight + Math.Abs(solutionListOffset.y * solutionButtonsAndAdd.Count)); // 1 extra to account for add solution button
+        scrollViewContent.sizeDelta = new Vector2(scrollViewContent.sizeDelta.x, baseScrollViewHeight + Math.Abs(solutionListOffset.y * solutionButtons.Count)); // 1 extra to account for add solution button
 
-        foreach (GameObject solutionButton in solutionButtonsAndAdd)
+        foreach (SolutionButton solutionButton in solutionButtons)
         {
             solutionButton.transform.localPosition = firstGo ? newButtonPos : new Vector3(solutionButton.transform.localPosition.x, newButtonPos.y);
             newButtonPos += solutionListOffset;
@@ -53,10 +53,19 @@ public class LevelMenu : MonoBehaviour
         addSolutionButton.transform.localPosition = firstGo ? newButtonPos : new Vector3(addSolutionButton.transform.localPosition.x, newButtonPos.y);
     }
 
-    public void RemoveSolution(GameObject go)
+    public void RemoveSolution(SolutionButton sb)
     {
-        solutionButtonsAndAdd.Remove(go);
-        Destroy(go);
+        Directory.Delete(sb.solutionPath, true);
+        int sbLocation = solutionButtons.FindIndex((n) => n == sb);
+        string solutionsPath = Path.Combine(levelPath, "solutions");
+
+        for (int i = sbLocation + 1; i < solutionButtons.Count; ++i)
+        {
+            solutionButtons[i].DecrementName(solutionsPath);
+        }
+
+        solutionButtons.RemoveAt(sbLocation);
+        Destroy(sb.gameObject);
         PositionSolutionButtons(false);
     }
 

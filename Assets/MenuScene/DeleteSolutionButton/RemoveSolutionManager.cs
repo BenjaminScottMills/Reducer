@@ -40,7 +40,6 @@ public class RemoveSolutionManager : MonoBehaviour
     
     public void confirmClicked()
     {
-        Directory.Delete(sb.solutionPath, true);
-        sb.levelMenu.RemoveSolution(sb.gameObject);
+        sb.levelMenu.RemoveSolution(sb);
     }
 }
