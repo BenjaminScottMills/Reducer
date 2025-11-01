@@ -26,13 +26,14 @@ public class LevelMenu : MonoBehaviour
         baseScrollViewHeight = scrollViewContent.sizeDelta.y;
 
         levelNameZone.text = Path.GetFileName(levelPath).Substring(2);
-        string[] solutions = Directory.GetDirectories(Path.Combine(levelPath, "solutions"));
+        string solutionsPath = Path.Combine(levelPath, "solutions");
+        string[] solutions = Directory.GetDirectories(solutionsPath);
         Array.Sort(solutions);
 
         foreach (string solution in solutions)
         {
             SolutionButton sb = Instantiate(solutionButtonPrefab, Vector3.zero, Quaternion.identity, scrollViewContent).GetComponent<SolutionButton>();
-            sb.SetSolution(solution, Path.GetFileName(solution).Substring(2), Path.GetFileName(solution).Substring(0, 2)); // First 2 characters are for ordering, ie "04".
+            sb.SetSolution(solution, Path.GetFileName(solution).Substring(2), Path.GetFileName(solution).Substring(0, 2), solutionsPath); // First 2 characters are for ordering, ie "04".
             sb.levelMenu = this;
             solutionButtons.Add(sb);
         }
@@ -59,11 +60,10 @@ public class LevelMenu : MonoBehaviour
     {
         Directory.Delete(sb.solutionPath, true);
         int sbLocation = solutionButtons.FindIndex((n) => n == sb);
-        string solutionsPath = Path.Combine(levelPath, "solutions");
 
         for (int i = sbLocation + 1; i < solutionButtons.Count; ++i)
         {
-            solutionButtons[i].DecrementName(solutionsPath);
+            solutionButtons[i].DecrementName();
         }
 
         solutionButtons.RemoveAt(sbLocation);
@@ -83,7 +83,7 @@ public class LevelMenu : MonoBehaviour
         File.WriteAllText(Path.Combine(newDirectory, "status.json"), JsonUtility.ToJson(new ChapterMenu.LevelStatus{completed = false}));
 
         SolutionButton sb = Instantiate(solutionButtonPrefab, addSolutionButton.transform.position, Quaternion.identity, scrollViewContent).GetComponent<SolutionButton>();
-        sb.SetSolution(newDirectory, "New Solution", newNumber); // First 2 characters are for ordering, ie "04".
+        sb.SetSolution(newDirectory, "New Solution", newNumber, Path.Combine(levelPath, "solutions")); // First 2 characters are for ordering, ie "04".
         sb.levelMenu = this;
         solutionButtons.Add(sb);
 

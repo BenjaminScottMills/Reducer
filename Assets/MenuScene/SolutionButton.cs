@@ -12,6 +12,7 @@ public class SolutionButton : MonoBehaviour, IPointerClickHandler
     public LevelMenu levelMenu;
     public Image completedCheckmark;
     public int levelNumber;
+    string rootDirectory;
     // Start is called before the first frame update
     void Start()
     {
@@ -24,32 +25,35 @@ public class SolutionButton : MonoBehaviour, IPointerClickHandler
 
     }
 
-    public void SetSolution(string path, string name, string number)
+    public void SetSolution(string path, string name, string number, string rootDir)
     {
-        SetSolution(path, name, int.Parse(number));
+        SetSolution(path, name, int.Parse(number), rootDir);
     }
 
-    public void SetSolution(string path, string name, int number)
+    public void SetSolution(string path, string name, int number, string rootDir)
     {
         solutionPath = path;
         inputField.text = name;
         levelNumber = number;
+        rootDirectory = rootDir;
 
         completedCheckmark.enabled = JsonUtility.FromJson<ChapterMenu.LevelStatus>(File.ReadAllText(Path.Combine(path, "status.json"))).completed;
         // THIS CLASS NEEDS THE FOLLOWING: Probably pencil button that enters into editing the text box.
     }
 
-    public void DecrementName(string rootDir)
+    public void DecrementName()
     {
         --levelNumber;
-        string newPath = Path.Combine(rootDir, (levelNumber < 10 ? "0" : "") + levelNumber + inputField.text);
+        string newPath = Path.Combine(rootDirectory, (levelNumber < 10 ? "0" : "") + levelNumber + inputField.text);
         Directory.Move(solutionPath, newPath);
         solutionPath = newPath;
     }
 
     void RenameSolution(string newName)
     {
-        Debug.Log(newName);
+        string newPath = Path.Combine(rootDirectory, (levelNumber < 10 ? "0" : "") + levelNumber + newName);
+        Directory.Move(solutionPath, newPath);
+        solutionPath = newPath;
     }
 
     public void OnPointerClick(PointerEventData pointerEventData)
