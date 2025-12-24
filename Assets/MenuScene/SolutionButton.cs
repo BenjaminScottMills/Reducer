@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -38,7 +39,6 @@ public class SolutionButton : MonoBehaviour, IPointerClickHandler
         rootDirectory = rootDir;
 
         completedCheckmark.enabled = JsonUtility.FromJson<ChapterMenu.LevelStatus>(File.ReadAllText(Path.Combine(path, "status.json"))).completed;
-        // THIS CLASS NEEDS THE FOLLOWING: Probably pencil button that enters into editing the text box.
     }
 
     public void DecrementName()
@@ -52,8 +52,13 @@ public class SolutionButton : MonoBehaviour, IPointerClickHandler
     void RenameSolution(string newName)
     {
         string newPath = Path.Combine(rootDirectory, (levelNumber < 10 ? "0" : "") + levelNumber + newName);
-        Directory.Move(solutionPath, newPath);
-        solutionPath = newPath;
+        
+        try
+        {
+            Directory.Move(solutionPath, newPath);
+            solutionPath = newPath;
+        }
+        catch (Exception) {}
     }
 
     public void OnPointerClick(PointerEventData pointerEventData)
