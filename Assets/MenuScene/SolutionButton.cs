@@ -51,6 +51,13 @@ public class SolutionButton : MonoBehaviour, IPointerClickHandler
 
     void RenameSolution(string newName)
     {
+        string oldName = Path.GetFileName(solutionPath).Substring(2);
+        if (newName.Trim() == oldName)
+        {
+            inputField.text = oldName;
+            return;
+        }
+
         string newPath = Path.Combine(rootDirectory, (levelNumber < 10 ? "0" : "") + levelNumber + newName);
         
         try
@@ -58,7 +65,10 @@ public class SolutionButton : MonoBehaviour, IPointerClickHandler
             Directory.Move(solutionPath, newPath);
             solutionPath = newPath;
         }
-        catch (Exception) {}
+        catch (Exception)
+        {
+            inputField.text = oldName;
+        }
     }
 
     public void OnPointerClick(PointerEventData pointerEventData)
