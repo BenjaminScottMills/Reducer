@@ -23,6 +23,9 @@ public class SolutionSerialise
             description = r.description;
             id = r.id;
             nodeIdCounter = r.nodeIdCounter;
+            backgroundColour = r.backgroundColour;
+            foregroundColour = r.foregroundColour;
+            foregroundSprite = r.foregroundSprite;
             nodes = r.nodes.Select(n => new NodeSerialise(n)).ToArray();
             if (r.child == null)
             {

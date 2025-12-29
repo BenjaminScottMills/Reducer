@@ -30,6 +30,7 @@ public class Reducer : MonoBehaviour
     {
         child = Instantiate(reducerPrefab, Vector3.zero, Quaternion.identity, transform.parent).GetComponent<Reducer>();
 
+        id = r.id;
         rName = r.name;
         description = r.description;
         nodeIdCounter = r.nodeIdCounter;
@@ -51,8 +52,10 @@ public class Reducer : MonoBehaviour
         }
 
         isChild = false;
+        if (!solution.localReducersUnlocked) return;
+
         child.nodeIdCounter = r.childNodeIdCounter;
-        child.isChild = true;
+        child.ChildInit(this);
 
         child.nodes = new List<Node>();
         for (int i = 0; i < r.nodes.Length; i--)
@@ -95,6 +98,19 @@ public class Reducer : MonoBehaviour
     public bool Selectable()
     {
         return id > 30 || id == (int)Reducer.SpecialReducers.local;
+    }
+
+    public void ChildInit(Reducer parent)
+    {
+        foregroundColour = 1;
+        backgroundColour = 0;
+        foregroundSprite = 9;
+        nullReducer = parent.nullReducer;
+        solution = parent.solution;
+        id = (int)SpecialReducers.local;
+        isChild = true;
+        rName = parent.rName + " - Child";
+        description = "";
     }
 
     public void SetReducerActive(MouseNode mouseNode)

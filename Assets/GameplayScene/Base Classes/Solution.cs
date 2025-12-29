@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
+using System.IO;
 using UnityEngine;
 
 public class Solution : MonoBehaviour
@@ -18,7 +18,16 @@ public class Solution : MonoBehaviour
     void Start()
     {
         solutionPath = PlayerPrefs.GetString("solution path");
-        CreateMainReducer();
+        string solFile = Path.Combine(solutionPath, "solution.json");
+        if (File.Exists(solFile))
+        {
+            LoadFromSerialised(JsonUtility.FromJson<SolutionSerialise>(File.ReadAllText(solFile)));
+            customReducerList.customButtons[0].DisableMenu();
+        }
+        else
+        {
+            CreateMainReducer();
+        }
     }
 
     void CreateMainReducer()
@@ -36,12 +45,15 @@ public class Solution : MonoBehaviour
         {
             var newRed = Instantiate(reducerPrefab, Vector3.zero, Quaternion.identity, transform.parent).GetComponent<Reducer>();
             newRed.id = rs.id;
+            newRed.nullReducer = nullReducer;
+            newRed.solution = this;
             reducers.Add(newRed);
         }
 
         for (int i = 0; i < s.reducers.Length; i++)
         {
             reducers[i].LoadFromSerialised(s.reducers[i], reducers);
+            customReducerList.AddReducerButton(reducers[i]);
         }
     }
 
@@ -72,15 +84,7 @@ public class Solution : MonoBehaviour
 
         var localReducer = Instantiate(reducerPrefab, Vector3.zero, Quaternion.identity, newReducer.transform.parent).GetComponent<Reducer>();
         newReducer.child = localReducer;
-        localReducer.isChild = true;
-        localReducer.rName = name + " - Child";
-        localReducer.description = "";
-        localReducer.id = (int)Reducer.SpecialReducers.local;
-        localReducer.nullReducer = nullReducer;
-        localReducer.solution = this;
-        localReducer.foregroundColour = 1;
-        localReducer.backgroundColour = 0;
-        localReducer.foregroundSprite = 9;
+        localReducer.ChildInit(newReducer);
 
         customReducerList.AddReducerButton(newReducer);
     }
