@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-public class SolutionSerialise
+public struct SolutionSerialise
 {
     public SolutionSerialise(Solution solution)
     {
@@ -15,7 +15,8 @@ public class SolutionSerialise
     public uint idCounter;
     public ReducerSerialise[] reducers;
 
-    public class ReducerSerialise
+    [System.Serializable]
+    public struct ReducerSerialise
     {
         public ReducerSerialise(Reducer r)
         {
@@ -51,7 +52,8 @@ public class SolutionSerialise
         public NodeSerialise[] childNodes;
     }
 
-    public class NodeSerialise
+    [System.Serializable]
+    public struct NodeSerialise
     {
         public NodeSerialise(Node n)
         {
@@ -59,7 +61,7 @@ public class SolutionSerialise
             id = n.id;
             yPos = n.transform.position.y;
             xPos = n.transform.position.x;
-            nextId = n.next.id;
+            nextId = n.next?.id ?? 0;
             blackLink = n.blackLink;
         }
 

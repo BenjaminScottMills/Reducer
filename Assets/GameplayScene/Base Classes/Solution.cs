@@ -2,12 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Solution : MonoBehaviour
 {
     public string sName;
     public string solutionPath;
     public uint idCounter;
+    public MouseNode mouseNode;
     public Reducer currentReducer; // must be present in reducers
     public List<Reducer> reducers;
     public Reducer nullReducer;
@@ -87,5 +89,23 @@ public class Solution : MonoBehaviour
         localReducer.ChildInit(newReducer);
 
         customReducerList.AddReducerButton(newReducer);
+    }
+
+    public void SaveQuit()
+    {
+        Save();
+        ReturnToMenus();
+    }
+
+    public void Save()
+    {
+        File.WriteAllTextAsync(
+            Path.Combine(solutionPath, "solution.json"),
+            JsonUtility.ToJson(new SolutionSerialise(this)));
+    }
+
+    public void ReturnToMenus()
+    {
+        SceneManager.LoadSceneAsync("MenuScene");
     }
 }

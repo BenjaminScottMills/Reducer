@@ -40,13 +40,14 @@ public class Reducer : MonoBehaviour
         foregroundSprite = r.foregroundSprite;
 
         nodes = new List<Node>();
-        for (int i = 0; i < r.nodes.Length; i--)
+        for (int i = 0; i < r.nodes.Length; i++)
         {
             var newNode = Instantiate(nodePrefab, new Vector3(r.nodes[i].xPos, r.nodes[i].yPos), Quaternion.identity, transform.parent).GetComponent<Node>();
+            newNode.mouseNode = solution.mouseNode;
             newNode.InitialLoadFromSerialised(r.nodes[i], reducers, child);
             nodes.Add(newNode);
         }
-        for (int i = 0; i < r.nodes.Length; i--)
+        for (int i = 0; i < r.nodes.Length; i++)
         {
             nodes[i].CreateLinksFromSerialised(r.nodes[i], nodes);
         }
@@ -58,13 +59,14 @@ public class Reducer : MonoBehaviour
         child.ChildInit(this);
 
         child.nodes = new List<Node>();
-        for (int i = 0; i < r.nodes.Length; i--)
+        for (int i = 0; i < r.nodes.Length; i++)
         {
             var newNode = Instantiate(nodePrefab, new Vector3(r.nodes[i].xPos, r.nodes[i].yPos), Quaternion.identity, transform.parent).GetComponent<Node>();
+            newNode.mouseNode = solution.mouseNode;
             newNode.InitialLoadFromSerialised(r.nodes[i], reducers, child);
             child.nodes.Add(newNode);
         }
-        for (int i = 0; i < r.nodes.Length; i--)
+        for (int i = 0; i < r.nodes.Length; i++)
         {
             child.nodes[i].CreateLinksFromSerialised(r.nodes[i], child.nodes);
         }
@@ -97,7 +99,7 @@ public class Reducer : MonoBehaviour
 
     public bool Selectable()
     {
-        return id > 30 || id == (int)Reducer.SpecialReducers.local;
+        return id > 30 || id == (int)SpecialReducers.local;
     }
 
     public void ChildInit(Reducer parent)
