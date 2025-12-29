@@ -5,6 +5,7 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class SolutionButton : MonoBehaviour, IPointerClickHandler
 {
@@ -73,6 +74,8 @@ public class SolutionButton : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData pointerEventData)
     {
-        
+        PlayerPrefs.SetString("solution path", solutionPath);
+        SceneManager.LoadSceneAsync("GameplayScene");
+        // maybe do some stuff to prevent more interaction (globally) after this.
     }
 }

@@ -6,6 +6,7 @@ using UnityEngine;
 public class Solution : MonoBehaviour
 {
     public string sName;
+    public string solutionPath;
     public uint idCounter;
     public Reducer currentReducer; // must be present in reducers
     public List<Reducer> reducers;
@@ -16,6 +17,7 @@ public class Solution : MonoBehaviour
 
     void Start()
     {
+        solutionPath = PlayerPrefs.GetString("solution path");
         CreateMainReducer();
     }
 
