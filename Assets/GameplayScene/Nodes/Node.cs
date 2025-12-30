@@ -21,7 +21,7 @@ public class Node : MonoBehaviour
     public SortingGroup sortingGroup;
     public Connector nextConnector;
 
-    public void InitialLoadFromSerialised(SolutionSerialise.NodeSerialise ns, List<Reducer> reducers, Reducer local, Solution solution)
+    public void InitialLoadFromSerialised(SolutionSerialise.NodeSerialise ns, List<Reducer> reducers, Solution solution)
     {
         id = ns.id;
         blackLink = ns.blackLink;
@@ -36,7 +36,7 @@ public class Node : MonoBehaviour
             switch (ns.redId)
             {
                 case (int)Reducer.SpecialReducers.local:
-                    reducer = local;
+                    reducer = solution.fixedLocalReducer;
                     break;
                 case (int)Reducer.SpecialReducers.nullRed:
                     reducer = solution.nullReducer;

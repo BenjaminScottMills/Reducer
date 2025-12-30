@@ -17,6 +17,7 @@ public class Solution : MonoBehaviour
     public bool localReducersUnlocked = true;
 
     // fixed reducers
+    public Reducer fixedLocalReducer;
     public Reducer nullReducer;
     public Reducer fireReducer;
     public Reducer earthReducer;

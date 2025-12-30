@@ -3139,6 +3139,7 @@ MonoBehaviour:
   reducerPrefab: {fileID: 7035577877054418780, guid: 2247df583972bd64980a0a0a0113cbab, type: 3}
   customReducerList: {fileID: 572047288}
   localReducersUnlocked: 1
+  fixedLocalReducer: {fileID: 607400305}
   nullReducer: {fileID: 1722639590}
   fireReducer: {fileID: 1832468308}
   earthReducer: {fileID: 1974072608}
