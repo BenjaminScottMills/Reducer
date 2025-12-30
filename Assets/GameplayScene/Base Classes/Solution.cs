@@ -37,6 +37,7 @@ public class Solution : MonoBehaviour
         {
             LoadFromSerialised(JsonUtility.FromJson<SolutionSerialise>(File.ReadAllText(solFile)));
             customReducerList.customButtons[0].DisableMenu();
+            reducers[0].SetReducerActive(mouseNode);
         }
         else
         {
@@ -67,7 +68,7 @@ public class Solution : MonoBehaviour
         for (int i = 0; i < s.reducers.Length; i++)
         {
             reducers[i].LoadFromSerialised(s.reducers[i], reducers);
-            customReducerList.AddReducerButton(reducers[i]);
+            customReducerList.AddReducerButton(reducers[i], false);
         }
     }
 

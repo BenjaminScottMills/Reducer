@@ -23,7 +23,7 @@ public class CustomReducerList : MonoBehaviour
         basePosition = transform.localPosition;
     }
 
-    public void AddReducerButton(Reducer r)
+    public void AddReducerButton(Reducer r, bool setActive = true)
     {
         var newButton = Instantiate(buttonPrefab, Vector3.zero, Quaternion.identity, transform).GetComponent<ReducerButton>();
         newButton.reducer = r;
@@ -53,7 +53,7 @@ public class CustomReducerList : MonoBehaviour
             newButton.transform.localPosition += new Vector3(-0.55f, 0);
         }
 
-        r.SetReducerActive(mouseNode);
+        if (setActive) r.SetReducerActive(mouseNode);
     }
 
     private void AddReducerButtonPositionUpdate()

@@ -81,6 +81,7 @@ public class Node : MonoBehaviour
         }
 
         reducerVisual.SetVisual(reducer);
+        gameObject.SetActive(false);
     }
 
     public void CreateLinksFromSerialised(SolutionSerialise.NodeSerialise ns, List<Node> allNodes)
@@ -88,6 +89,8 @@ public class Node : MonoBehaviour
         next = allNodes?.FirstOrDefault(n => n.id == ns.nextId);
         if (next != null)
         {
+            nextConnector = Instantiate(mouseNode.connectorPrefab, Vector3.zero, Quaternion.identity, transform.parent).GetComponent<Connector>();
+            nextConnector.Align(transform.position, next.transform.position, blackLink);
             if (blackLink)
             {
                 next.bPrev = this;
@@ -96,6 +99,11 @@ public class Node : MonoBehaviour
             {
                 next.wPrev = this;
             }
+            nextConnector.gameObject.SetActive(false);
+        }
+        else
+        {
+            nextConnector = null;
         }
     }
 
