@@ -3136,10 +3136,20 @@ MonoBehaviour:
   mouseNode: {fileID: 1384790493}
   currentReducer: {fileID: 0}
   reducers: []
-  nullReducer: {fileID: 1722639590}
   reducerPrefab: {fileID: 7035577877054418780, guid: 2247df583972bd64980a0a0a0113cbab, type: 3}
   customReducerList: {fileID: 572047288}
   localReducersUnlocked: 1
+  nullReducer: {fileID: 1722639590}
+  fireReducer: {fileID: 1832468308}
+  earthReducer: {fileID: 1974072608}
+  plantReducer: {fileID: 1201872907}
+  waterReducer: {fileID: 1679900695}
+  combineReducer: {fileID: 1555068349}
+  blackInputReducer: {fileID: 1544814965}
+  whiteInputReducer: {fileID: 1664540146}
+  localOuterBlackReducer: {fileID: 331134598}
+  localOuterWhiteReducer: {fileID: 2075829492}
+  outputNodeReducer: {fileID: 1513422739}
 --- !u!4 &1117210365
 Transform:
   m_ObjectHideFlags: 0

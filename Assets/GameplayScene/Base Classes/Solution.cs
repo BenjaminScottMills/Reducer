@@ -12,10 +12,22 @@ public class Solution : MonoBehaviour
     public MouseNode mouseNode;
     public Reducer currentReducer; // must be present in reducers
     public List<Reducer> reducers;
-    public Reducer nullReducer;
     public GameObject reducerPrefab;
     public CustomReducerList customReducerList;
     public bool localReducersUnlocked = true;
+
+    // fixed reducers
+    public Reducer nullReducer;
+    public Reducer fireReducer;
+    public Reducer earthReducer;
+    public Reducer plantReducer;
+    public Reducer waterReducer;
+    public Reducer combineReducer;
+    public Reducer blackInputReducer;
+    public Reducer whiteInputReducer;
+    public Reducer localOuterBlackReducer;
+    public Reducer localOuterWhiteReducer;
+    public Reducer outputNodeReducer;
 
     void Start()
     {

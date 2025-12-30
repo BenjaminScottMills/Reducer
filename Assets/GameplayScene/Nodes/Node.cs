@@ -21,7 +21,7 @@ public class Node : MonoBehaviour
     public SortingGroup sortingGroup;
     public Connector nextConnector;
 
-    public void InitialLoadFromSerialised(SolutionSerialise.NodeSerialise ns, List<Reducer> reducers, Reducer local)
+    public void InitialLoadFromSerialised(SolutionSerialise.NodeSerialise ns, List<Reducer> reducers, Reducer local, Solution solution)
     {
         id = ns.id;
         blackLink = ns.blackLink;
@@ -38,9 +38,41 @@ public class Node : MonoBehaviour
                 case (int)Reducer.SpecialReducers.local:
                     reducer = local;
                     break;
-                default:
-                    reducer = null;
+                case (int)Reducer.SpecialReducers.nullRed:
+                    reducer = solution.nullReducer;
                     break;
+                case (int)Reducer.SpecialReducers.fire:
+                    reducer = solution.fireReducer;
+                    break;
+                case (int)Reducer.SpecialReducers.earth:
+                    reducer = solution.earthReducer;
+                    break;
+                case (int)Reducer.SpecialReducers.plant:
+                    reducer = solution.plantReducer;
+                    break;
+                case (int)Reducer.SpecialReducers.water:
+                    reducer = solution.waterReducer;
+                    break;
+                case (int)Reducer.SpecialReducers.combine:
+                    reducer = solution.combineReducer;
+                    break;
+                case (int)Reducer.SpecialReducers.black:
+                    reducer = solution.blackInputReducer;
+                    break;
+                case (int)Reducer.SpecialReducers.white:
+                    reducer = solution.whiteInputReducer;
+                    break;
+                case (int)Reducer.SpecialReducers.outerBlack:
+                    reducer = solution.localOuterBlackReducer;
+                    break;
+                case (int)Reducer.SpecialReducers.outerWhite:
+                    reducer = solution.localOuterWhiteReducer;
+                    break;
+                case (int)Reducer.SpecialReducers.outputNode:
+                    reducer = solution.outputNodeReducer;
+                    break;
+                default:
+                    throw new Exception("Invalid serialised ID");
             }
         }
         else
