@@ -1216,6 +1216,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   circleCollider: {fileID: 560070436}
   testScreen: {fileID: 18116516}
+  tooltipText: {fileID: 161163561}
 --- !u!1001 &560479675
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2348,6 +2349,14 @@ PrefabInstance:
     - target: {fileID: 1825858862192947490, guid: 071186b3baece874280535c95906f6f7, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4589577709741038967, guid: 071186b3baece874280535c95906f6f7, type: 3}
+      propertyPath: tooltipText
+      value: 
+      objectReference: {fileID: 161163561}
+    - target: {fileID: 4589577709741038967, guid: 071186b3baece874280535c95906f6f7, type: 3}
+      propertyPath: emptyTooltip
+      value: Place Reducer to Evaluate
       objectReference: {fileID: 0}
     - target: {fileID: 5137635979596029351, guid: 071186b3baece874280535c95906f6f7, type: 3}
       propertyPath: m_Name
@@ -4031,6 +4040,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4589577709741038967, guid: 071186b3baece874280535c95906f6f7, type: 3}
+      propertyPath: tooltipText
+      value: 
+      objectReference: {fileID: 161163561}
+    - target: {fileID: 4589577709741038967, guid: 071186b3baece874280535c95906f6f7, type: 3}
+      propertyPath: emptyTooltip
+      value: Place Reducer for Black Input
+      objectReference: {fileID: 0}
     - target: {fileID: 5137635979596029351, guid: 071186b3baece874280535c95906f6f7, type: 3}
       propertyPath: m_Name
       value: ReducerPlacementSlotBlack
@@ -4103,6 +4120,14 @@ PrefabInstance:
     - target: {fileID: 1825858862192947490, guid: 071186b3baece874280535c95906f6f7, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4589577709741038967, guid: 071186b3baece874280535c95906f6f7, type: 3}
+      propertyPath: tooltipText
+      value: 
+      objectReference: {fileID: 161163561}
+    - target: {fileID: 4589577709741038967, guid: 071186b3baece874280535c95906f6f7, type: 3}
+      propertyPath: emptyTooltip
+      value: Place Reducer for White Input
       objectReference: {fileID: 0}
     - target: {fileID: 5137635979596029351, guid: 071186b3baece874280535c95906f6f7, type: 3}
       propertyPath: m_Name

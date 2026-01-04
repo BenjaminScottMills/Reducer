@@ -6,13 +6,18 @@ public class RunTestButton : MonoBehaviour
 {
     public CircleCollider2D circleCollider;
     public TestScreenMenu testScreen;
+    public TooltipText tooltipText;
 
     // Update is called once per frame
     void Update()
     {
-        if (circleCollider.OverlapPoint(Camera.main.ScreenToWorldPoint(Input.mousePosition)) && Input.GetMouseButtonDown(0))
+        if (circleCollider.OverlapPoint(Camera.main.ScreenToWorldPoint(Input.mousePosition)))
         {
-            testScreen.RunTest();
+            tooltipText.text = "Run Test";
+            if (Input.GetMouseButtonDown(0))
+            {
+                testScreen.RunTest();
+            }
         }
     }
 }

@@ -14,6 +14,7 @@ public class TooltipText : MonoBehaviour
     public string text;
     float standStillCounter;
     const float standStillCounterMax = 0.75f;
+    const int minMoveDistance = 1;
     Vector3 offset = new Vector3(0, 0, 10);
     Vector3 lastFrameMousePosition;
     public GameObject canvas;
@@ -33,7 +34,7 @@ public class TooltipText : MonoBehaviour
         transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition) + offset;
         transform.localScale = new Vector3(Camera.main.orthographicSize / 5, Camera.main.orthographicSize / 5, 1);
 
-        if (text != "" && !Input.GetMouseButton(0) && !Input.GetMouseButton(1) && Math.Abs(Input.mouseScrollDelta.y) < 0.05f && Vector3.Distance(lastFrameMousePosition, Input.mousePosition) < 2)
+        if (text != "" && !Input.GetMouseButton(0) && !Input.GetMouseButton(1) && Math.Abs(Input.mouseScrollDelta.y) < 0.05f && Vector3.Distance(lastFrameMousePosition, Input.mousePosition) < minMoveDistance)
         {
             standStillCounter += Time.deltaTime;
             if (standStillCounter > standStillCounterMax)
