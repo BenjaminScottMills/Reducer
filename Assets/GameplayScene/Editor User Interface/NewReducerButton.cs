@@ -7,6 +7,7 @@ public class NewReducerButton : MonoBehaviour
     public SpriteRenderer spriteRenderer;
     public ReducerMenu addReducerMenu;
     public Collider2D colliderd2d;
+    public TooltipText tooltipText;
 
     // Update is called once per frame
     void Update()
@@ -17,6 +18,7 @@ public class NewReducerButton : MonoBehaviour
             var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             if (colliderd2d.OverlapPoint(mousePos))
             {
+                tooltipText.text = "Add Reducer";
                 if (Input.GetMouseButtonDown(0))
                 {
                     addReducerMenu.gameObject.SetActive(true);

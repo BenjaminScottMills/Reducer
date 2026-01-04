@@ -2616,6 +2616,7 @@ MonoBehaviour:
   spriteRenderer: {fileID: 980996794}
   addReducerMenu: {fileID: 129046680}
   colliderd2d: {fileID: 980996796}
+  tooltipText: {fileID: 161163561}
 --- !u!58 &980996796
 CircleCollider2D:
   m_ObjectHideFlags: 0
