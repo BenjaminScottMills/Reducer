@@ -66,6 +66,7 @@ public class ReducerMenu : MonoBehaviour
     {
         reducer.rName = rName;
         reducer.description = desc;
+        if (reducer.child != null) reducer.child.rName = rName + " - Child";
 
         reducer.foregroundColour = reducerVisual.foregroundColour;
         reducer.backgroundColour = reducerVisual.backgroundColour;
