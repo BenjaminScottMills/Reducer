@@ -1650,6 +1650,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64307dd20f6e1fd45a91519856ec3f89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tooltipText: {fileID: 161163561}
+  myTooltip: Requirements tab
   tm: {fileID: 1090522433}
   myScreen: 82
 --- !u!1 &649031544
@@ -3593,6 +3595,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64307dd20f6e1fd45a91519856ec3f89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tooltipText: {fileID: 161163561}
+  myTooltip: Test tab
   tm: {fileID: 1090522433}
   myScreen: 84
 --- !u!1 &1341841381
@@ -3730,6 +3734,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64307dd20f6e1fd45a91519856ec3f89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tooltipText: {fileID: 161163561}
+  myTooltip: Editor tab
   tm: {fileID: 1090522433}
   myScreen: 69
 --- !u!1 &1383319659
@@ -6558,6 +6564,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c230f69f475c0e4aa11bf3c079a1838, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tooltipText: {fileID: 161163561}
+  myTooltip: Save and Exit
   solution: {fileID: 1117210364}
 --- !u!1001 &2692748726787805173
 PrefabInstance:

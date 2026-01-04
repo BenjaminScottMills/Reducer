@@ -18,9 +18,11 @@ public class TooltipText : MonoBehaviour
     Vector3 offset = new Vector3(0, 0, 10);
     Vector3 lastFrameMousePosition;
     public GameObject canvas;
+    public bool topMenuMode;
     // Start is called before the first frame update
     void Start()
     {
+        topMenuMode = false;
         standStillCounter = 0;
         lastFrameMousePosition = Vector3.zero;
     }
@@ -49,25 +51,36 @@ public class TooltipText : MonoBehaviour
         }
         lastFrameMousePosition = Input.mousePosition;
 
-        if (transform.position.y > Camera.main.ScreenToWorldPoint(new Vector2(0, 0.95f * Screen.height)).y)
+        if (topMenuMode)
         {
-            txtTransform.pivot = new Vector2(1, 1);
-            txtDuplicateTransform.pivot = new Vector2(1, 1);
+            txtTransform.pivot = new Vector2(0, 1);
+            txtDuplicateTransform.pivot = new Vector2(0, 1);
+            canvas.transform.localPosition = new Vector3(0.25f, 0);
         }
         else
         {
-            if (transform.position.x > Camera.main.ScreenToWorldPoint(new Vector2(Screen.width / 2, 0)).x)
+            canvas.transform.localPosition = Vector3.zero;
+            if (transform.position.y > Camera.main.ScreenToWorldPoint(new Vector2(0, 0.95f * Screen.height)).y)
             {
-                txtTransform.pivot = new Vector2(1, 0);
-                txtDuplicateTransform.pivot = new Vector2(1, 0);
+                txtTransform.pivot = new Vector2(1, 1);
+                txtDuplicateTransform.pivot = new Vector2(1, 1);
             }
             else
             {
-                txtTransform.pivot = new Vector2(0, 0);
-                txtDuplicateTransform.pivot = new Vector2(0, 0);
+                if (transform.position.x > Camera.main.ScreenToWorldPoint(new Vector2(Screen.width / 2, 0)).x)
+                {
+                    txtTransform.pivot = new Vector2(1, 0);
+                    txtDuplicateTransform.pivot = new Vector2(1, 0);
+                }
+                else
+                {
+                    txtTransform.pivot = new Vector2(0, 0);
+                    txtDuplicateTransform.pivot = new Vector2(0, 0);
+                }
             }
         }
 
         text = "";
+        topMenuMode = false;
     }
 }
