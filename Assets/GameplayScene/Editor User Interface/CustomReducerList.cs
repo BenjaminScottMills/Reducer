@@ -170,7 +170,7 @@ public class CustomReducerList : MonoBehaviour
                 }
                 else
                 {
-                    offset += -0.5f * Input.mouseScrollDelta;
+                    offset.y += -0.5f * Input.mouseScrollDelta.y;
                 }
             }
         }
