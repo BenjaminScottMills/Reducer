@@ -21,7 +21,7 @@ public class Node : MonoBehaviour
     public SortingGroup sortingGroup;
     public Connector nextConnector;
 
-    public void InitialLoadFromSerialised(SolutionSerialise.NodeSerialise ns, List<Reducer> reducers, Solution solution)
+    public void InitialLoadFromSerialised(SolutionSerialise.NodeSerialise ns, Solution.ReducerEnumerable reducers, Solution solution)
     {
         id = ns.id;
         blackLink = ns.blackLink;

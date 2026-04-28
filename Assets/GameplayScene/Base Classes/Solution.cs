@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -11,7 +12,9 @@ public class Solution : MonoBehaviour
     public uint idCounter;
     public MouseNode mouseNode;
     public Reducer currentReducer; // must be present in reducers
-    public List<Reducer> reducers;
+    public RFolder currentFolder;
+    public List<ReducerOrFolder> contents;
+    public ReducerEnumerable reducers;
     public GameObject reducerPrefab;
     public CustomReducerList customReducerList;
     public bool localReducersUnlocked = true;
@@ -33,12 +36,13 @@ public class Solution : MonoBehaviour
     void Start()
     {
         solutionPath = PlayerPrefs.GetString("solution path");
+        reducers = new ReducerEnumerable(this);
         string solFile = Path.Combine(solutionPath, "solution.json");
         if (File.Exists(solFile))
         {
             LoadFromSerialised(JsonUtility.FromJson<SolutionSerialise>(File.ReadAllText(solFile)));
             customReducerList.customButtons[0].DisableMenu();
-            reducers[0].SetReducerActive(mouseNode);
+            contents[0].r.SetReducerActive(mouseNode);
         }
         else
         {
@@ -52,30 +56,52 @@ public class Solution : MonoBehaviour
         customReducerList.customButtons[0].DisableMenu();
     }
 
+    public void InitialiseSingleReducerOrFolder(ReducerOrFolder rof, RFolder parentFolder)
+    {
+        if (rof.rs != null)
+        {
+            var newRed = Instantiate(reducerPrefab, Vector3.zero, Quaternion.identity, transform.parent).GetComponent<Reducer>();
+            newRed.id = rof.rs.Value.id;
+            newRed.nullReducer = nullReducer;
+            newRed.solution = this;
+            newRed.folder = parentFolder;
+            newRed.SetReducerSerialise(rof.rs);
+            rof.r = newRed;
+            rof.rs = null;
+        }
+        else
+        {
+            rof.f = new RFolder(rof.fs.Value, this, parentFolder);
+            rof.fs = null;
+        }
+    }
+
     public void LoadFromSerialised(SolutionSerialise s)
     {
         sName = s.name;
         idCounter = s.idCounter;
-        reducers = new List<Reducer>();
-        foreach (var rs in s.reducers)
+        contents = new List<ReducerOrFolder>();
+        foreach (var rofs in s.contents)
         {
-            var newRed = Instantiate(reducerPrefab, Vector3.zero, Quaternion.identity, transform.parent).GetComponent<Reducer>();
-            newRed.id = rs.id;
-            newRed.nullReducer = nullReducer;
-            newRed.solution = this;
-            reducers.Add(newRed);
+            var newRedOrFol = new ReducerOrFolder(rofs);
+            InitialiseSingleReducerOrFolder(newRedOrFol, null);
+            contents.Add(newRedOrFol);
         }
 
-        for (int i = 0; i < s.reducers.Length; i++)
+        foreach (Reducer r in reducers)
         {
-            reducers[i].LoadFromSerialised(s.reducers[i], reducers);
-            customReducerList.AddReducerButton(reducers[i], false);
+            r.LoadFromSerialised(reducers);
         }
+
+        // foreach (var rof in contents)
+        // {
+        //     customReducerList.AddReducerButton(rof, false);
+        // }
     }
 
     public Reducer.ExecuteReducer Execute(Reducer black, Reducer white)
     {
-        return reducers[0].Execute(black, white);
+        return contents[0].r.Execute(black, white);
     }
 
     public void AddReducer(string name, string desc, ReducerVisual reducerVisual)
@@ -95,14 +121,23 @@ public class Solution : MonoBehaviour
         newReducer.foregroundColour = fgc;
         newReducer.backgroundColour = bgc;
         newReducer.foregroundSprite = fgs;
+        newReducer.folder = currentFolder;
         idCounter++;
-        reducers.Add(newReducer);
+        
+        if (currentFolder != null)
+        {
+            currentFolder.contents.Add(new ReducerOrFolder(newReducer));
+        }
+        else
+        {
+            contents.Add(new ReducerOrFolder(newReducer));
+        }
 
         var localReducer = Instantiate(reducerPrefab, Vector3.zero, Quaternion.identity, newReducer.transform.parent).GetComponent<Reducer>();
         newReducer.child = localReducer;
         localReducer.ChildInit(newReducer);
 
-        customReducerList.AddReducerButton(newReducer);
+        // customReducerList.AddReducerButton(newReducer);
     }
 
     public void SaveQuit()
@@ -121,5 +156,117 @@ public class Solution : MonoBehaviour
     public void ReturnToMenus()
     {
         SceneManager.LoadSceneAsync("MenuScene");
+    }
+
+    public class ReducerEnumerable : IEnumerable
+    {
+        Solution s;
+
+        public ReducerEnumerable(Solution sol)
+        {
+            s = sol;
+        }
+
+        public IEnumerator GetEnumerator()
+        {
+            return new ReducerEnumerator(s);
+        }
+
+        public Reducer First(Func<Reducer, bool> predicate)
+        {
+            foreach (Reducer r in this)
+            {
+                if (predicate(r))
+                {
+                    return r;
+                }
+            }
+
+            return null;
+        }
+
+        public void Remove(Reducer r)
+        {
+            if (r.folder != null)
+            {
+                r.folder.contents.RemoveAll(rf => rf.r == r);
+            }
+            else
+            {
+                s.contents.RemoveAll(rf => rf.r == r);
+            }
+        }
+
+        public class ReducerEnumerator : IEnumerator
+        {
+            Solution solution;
+            RFolder currFolder;
+            Stack<int> indexes;
+
+            public object Current
+            {
+                get
+                {
+                    if (currFolder != null)
+                    {
+                        return currFolder.contents[indexes.Peek()].r;
+                    }
+                    return solution.contents[indexes.Peek()].r;
+                }
+            }
+
+
+            public ReducerEnumerator(Solution s)
+            {
+                solution = s;
+                currFolder = null;
+                indexes = new Stack<int>();
+                indexes.Push(-1);
+            }
+
+            public bool MoveNext() // sexy ass recursion
+            {
+                indexes.Push(indexes.Pop() + 1);
+                if (currFolder == null)
+                {
+                    if (indexes.Peek() >= solution.contents.Count)
+                    {
+                        return false;
+                    }
+                    
+                    if (!solution.contents[indexes.Peek()].IsReducer())
+                    {
+                        currFolder = solution.contents[indexes.Peek()].f;
+                        indexes.Push(-1);
+                        return MoveNext();
+                    }
+                }
+                else
+                {
+                    if (indexes.Peek() >= currFolder.contents.Count)
+                    {
+                        indexes.Pop();
+                        currFolder = currFolder.parentFolder;
+                        return MoveNext();
+                    }
+                    
+                    if (!currFolder.contents[indexes.Peek()].IsReducer())
+                    {
+                        currFolder = currFolder.contents[indexes.Peek()].f;
+                        indexes.Push(-1);
+                        return MoveNext();
+                    }
+                }
+
+                return true;
+            }
+
+            public void Reset()
+            {
+                currFolder = null;
+                indexes = new Stack<int>();
+                indexes.Push(-1);
+            }
+        }
     }
 }

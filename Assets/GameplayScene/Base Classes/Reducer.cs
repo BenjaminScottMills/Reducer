@@ -25,10 +25,15 @@ public class Reducer : MonoBehaviour
     public Solution solution;
     public GameObject nodePrefab;
     public GameObject reducerPrefab;
+    public RFolder folder;
+    SolutionSerialise.ReducerSerialise? rsForLoadingIn;
 
-    public void LoadFromSerialised(SolutionSerialise.ReducerSerialise r, List<Reducer> reducers)
+    public void LoadFromSerialised(Solution.ReducerEnumerable reducers)
     {
         child = Instantiate(reducerPrefab, Vector3.zero, Quaternion.identity, transform.parent).GetComponent<Reducer>();
+
+        SolutionSerialise.ReducerSerialise r = rsForLoadingIn.Value;
+        rsForLoadingIn = null;
 
         id = r.id;
         rName = r.name;
@@ -186,5 +191,10 @@ public class Reducer : MonoBehaviour
         {
             return selfRed.Selectable();
         }
+    }
+
+    public void SetReducerSerialise(SolutionSerialise.ReducerSerialise? rs)
+    {
+        rsForLoadingIn = rs;
     }
 }

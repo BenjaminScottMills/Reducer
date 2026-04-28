@@ -72,7 +72,7 @@ public class ReducerMenu : MonoBehaviour
         reducer.backgroundColour = reducerVisual.backgroundColour;
         reducer.foregroundSprite = reducerVisual.foregroundSprite;
 
-        foreach (var solReducer in reducer.solution.reducers)
+        foreach (Reducer solReducer in reducer.solution.reducers)
         {
             foreach (var node in solReducer.nodes)
             {
@@ -101,8 +101,52 @@ public class ReducerMenu : MonoBehaviour
     {
         if (reducer.solution.currentReducer == reducer || reducer.solution.currentReducer == reducer.child)
         {
-            int reducerIdx = reducer.solution.reducers.FindIndex(r => r == reducer);
-            reducer.solution.currentReducer = reducer.solution.reducers[reducerIdx - 1];
+            List<ReducerOrFolder> contents;
+            if (reducer.folder != null)
+            {
+                contents = reducer.folder.contents;
+            }
+            else
+            {
+                contents = reducer.solution.contents;
+            }
+            
+            Reducer prev = null;
+            Reducer next = null;
+            bool found = false;
+            for (int i = 0; i < contents.Count; ++i)
+            {
+                if (!contents[i].IsReducer()) continue;
+
+                if (found)
+                {
+                    next = contents[i].r;
+                }
+
+                if (contents[i].r == reducer)
+                {
+                    found = true;
+                }
+                else
+                {
+                    prev = contents[i].r;
+                }
+            }
+
+            if (prev != null)
+            {
+                reducer.solution.currentReducer = prev;
+            }
+            else if (next != null)
+            {
+                reducer.solution.currentReducer = next;
+            }
+            else // we are in a folder and just removed the last reducer in that folder
+            {
+                // MAKE EDITOR AREA BLANK AND KEEP CURRENT FOLDER
+                // or maybe just reset to main reducer in this case.
+            }
+            
             mouseNode.selectedNodes.Clear();
             foreach (var node in reducer.solution.currentReducer.nodes)
             {
@@ -128,7 +172,7 @@ public class ReducerMenu : MonoBehaviour
             }
         }
 
-        foreach (var solReducer in reducer.solution.reducers)
+        foreach (Reducer solReducer in reducer.solution.reducers)
         {
             foreach (var node in solReducer.nodes)
             {

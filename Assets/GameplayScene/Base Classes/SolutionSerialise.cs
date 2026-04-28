@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 using System.Linq;
 
 public struct SolutionSerialise
@@ -8,12 +9,44 @@ public struct SolutionSerialise
     {
         name = solution.sName;
         idCounter = solution.idCounter;
-        reducers = solution.reducers.Select(r => new ReducerSerialise(r)).ToArray();
+        contents = solution.contents.Select(r => new ReducerOrFolderSerialise(r)).ToArray();
     }
 
     public string name;
     public uint idCounter;
-    public ReducerSerialise[] reducers;
+    public ReducerOrFolderSerialise[] contents;
+
+    [System.Serializable]
+    public struct ReducerOrFolderSerialise
+    {
+        public ReducerOrFolderSerialise(ReducerOrFolder rf)
+        {
+            isReducer = rf.IsReducer();
+            if (isReducer)
+            {
+                myJson = JsonUtility.ToJson(new ReducerSerialise(rf.r));
+            }
+            else
+            {
+                myJson = JsonUtility.ToJson(new FolderSerialise(rf.f));
+            }
+        }
+
+        public bool isReducer;
+        public string myJson;
+    }
+
+    [System.Serializable]
+    public struct FolderSerialise
+    {
+        public FolderSerialise(RFolder f)
+        {
+            folderName = f.folderName;
+            contents = f.contents.Select(rf => new ReducerOrFolderSerialise(rf)).ToArray();
+        }
+        public string folderName;
+        public ReducerOrFolderSerialise[] contents;
+    }
 
     [System.Serializable]
     public struct ReducerSerialise
