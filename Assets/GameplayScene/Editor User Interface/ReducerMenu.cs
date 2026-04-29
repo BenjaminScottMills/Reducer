@@ -247,9 +247,9 @@ public class ReducerMenu : MonoBehaviour
         {
             customReducerList.customButtons[i].transform.localPosition += new Vector3(0, 1);
 
-            if (mouseNode.solution.localReducersUnlocked)
+            if ((customReducerList.customButtons[i] as ReducerButton)?.childButton != null)
             {
-                customReducerList.customButtons[i].childButton.transform.localPosition += new Vector3(0, 1);
+                (customReducerList.customButtons[i] as ReducerButton).childButton.transform.localPosition += new Vector3(0, 1);
             }
         }
         customReducerList.newReducerButton.transform.localPosition += new Vector3(0, 1);

@@ -5,12 +5,10 @@ using UnityEditor;
 using UnityEditor.U2D.Animation;
 using UnityEngine;
 
-public class ReducerButton : MonoBehaviour
+public class ReducerButton : SidebarButton
 {
     public Reducer reducer;
     public ReducerVisual reducerVisual;
-    public Collider2D colliderd2d;
-    public bool upperHalf;
     public MouseNode mouseNode;
     public ReducerMenu updateMenu;
     public SpriteRenderer highlight;
@@ -60,41 +58,68 @@ public class ReducerButton : MonoBehaviour
                 var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 if (colliderd2d.OverlapPoint(mousePos))
                 {
-                    mouseNode.tooltipText.text = reducer.rName;
-                    if (Input.GetMouseButtonDown(0))
-                    {
-                        if (reducer.isChild)
-                        {
-                            if (mouseNode.solution.currentReducer == reducer || mouseNode.solution.currentReducer.child == reducer)
-                                mouseNode.reducer = mouseNode.solution.customReducerList.fixedReducerList.localReducer; // Hell yeah
-                        }
-                        else
-                        {
-                            mouseNode.reducer = reducer;
-                        }
-                        mouseNode.offset = transform.position - Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                    }
-                    else if (Input.GetMouseButtonDown(1) && mouseNode.topMenu.selectedScreen != 'T')
-                    {
-                        if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
-                        {
-                            if (!reducer.isChild && updateMenu != null)
-                            {
-                                updateMenu.gameObject.SetActive(true);
-                                updateMenu.Setup();
-                            }
-                        }
-                        else
-                        {
-                            reducer.SetReducerActive(mouseNode);
-                        }
-                    }
+                    
                 }
             }
             else
             {
                 highlight.enabled = false;
                 reducerVisual.gameObject.SetActive(false);
+            }
+        }
+    }
+
+    protected override void SetInvis()
+    {
+        if (highlight != null) highlight.enabled = false;
+        reducerVisual.gameObject.SetActive(false);
+    }
+
+    protected override void SetVis()
+    {
+        if (highlight != null) highlight.enabled = reducer.solution.currentReducer == reducer && mouseNode.topMenu.selectedScreen != 'T';
+        reducerVisual.gameObject.SetActive(true);
+    }
+
+    protected override void TopHalfMouseOverlap()
+    {
+        mouseNode.tooltipText.text = reducer.rName;
+        if (Input.GetMouseButtonDown(0))
+        {
+            mouseNode.reducer = reducer;
+            mouseNode.offset = transform.position - Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        }
+    }
+
+    protected override void BottomHalfMouseOverlap()
+    {
+        mouseNode.tooltipText.text = reducer.rName;
+        if (Input.GetMouseButtonDown(0))
+        {
+            if (reducer.isChild)
+            {
+                if (mouseNode.solution.currentReducer == reducer || mouseNode.solution.currentReducer.child == reducer)
+                    mouseNode.reducer = mouseNode.solution.customReducerList.fixedReducerList.localReducer; // Hell yeah
+            }
+            else
+            {
+                mouseNode.reducer = reducer;
+            }
+            mouseNode.offset = transform.position - Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        }
+        else if (Input.GetMouseButtonDown(1) && mouseNode.topMenu.selectedScreen != 'T')
+        {
+            if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+            {
+                if (!reducer.isChild && updateMenu != null)
+                {
+                    updateMenu.gameObject.SetActive(true);
+                    updateMenu.Setup();
+                }
+            }
+            else
+            {
+                reducer.SetReducerActive(mouseNode);
             }
         }
     }

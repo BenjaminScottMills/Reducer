@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class CustomReducerList : MonoBehaviour
 {
-    public GameObject buttonPrefab;
-    public List<ReducerButton> customButtons;
+    public GameObject reducerButtonPrefab;
+    public List<SidebarButton> customButtons;
     public NewReducerButton newReducerButton;
     public FixedReducerList fixedReducerList;
     public BoxCollider2D boxCollider;
@@ -25,7 +25,7 @@ public class CustomReducerList : MonoBehaviour
 
     public void AddReducerButton(Reducer r, bool setActive = true)
     {
-        var newButton = Instantiate(buttonPrefab, Vector3.zero, Quaternion.identity, transform).GetComponent<ReducerButton>();
+        var newButton = Instantiate(reducerButtonPrefab, Vector3.zero, Quaternion.identity, transform).GetComponent<ReducerButton>();
         newButton.reducer = r;
         newButton.transform.localPosition = newReducerButton.transform.localPosition;
         newButton.updateMenu.customReducerList = this;
@@ -41,7 +41,7 @@ public class CustomReducerList : MonoBehaviour
 
         if (r.solution.localReducersUnlocked)
         {
-            var localButton = Instantiate(buttonPrefab, Vector3.zero, Quaternion.identity, transform).GetComponent<ReducerButton>();
+            var localButton = Instantiate(reducerButtonPrefab, Vector3.zero, Quaternion.identity, transform).GetComponent<ReducerButton>();
 
             localButton.reducer = r.child;
             localButton.transform.localPosition = newButton.transform.localPosition;
@@ -105,10 +105,12 @@ public class CustomReducerList : MonoBehaviour
 
         foreach (var button in customButtons)
         {
-            if (button.childButton != null)
+            ReducerButton rButton = button as ReducerButton;
+
+            if (rButton?.childButton != null)
             {
-                button.childButton.gameObject.SetActive(false);
-                button.transform.localPosition += new Vector3(0.55f, 0);
+                rButton.childButton.gameObject.SetActive(false);
+                rButton.transform.localPosition += new Vector3(0.55f, 0);
             }
         }
     }
@@ -122,10 +124,12 @@ public class CustomReducerList : MonoBehaviour
 
         foreach (var button in customButtons)
         {
-            if (button.childButton != null)
+            ReducerButton rButton = button as ReducerButton;
+
+            if (rButton?.childButton != null)
             {
-                button.childButton.gameObject.SetActive(true);
-                button.transform.localPosition += new Vector3(-0.55f, 0);
+                rButton.childButton.gameObject.SetActive(true);
+                rButton.transform.localPosition += new Vector3(-0.55f, 0);
             }
         }
     }

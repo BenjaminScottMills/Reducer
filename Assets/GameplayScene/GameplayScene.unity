@@ -590,10 +590,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3a377e3fd304da498b143dab2a1065a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  reducer: {fileID: 1664540146}
-  reducerVisual: {fileID: 906041392}
   colliderd2d: {fileID: 137961880}
   upperHalf: 1
+  reducer: {fileID: 1664540146}
+  reducerVisual: {fileID: 906041392}
   mouseNode: {fileID: 1384790493}
   updateMenu: {fileID: 0}
   highlight: {fileID: 0}
@@ -649,6 +649,7 @@ MonoBehaviour:
   uiTextDuplicate: {fileID: 1834314217}
   text: Reducer Name
   canvas: {fileID: 992481600}
+  topMenuMode: 0
 --- !u!1 &238883419
 GameObject:
   m_ObjectHideFlags: 0
@@ -711,10 +712,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3a377e3fd304da498b143dab2a1065a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  reducer: {fileID: 2075829492}
-  reducerVisual: {fileID: 1916860734}
   colliderd2d: {fileID: 238883421}
   upperHalf: 1
+  reducer: {fileID: 2075829492}
+  reducerVisual: {fileID: 1916860734}
   mouseNode: {fileID: 1384790493}
   updateMenu: {fileID: 0}
   highlight: {fileID: 0}
@@ -749,10 +750,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3a377e3fd304da498b143dab2a1065a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  reducer: {fileID: 1513422739}
-  reducerVisual: {fileID: 673163964}
   colliderd2d: {fileID: 280742900}
   upperHalf: 1
+  reducer: {fileID: 1513422739}
+  reducerVisual: {fileID: 673163964}
   mouseNode: {fileID: 1384790493}
   updateMenu: {fileID: 0}
   highlight: {fileID: 0}
@@ -1404,7 +1405,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9de08c6c0cf74f648b0945ec145c1f79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttonPrefab: {fileID: 2429191244265531964, guid: ac1061df9a1e7e54a9ebe6dc5cca503e, type: 3}
+  reducerButtonPrefab: {fileID: 2429191244265531964, guid: ac1061df9a1e7e54a9ebe6dc5cca503e, type: 3}
   customButtons: []
   newReducerButton: {fileID: 980996795}
   fixedReducerList: {fileID: 761875610}
@@ -1700,10 +1701,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3a377e3fd304da498b143dab2a1065a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  reducer: {fileID: 1832468308}
-  reducerVisual: {fileID: 1673379533}
   colliderd2d: {fileID: 649031548}
   upperHalf: 1
+  reducer: {fileID: 1832468308}
+  reducerVisual: {fileID: 1673379533}
   mouseNode: {fileID: 1384790493}
   updateMenu: {fileID: 0}
   highlight: {fileID: 0}
@@ -1770,10 +1771,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3a377e3fd304da498b143dab2a1065a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  reducer: {fileID: 1201872907}
-  reducerVisual: {fileID: 56151808}
   colliderd2d: {fileID: 657506267}
   upperHalf: 1
+  reducer: {fileID: 1201872907}
+  reducerVisual: {fileID: 56151808}
   mouseNode: {fileID: 1384790493}
   updateMenu: {fileID: 0}
   highlight: {fileID: 0}
@@ -1995,10 +1996,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3a377e3fd304da498b143dab2a1065a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  reducer: {fileID: 1555068349}
-  reducerVisual: {fileID: 560479677}
   colliderd2d: {fileID: 692813055}
   upperHalf: 1
+  reducer: {fileID: 1555068349}
+  reducerVisual: {fileID: 560479677}
   mouseNode: {fileID: 1384790493}
   updateMenu: {fileID: 0}
   highlight: {fileID: 0}
@@ -2517,10 +2518,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3a377e3fd304da498b143dab2a1065a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  reducer: {fileID: 607400305}
-  reducerVisual: {fileID: 1803420899}
   colliderd2d: {fileID: 918253011}
   upperHalf: 1
+  reducer: {fileID: 607400305}
+  reducerVisual: {fileID: 1803420899}
   mouseNode: {fileID: 1384790493}
   updateMenu: {fileID: 0}
   highlight: {fileID: 0}
@@ -2849,10 +2850,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3a377e3fd304da498b143dab2a1065a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  reducer: {fileID: 1722639590}
-  reducerVisual: {fileID: 1442138947}
   colliderd2d: {fileID: 1056766993}
   upperHalf: 1
+  reducer: {fileID: 1722639590}
+  reducerVisual: {fileID: 1442138947}
   mouseNode: {fileID: 1384790493}
   updateMenu: {fileID: 0}
   highlight: {fileID: 0}
@@ -3147,7 +3148,7 @@ MonoBehaviour:
   idCounter: 100
   mouseNode: {fileID: 1384790493}
   currentReducer: {fileID: 0}
-  reducers: []
+  contents: []
   reducerPrefab: {fileID: 7035577877054418780, guid: 2247df583972bd64980a0a0a0113cbab, type: 3}
   customReducerList: {fileID: 572047288}
   localReducersUnlocked: 1
@@ -3300,10 +3301,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3a377e3fd304da498b143dab2a1065a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  reducer: {fileID: 1544814965}
-  reducerVisual: {fileID: 2104666425}
   colliderd2d: {fileID: 1209779631}
   upperHalf: 1
+  reducer: {fileID: 1544814965}
+  reducerVisual: {fileID: 2104666425}
   mouseNode: {fileID: 1384790493}
   updateMenu: {fileID: 0}
   highlight: {fileID: 0}
@@ -4578,10 +4579,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3a377e3fd304da498b143dab2a1065a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  reducer: {fileID: 1679900695}
-  reducerVisual: {fileID: 1795946939}
   colliderd2d: {fileID: 1656331999}
   upperHalf: 1
+  reducer: {fileID: 1679900695}
+  reducerVisual: {fileID: 1795946939}
   mouseNode: {fileID: 1384790493}
   updateMenu: {fileID: 0}
   highlight: {fileID: 0}
@@ -4781,10 +4782,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3a377e3fd304da498b143dab2a1065a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  reducer: {fileID: 1974072608}
-  reducerVisual: {fileID: 476925632}
   colliderd2d: {fileID: 1677925299}
   upperHalf: 1
+  reducer: {fileID: 1974072608}
+  reducerVisual: {fileID: 476925632}
   mouseNode: {fileID: 1384790493}
   updateMenu: {fileID: 0}
   highlight: {fileID: 0}
@@ -6268,10 +6269,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3a377e3fd304da498b143dab2a1065a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  reducer: {fileID: 331134598}
-  reducerVisual: {fileID: 1107420872}
   colliderd2d: {fileID: 2076283835}
   upperHalf: 1
+  reducer: {fileID: 331134598}
+  reducerVisual: {fileID: 1107420872}
   mouseNode: {fileID: 1384790493}
   updateMenu: {fileID: 0}
   highlight: {fileID: 0}

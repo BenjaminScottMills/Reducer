@@ -41,7 +41,7 @@ public class Solution : MonoBehaviour
         if (File.Exists(solFile))
         {
             LoadFromSerialised(JsonUtility.FromJson<SolutionSerialise>(File.ReadAllText(solFile)));
-            customReducerList.customButtons[0].DisableMenu();
+            (customReducerList.customButtons[0] as ReducerButton).DisableMenu();
             contents[0].r.SetReducerActive(mouseNode);
         }
         else
@@ -53,7 +53,7 @@ public class Solution : MonoBehaviour
     void CreateMainReducer()
     {
         AddReducer("Main", "", 1, 0, 12);
-        customReducerList.customButtons[0].DisableMenu();
+        (customReducerList.customButtons[0] as ReducerButton).DisableMenu();
     }
 
     public void InitialiseSingleReducerOrFolder(ReducerOrFolder rof, RFolder parentFolder)
