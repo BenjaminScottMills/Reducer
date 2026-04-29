@@ -25,50 +25,6 @@ public class ReducerButton : SidebarButton
         reducerVisual.SetVisual(reducer);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (upperHalf)
-        {
-            if (transform.position.y > Camera.main.ScreenToWorldPoint(new Vector3(0, Screen.height / 2)).y)
-            {
-                reducerVisual.gameObject.SetActive(true);
-                var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                if (colliderd2d.OverlapPoint(mousePos))
-                {
-                    mouseNode.tooltipText.text = reducer.rName;
-                    if (Input.GetMouseButtonDown(0))
-                    {
-                        mouseNode.reducer = reducer;
-                        mouseNode.offset = transform.position - Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                    }
-                }
-            }
-            else
-            {
-                reducerVisual.gameObject.SetActive(false);
-            }
-        }
-        else
-        {
-            if (transform.position.y < Camera.main.ScreenToWorldPoint(new Vector3(0, Screen.height / 2)).y)
-            {
-                highlight.enabled = reducer.solution.currentReducer == reducer && mouseNode.topMenu.selectedScreen != 'T';
-                reducerVisual.gameObject.SetActive(true);
-                var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                if (colliderd2d.OverlapPoint(mousePos))
-                {
-                    
-                }
-            }
-            else
-            {
-                highlight.enabled = false;
-                reducerVisual.gameObject.SetActive(false);
-            }
-        }
-    }
-
     protected override void SetInvis()
     {
         if (highlight != null) highlight.enabled = false;
