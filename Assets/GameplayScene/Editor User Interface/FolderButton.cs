@@ -71,7 +71,7 @@ public class FolderButton : SidebarButton
                 {
                     customReducerList.AddReducerOrFolderButton(rof, false);
                 }
-                // customReducerList.SetPosition() // make it so that customButtons[0] is at the top edge
+                customReducerList.ResetPosition(); // make it so that customButtons[0] is at the top edge
             }
         }
     }

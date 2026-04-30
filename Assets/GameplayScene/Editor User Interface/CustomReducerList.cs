@@ -166,7 +166,7 @@ public class CustomReducerList : MonoBehaviour
 
     public void ResetList()
     {
-        newButtons.transform.localPosition = new Vector3(0, -1.5f);
+        newButtons.transform.localPosition = new Vector3(0, -1f);
         foreach (var button in customButtons)
         {
             Destroy(button.gameObject);
@@ -214,6 +214,12 @@ public class CustomReducerList : MonoBehaviour
                 rButton.transform.localPosition += new Vector3(-0.55f, 0);
             }
         }
+    }
+
+    public void ResetPosition()
+    {
+        offset = Vector3.zero;
+        transform.localPosition = basePosition;
     }
 
     // Update is called once per frame
