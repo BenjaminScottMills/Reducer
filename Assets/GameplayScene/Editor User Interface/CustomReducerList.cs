@@ -60,13 +60,11 @@ public class CustomReducerList : MonoBehaviour
     public void AddFolderButton(RFolder f)
     {
         var newButton = Instantiate(folderButtonPrefab, Vector3.zero, Quaternion.identity, transform).GetComponent<FolderButton>();
+        newButton.inputField.text = f.folderName;
         newButton.transform.localPosition = newButtons.transform.localPosition;
         newButton.canvas.worldCamera = Camera.main;
-        // newButton.updateMenu.customReducerList = this;
-        // newButton.updateMenu.fixedReducerList = fixedReducerList;
-        // newButton.updateMenu.mouseNode = mouseNode;
-        // newButton.updateMenu.canvas.worldCamera = Camera.main;
-        // newButton.updateMenu.folder = f;
+        newButton.rFolder = f;
+        newButton.customReducerList = this;
         newButton.mouseNode = mouseNode;
         customButtons.Add(newButton);
         newButtons.transform.localPosition += new Vector3(0, -1);

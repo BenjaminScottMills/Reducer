@@ -12,8 +12,9 @@ public class RFolder
     public RFolder(Solution s, RFolder pf)
     {
         solution = s;
-        folderName = "New Folder";
+        folderName = "";
         parentFolder = pf;
+        contents = new List<ReducerOrFolder>();
     }
     
     public RFolder(SolutionSerialise.FolderSerialise fs, Solution s, RFolder pf)

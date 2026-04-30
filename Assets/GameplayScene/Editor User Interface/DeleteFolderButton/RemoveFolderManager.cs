@@ -45,6 +45,6 @@ public class RemoveFolderManager : MonoBehaviour
     
     public void confirmClicked()
     {
-        Debug.Log("Remove folder");
+        fb.RemoveFolder();
     }
 }

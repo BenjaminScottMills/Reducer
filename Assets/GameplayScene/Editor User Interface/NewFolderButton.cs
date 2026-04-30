@@ -24,7 +24,7 @@ public class NewFolderButton : MonoBehaviour
             var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             if (collider2d.OverlapPoint(mousePos))
             {
-                tooltipText.text = "Add Reducer";
+                tooltipText.text = "Add Folder";
                 if (Input.GetMouseButtonDown(0))
                 {
                     solution.AddFolder();

@@ -145,6 +145,7 @@ public class ReducerMenu : MonoBehaviour
             {
                 // MAKE EDITOR AREA BLANK AND KEEP CURRENT FOLDER
                 // or maybe just reset to main reducer in this case.
+                Debug.Log("ADD CODE FOR THIS CASE HERE");
             }
             
             mouseNode.selectedNodes.Clear();
