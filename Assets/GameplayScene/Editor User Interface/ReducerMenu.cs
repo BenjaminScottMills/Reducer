@@ -243,30 +243,12 @@ public class ReducerMenu : MonoBehaviour
 
         mouseNode.selectedNodes = mouseNode.selectedNodes.Where(n => n.reducer != reducer).ToHashSet();
 
-        int buttonIdx = customReducerList.customButtons.FindIndex(b => b == reducerButton);
-        for (int i = buttonIdx; i < customReducerList.customButtons.Count(); i++)
-        {
-            customReducerList.customButtons[i].transform.localPosition += new Vector3(0, 1);
+        customReducerList.RemoveButton(reducerButton);
 
-            if ((customReducerList.customButtons[i] as ReducerButton)?.childButton != null)
-            {
-                (customReducerList.customButtons[i] as ReducerButton).childButton.transform.localPosition += new Vector3(0, 1);
-            }
-        }
-        customReducerList.newButtons.transform.localPosition += new Vector3(0, 1);
-        customReducerList.customButtons.RemoveAt(buttonIdx);
-
-        customReducerList.ButtonRemoveUpdate();
-
-        Destroy(reducerButton.gameObject);
         Destroy(reducer.gameObject);
         if (reducer.child != null)
         {
             Destroy(reducer.child.gameObject);
-        }
-        if (reducerButton.childButton != null)
-        {
-            Destroy(reducerButton.childButton.gameObject);
         }
     }
 }

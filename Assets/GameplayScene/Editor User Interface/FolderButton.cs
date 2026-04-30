@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class FolderButton : SidebarButton
 {
+    bool upInHiearchy;
+    const string goUpStr = "Parent Folder";
     public SpriteRenderer highlight;
     public Collider2D textboxCollider;
     public RemoveFolderManager rfm;
@@ -18,7 +20,7 @@ public class FolderButton : SidebarButton
     void Start()
     {
         upperHalf = false;
-        inputField.onEndEdit.AddListener((string newName) => {rFolder.folderName = newName;});
+        if (!upInHiearchy) inputField.onEndEdit.AddListener((string newName) => {rFolder.folderName = newName;});
     }
 
     protected override void SetInvis()
@@ -39,18 +41,37 @@ public class FolderButton : SidebarButton
     protected override void BottomHalfMouseOverlap()
     {
         highlight.enabled = true;
-        if (rfm.AnyHovered() || textboxCollider.OverlapPoint(Camera.main.ScreenToWorldPoint(Input.mousePosition))) return;
+        if (!upInHiearchy && (rfm.AnyHovered() || textboxCollider.OverlapPoint(Camera.main.ScreenToWorldPoint(Input.mousePosition)))) return;
 
-        mouseNode.tooltipText.text = rFolder.folderName;
+        mouseNode.tooltipText.text = upInHiearchy ? goUpStr : rFolder.folderName;
         if (Input.GetMouseButtonDown(0))
         {
-            if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+            if (!upInHiearchy && (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)))
             {
                 Debug.Log("Drag the folder");
             }
             else
             {
-                Debug.Log("Enter the folder");
+                List<ReducerOrFolder> newFileContents;
+                customReducerList.ResetList();
+                mouseNode.solution.currentFolder = rFolder;
+
+                if (upInHiearchy && rFolder == null)
+                {
+                    newFileContents = mouseNode.solution.contents;
+
+                }
+                else
+                {
+                    customReducerList.AddGoBackButton(rFolder.parentFolder);
+                    newFileContents = rFolder.contents;
+                }
+
+                foreach (var rof in newFileContents)
+                {
+                    customReducerList.AddReducerOrFolderButton(rof, false);
+                }
+                // customReducerList.SetPosition() // make it so that customButtons[0] is at the top edge
             }
         }
     }
@@ -58,5 +79,13 @@ public class FolderButton : SidebarButton
     public void RemoveFolder()
     {
         Debug.Log("Remove folder");
+    }
+
+    public void ActivateUpInHiearchy()
+    {
+        inputField.text = goUpStr;
+        inputField.DeactivateInputField();
+        upInHiearchy = true;
+        Destroy(rfm.gameObject);
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CustomReducerList : MonoBehaviour
@@ -24,7 +25,7 @@ public class CustomReducerList : MonoBehaviour
         basePosition = transform.localPosition;
     }
 
-    public void AddReducerButton(Reducer r, bool setActive = true)
+    public void AddReducerButton(Reducer r, bool setActive = true, bool updatePosition = true)
     {
         var newButton = Instantiate(reducerButtonPrefab, Vector3.zero, Quaternion.identity, transform).GetComponent<ReducerButton>();
         newButton.reducer = r;
@@ -38,7 +39,7 @@ public class CustomReducerList : MonoBehaviour
         customButtons.Add(newButton);
         newButtons.transform.localPosition += new Vector3(0, -1);
 
-        AddButtonPositionUpdate();
+        if (updatePosition) AddButtonPositionUpdate();
 
         if (r.solution.localReducersUnlocked)
         {
@@ -57,7 +58,7 @@ public class CustomReducerList : MonoBehaviour
         if (setActive) r.SetReducerActive(mouseNode);
     }
 
-    public void AddFolderButton(RFolder f)
+    public void AddFolderButton(RFolder f, bool updatePosition = true)
     {
         var newButton = Instantiate(folderButtonPrefab, Vector3.zero, Quaternion.identity, transform).GetComponent<FolderButton>();
         newButton.inputField.text = f.folderName;
@@ -69,18 +70,32 @@ public class CustomReducerList : MonoBehaviour
         customButtons.Add(newButton);
         newButtons.transform.localPosition += new Vector3(0, -1);
 
-        AddButtonPositionUpdate();
+        if (updatePosition) AddButtonPositionUpdate();
     }
 
-    public void AddReducerOrFolderButton(ReducerOrFolder rof)
+    public void AddGoBackButton(RFolder f)
+    {
+        var newButton = Instantiate(folderButtonPrefab, Vector3.zero, Quaternion.identity, transform).GetComponent<FolderButton>();
+        newButton.transform.localPosition = newButtons.transform.localPosition;
+        newButton.canvas.worldCamera = Camera.main;
+        newButton.rFolder = f;
+        newButton.customReducerList = this;
+        newButton.mouseNode = mouseNode;
+        customButtons.Add(newButton);
+        newButtons.transform.localPosition += new Vector3(0, -1);
+
+        newButton.ActivateUpInHiearchy();
+    }
+
+    public void AddReducerOrFolderButton(ReducerOrFolder rof, bool updatePosition = true)
     {
         if (rof.IsReducer())
         {
-            AddReducerButton(rof.r);
+            AddReducerButton(rof.r, false, updatePosition);
         }
         else
         {
-            AddFolderButton(rof.f);
+            AddFolderButton(rof.f, updatePosition);
         }
     }
 
@@ -122,6 +137,45 @@ public class CustomReducerList : MonoBehaviour
 
             offset = transform.localPosition - basePosition;
         }
+    }
+
+    public void RemoveButton(SidebarButton sidebarButton)
+    {
+        int buttonIdx = customButtons.FindIndex(b => b == sidebarButton);
+        for (int i = buttonIdx; i < customButtons.Count(); i++)
+        {
+            customButtons[i].transform.localPosition += new Vector3(0, 1);
+
+            if ((customButtons[i] as ReducerButton)?.childButton != null)
+            {
+                (customButtons[i] as ReducerButton).childButton.transform.localPosition += new Vector3(0, 1);
+            }
+        }
+        
+        newButtons.transform.localPosition += new Vector3(0, 1);
+        customButtons.RemoveAt(buttonIdx);
+
+        ButtonRemoveUpdate();
+
+        Destroy(sidebarButton.gameObject);
+        if ((sidebarButton as ReducerButton)?.childButton != null)
+        {
+            Destroy((sidebarButton as ReducerButton).childButton.gameObject);
+        }
+    }
+
+    public void ResetList()
+    {
+        newButtons.transform.localPosition = new Vector3(0, -1.5f);
+        foreach (var button in customButtons)
+        {
+            Destroy(button.gameObject);
+            if ((button as ReducerButton)?.childButton != null)
+            {
+                Destroy((button as ReducerButton).childButton.gameObject);
+            }
+        }
+        customButtons.Clear();
     }
 
     public void ActivateTestMode()
