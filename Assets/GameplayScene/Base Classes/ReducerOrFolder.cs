@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ReducerOrFolder : MonoBehaviour
+public class ReducerOrFolder
 {
     public Reducer r;
     public RFolder f;

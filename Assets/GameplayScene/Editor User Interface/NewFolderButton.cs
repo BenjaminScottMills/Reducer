@@ -1,17 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
-public class NewReducerButton : MonoBehaviour
+public class NewFolderButton : MonoBehaviour
 {
+    public Solution solution;
+    public Collider2D collider2d;
     public SpriteRenderer spriteRenderer;
-    public ReducerMenu addReducerMenu;
-    public Collider2D colliderd2d;
     public TooltipText tooltipText;
-
+    // Start is called before the first frame update
     void Start()
     {
-        if (!addReducerMenu.mouseNode.solution.foldersUnlocked) transform.localPosition += new Vector3(0.55f, 0);
+        if (!solution.foldersUnlocked) Destroy(gameObject);
     }
 
     // Update is called once per frame
@@ -21,13 +22,12 @@ public class NewReducerButton : MonoBehaviour
         {
             spriteRenderer.enabled = true;
             var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            if (colliderd2d.OverlapPoint(mousePos))
+            if (collider2d.OverlapPoint(mousePos))
             {
                 tooltipText.text = "Add Reducer";
                 if (Input.GetMouseButtonDown(0))
                 {
-                    addReducerMenu.gameObject.SetActive(true);
-                    addReducerMenu.Setup();
+                    solution.AddFolder();
                 }
             }
         }

@@ -252,7 +252,7 @@ public class ReducerMenu : MonoBehaviour
                 (customReducerList.customButtons[i] as ReducerButton).childButton.transform.localPosition += new Vector3(0, 1);
             }
         }
-        customReducerList.newReducerButton.transform.localPosition += new Vector3(0, 1);
+        customReducerList.newButtons.transform.localPosition += new Vector3(0, 1);
         customReducerList.customButtons.RemoveAt(buttonIdx);
 
         customReducerList.ButtonRemoveUpdate();

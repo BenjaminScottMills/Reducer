@@ -9,6 +9,13 @@ public class RFolder
     public string folderName;
     public List<ReducerOrFolder> contents;
 
+    public RFolder(Solution s, RFolder pf)
+    {
+        solution = s;
+        folderName = "New Folder";
+        parentFolder = pf;
+    }
+    
     public RFolder(SolutionSerialise.FolderSerialise fs, Solution s, RFolder pf)
     {
         solution = s;

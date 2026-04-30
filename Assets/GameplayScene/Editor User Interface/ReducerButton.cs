@@ -9,7 +9,6 @@ public class ReducerButton : SidebarButton
 {
     public Reducer reducer;
     public ReducerVisual reducerVisual;
-    public MouseNode mouseNode;
     public ReducerMenu updateMenu;
     public SpriteRenderer highlight;
     public ReducerButton childButton;

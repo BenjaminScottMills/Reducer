@@ -18,6 +18,7 @@ public class Solution : MonoBehaviour
     public GameObject reducerPrefab;
     public CustomReducerList customReducerList;
     public bool localReducersUnlocked = true;
+    public bool foldersUnlocked = true;
 
     // fixed reducers
     public Reducer fixedLocalReducer;
@@ -38,6 +39,7 @@ public class Solution : MonoBehaviour
         solutionPath = PlayerPrefs.GetString("solution path");
         reducers = new ReducerEnumerable(this);
         string solFile = Path.Combine(solutionPath, "solution.json");
+        contents = new List<ReducerOrFolder>();
         if (File.Exists(solFile))
         {
             LoadFromSerialised(JsonUtility.FromJson<SolutionSerialise>(File.ReadAllText(solFile)));
@@ -93,10 +95,10 @@ public class Solution : MonoBehaviour
             r.LoadFromSerialised(reducers);
         }
 
-        // foreach (var rof in contents)
-        // {
-        //     customReducerList.AddReducerButton(rof, false);
-        // }
+        foreach (var rof in contents)
+        {
+            customReducerList.AddReducerOrFolderButton(rof);
+        }
     }
 
     public Reducer.ExecuteReducer Execute(Reducer black, Reducer white)
@@ -137,7 +139,23 @@ public class Solution : MonoBehaviour
         newReducer.child = localReducer;
         localReducer.ChildInit(newReducer);
 
-        // customReducerList.AddReducerButton(newReducer);
+        customReducerList.AddReducerButton(newReducer);
+    }
+
+    public void AddFolder()
+    {
+        RFolder folder = new RFolder(this, currentFolder);
+
+        if (currentFolder != null)
+        {
+            currentFolder.contents.Add(new ReducerOrFolder(folder));
+        }
+        else
+        {
+            contents.Add(new ReducerOrFolder(folder));
+        }
+
+        customReducerList.AddFolderButton(folder);
     }
 
     public void SaveQuit()
