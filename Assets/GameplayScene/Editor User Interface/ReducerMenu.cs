@@ -143,9 +143,7 @@ public class ReducerMenu : MonoBehaviour
             }
             else // we are in a folder and just removed the last reducer in that folder
             {
-                // MAKE EDITOR AREA BLANK AND KEEP CURRENT FOLDER
-                // or maybe just reset to main reducer in this case.
-                Debug.Log("ADD CODE FOR THIS CASE HERE");
+                reducer.solution.currentReducer = reducer.solution.contents[0].r;
             }
             
             mouseNode.selectedNodes.Clear();

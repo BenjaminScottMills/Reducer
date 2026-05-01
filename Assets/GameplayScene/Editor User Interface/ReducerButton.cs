@@ -12,6 +12,7 @@ public class ReducerButton : SidebarButton
     public ReducerMenu updateMenu;
     public SpriteRenderer highlight;
     public ReducerButton childButton;
+    public ReducerButton parentButton;
 
     // Start is called before the first frame update
     void Start()
@@ -51,16 +52,23 @@ public class ReducerButton : SidebarButton
         mouseNode.tooltipText.text = reducer.rName;
         if (Input.GetMouseButtonDown(0))
         {
-            if (reducer.isChild)
+            if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
             {
-                if (mouseNode.solution.currentReducer == reducer || mouseNode.solution.currentReducer.child == reducer)
-                    mouseNode.reducer = mouseNode.solution.customReducerList.fixedReducerList.localReducer; // Hell yeah
+                mouseNode.StartDraggingSidebarButton(reducer.isChild ? parentButton : this);
             }
             else
             {
-                mouseNode.reducer = reducer;
+                if (reducer.isChild)
+                {
+                    if (mouseNode.solution.currentReducer == reducer || mouseNode.solution.currentReducer.child == reducer)
+                        mouseNode.reducer = mouseNode.solution.customReducerList.fixedReducerList.localReducer; // Hell yeah
+                }
+                else
+                {
+                    mouseNode.reducer = reducer;
+                }
+                mouseNode.offset = transform.position - Camera.main.ScreenToWorldPoint(Input.mousePosition);
             }
-            mouseNode.offset = transform.position - Camera.main.ScreenToWorldPoint(Input.mousePosition);
         }
         else if (Input.GetMouseButtonDown(1) && mouseNode.topMenu.selectedScreen != 'T')
         {

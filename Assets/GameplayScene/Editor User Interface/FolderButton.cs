@@ -50,7 +50,7 @@ public class FolderButton : SidebarButton
         {
             if (!upInHiearchy && (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)))
             {
-                Debug.Log("Drag the folder");
+                mouseNode.StartDraggingSidebarButton(this);
             }
             else
             {

@@ -50,6 +50,7 @@ public class CustomReducerList : MonoBehaviour
             localButton.mouseNode = mouseNode;
 
             newButton.childButton = localButton;
+            localButton.parentButton = newButton;
 
             localButton.transform.localPosition += new Vector3(0.55f, 0);
             newButton.transform.localPosition += new Vector3(-0.55f, 0);
