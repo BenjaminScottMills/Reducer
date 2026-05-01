@@ -7,6 +7,7 @@ using System.Linq;
 public class FolderButton : SidebarButton
 {
     bool upInHiearchy;
+    bool modifiable;
     const string goUpStr = "Parent Folder";
     public SpriteRenderer highlight;
     public Collider2D textboxCollider;
@@ -32,6 +33,7 @@ public class FolderButton : SidebarButton
     {
         visual.gameObject.SetActive(true);
         highlight.enabled = inputField.isFocused;
+        DetermineIfModifiable();
     }
 
     protected override void TopHalfMouseOverlap()
@@ -41,7 +43,7 @@ public class FolderButton : SidebarButton
     protected override void BottomHalfMouseOverlap()
     {
         highlight.enabled = true;
-        if (!upInHiearchy && (rfm.AnyHovered() || textboxCollider.OverlapPoint(Camera.main.ScreenToWorldPoint(Input.mousePosition)))) return;
+        if (modifiable && (rfm.AnyHovered() || textboxCollider.OverlapPoint(Camera.main.ScreenToWorldPoint(Input.mousePosition)))) return;
 
         mouseNode.tooltipText.text = upInHiearchy ? goUpStr : rFolder.folderName;
         if (Input.GetMouseButtonDown(0))
@@ -74,6 +76,15 @@ public class FolderButton : SidebarButton
                 customReducerList.ResetPosition(); // make it so that customButtons[0] is at the top edge
             }
         }
+    }
+
+    void DetermineIfModifiable()
+    {
+        if (upInHiearchy) return;
+
+        modifiable = mouseNode.topMenu.selectedScreen != 'T';
+        inputField.interactable = modifiable;
+        rfm.gameObject.SetActive(modifiable);
     }
 
     public void RemoveFolder()
@@ -187,5 +198,7 @@ public class FolderButton : SidebarButton
         inputField.DeactivateInputField();
         upInHiearchy = true;
         Destroy(rfm.gameObject);
+        rfm = null;
+        modifiable = false;
     }
 }
