@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine.UI;
 using UnityEngine;
+using System.Linq;
 
 public class FolderButton : SidebarButton
 {
@@ -78,7 +78,107 @@ public class FolderButton : SidebarButton
 
     public void RemoveFolder()
     {
-        Debug.Log("Remove folder");
+        HashSet<Reducer> removedReds = rFolder.GetContainedReducers();
+        
+        if (removedReds.Contains(mouseNode.solution.currentReducer))
+        {
+            mouseNode.solution.currentReducer = mouseNode.solution.contents[0].r;
+            
+            mouseNode.selectedNodes.Clear();
+            foreach (var node in mouseNode.solution.currentReducer.nodes)
+            {
+                node.gameObject.SetActive(true);
+                node.nextConnector?.gameObject.SetActive(true);
+            }
+        }
+
+        // remove the folder
+        if (rFolder.parentFolder != null)
+        {
+            rFolder.parentFolder.contents.RemoveAll(rof => rof.f == rFolder);
+        }
+
+        foreach (Reducer solReducer in mouseNode.solution.reducers)
+        {
+            foreach (var node in solReducer.nodes)
+            {
+                if (removedReds.Contains(node.reducer))
+                {
+                    if (node.next != null)
+                    {
+                        if (node.blackLink) node.next.bPrev = null;
+                        else node.next.wPrev = null;
+                        Destroy(node.nextConnector.gameObject);
+                    }
+
+                    if (node.bPrev != null)
+                    {
+                        node.bPrev.next = null;
+                        Destroy(node.bPrev.nextConnector.gameObject);
+                        node.bPrev.nextConnector = null;
+                    }
+
+                    if (node.wPrev != null)
+                    {
+                        node.wPrev.next = null;
+                        Destroy(node.wPrev.nextConnector.gameObject);
+                        node.wPrev.nextConnector = null;
+                    }
+
+                    Destroy(node.gameObject);
+                }
+            }
+
+            solReducer.nodes = solReducer.nodes.Where(n => !removedReds.Contains(n.reducer)).ToList();
+
+            if (solReducer.child != null)
+            {
+                foreach (var node in solReducer.child.nodes)
+                {
+                    if (removedReds.Contains(node.reducer))
+                    {
+                        if (node.next != null)
+                        {
+                            if (node.blackLink) node.next.bPrev = null;
+                            else node.next.wPrev = null;
+                            Destroy(node.nextConnector.gameObject);
+                        }
+
+                        if (node.bPrev != null)
+                        {
+                            node.bPrev.next = null;
+                            Destroy(node.bPrev.nextConnector.gameObject);
+                            node.bPrev.nextConnector = null;
+                        }
+
+                        if (node.wPrev != null)
+                        {
+                            node.wPrev.next = null;
+                            Destroy(node.wPrev.nextConnector.gameObject);
+                            node.wPrev.nextConnector = null;
+                        }
+
+                        Destroy(node.gameObject);
+                    }
+                }
+
+                solReducer.child.nodes = solReducer.child.nodes.Where(n => removedReds.Contains(n.reducer)).ToList();
+            }
+        }
+
+        mouseNode.selectedNodes = mouseNode.selectedNodes.Where(n => !removedReds.Contains(n.reducer)).ToHashSet();
+
+        customReducerList.RemoveButton(this);
+
+        foreach (var reducer in removedReds)
+        {
+            foreach (var node in reducer.nodes)
+            {
+                if (node?.nextConnector?.gameObject != null) Destroy(node.nextConnector.gameObject);
+                Destroy(node.gameObject);
+            }
+            Destroy(reducer.gameObject);
+        }
     }
 
     public void ActivateUpInHiearchy()
