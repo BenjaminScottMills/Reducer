@@ -135,7 +135,7 @@ public class DragDropLocation : MonoBehaviour
         contents[b] = tmpRof;
     }
 
-    static void SetYPos(Transform trans, float newY)
+    static public void SetYPos(Transform trans, float newY)
     {
         trans.position = new Vector3(trans.position.x, newY);
     }

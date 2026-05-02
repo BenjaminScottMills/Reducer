@@ -16,6 +16,7 @@ public class MouseNode : MonoBehaviour
     public SidebarButton draggedButton;
     public SpriteRenderer customListDragVisual;
     public DragDropLocation dragDropLocation;
+    public DragDimmer dragDimmer;
     public bool mouseOverUI;
     public int nodeSortingOrderCount = 1;
     public int highestNodeSortingOrderThisFrame;
@@ -113,6 +114,8 @@ public class MouseNode : MonoBehaviour
                     draggedButton.beingDragged = false;
                     dragDropLocation.HandleMovement(draggedButton);
                     dragDropLocation.gameObject.SetActive(false);
+                    dragDimmer.internalDragDimmer.SetActive(false);
+                    dragDimmer.gameObject.SetActive(false);
                 }
             }
             else
@@ -397,5 +400,8 @@ public class MouseNode : MonoBehaviour
         draggedButton = sb;
         offset = new Vector3(0, 0, 10);
         dragDropLocation.gameObject.SetActive(true);
+        dragDimmer.gameObject.SetActive(true);
+        dragDimmer.dragButton = sb;
+        dragDimmer.internalDragDimmer.SetActive(true);
     }
 }
