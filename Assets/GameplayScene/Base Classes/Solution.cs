@@ -56,6 +56,7 @@ public class Solution : MonoBehaviour
     {
         AddReducer("Main", "", 1, 0, 12);
         (customReducerList.customButtons[0] as ReducerButton).DisableMenu();
+        customReducerList.customButtons[0].fixedAtTop = true;
     }
 
     public void InitialiseSingleReducerOrFolder(ReducerOrFolder rof, RFolder parentFolder)

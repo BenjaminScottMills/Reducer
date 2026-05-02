@@ -6,6 +6,7 @@ public abstract class SidebarButton : MonoBehaviour
 {
     public Collider2D colliderd2d;
     public bool upperHalf;
+    public bool fixedAtTop;
     public MouseNode mouseNode;
 
     void Update()

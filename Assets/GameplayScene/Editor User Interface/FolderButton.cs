@@ -9,6 +9,7 @@ public class FolderButton : SidebarButton
     bool upInHiearchy;
     bool modifiable;
     const string goUpStr = "Parent Folder";
+    public bool hoveredForDragDrop;
     public SpriteRenderer highlight;
     public Collider2D textboxCollider;
     public RemoveFolderManager rfm;
@@ -26,11 +27,13 @@ public class FolderButton : SidebarButton
 
     protected override void SetInvis()
     {
+        hoveredForDragDrop = false;
         visual.gameObject.SetActive(false);
     }
 
     protected override void SetVis()
     {
+        hoveredForDragDrop = false;
         visual.gameObject.SetActive(true);
         highlight.enabled = inputField.isFocused;
         DetermineIfModifiable();
@@ -43,6 +46,7 @@ public class FolderButton : SidebarButton
     protected override void BottomHalfMouseOverlap()
     {
         highlight.enabled = true;
+        hoveredForDragDrop = true;
         if (modifiable && (rfm.AnyHovered() || textboxCollider.OverlapPoint(Camera.main.ScreenToWorldPoint(Input.mousePosition)))) return;
 
         mouseNode.tooltipText.text = upInHiearchy ? goUpStr : rFolder.folderName;

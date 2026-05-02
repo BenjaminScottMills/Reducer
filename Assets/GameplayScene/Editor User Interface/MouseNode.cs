@@ -15,6 +15,7 @@ public class MouseNode : MonoBehaviour
     public bool draggingInCustomList;
     public SidebarButton draggedButton;
     public SpriteRenderer customListDragVisual;
+    public DragDropLocation dragDropLocation;
     public bool mouseOverUI;
     public int nodeSortingOrderCount = 1;
     public int highestNodeSortingOrderThisFrame;
@@ -393,5 +394,6 @@ public class MouseNode : MonoBehaviour
         draggingInCustomList = true;
         draggedButton = sb;
         offset = new Vector3(0, 0, 10);
+        dragDropLocation.gameObject.SetActive(true);
     }
 }
