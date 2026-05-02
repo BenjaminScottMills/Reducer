@@ -106,12 +106,13 @@ public class MouseNode : MonoBehaviour
                 if (leftClickHeld)
                 {
                     customListDragVisual.enabled = true;
-                    // handle movement or whatever
                 }
                 else
                 {
                     draggingInCustomList = false;
-                    // handle release
+                    draggedButton.beingDragged = false;
+                    dragDropLocation.HandleMovement(draggedButton);
+                    dragDropLocation.gameObject.SetActive(false);
                 }
             }
             else
@@ -391,6 +392,7 @@ public class MouseNode : MonoBehaviour
 
     public void StartDraggingSidebarButton(SidebarButton sb)
     {
+        sb.beingDragged = true;
         draggingInCustomList = true;
         draggedButton = sb;
         offset = new Vector3(0, 0, 10);

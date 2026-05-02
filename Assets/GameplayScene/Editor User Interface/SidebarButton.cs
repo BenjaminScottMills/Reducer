@@ -8,6 +8,7 @@ public abstract class SidebarButton : MonoBehaviour
     public bool upperHalf;
     public bool fixedAtTop;
     public MouseNode mouseNode;
+    public bool beingDragged;
 
     void Update()
     {

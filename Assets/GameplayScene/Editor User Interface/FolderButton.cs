@@ -45,6 +45,7 @@ public class FolderButton : SidebarButton
 
     protected override void BottomHalfMouseOverlap()
     {
+        if (beingDragged) return;
         highlight.enabled = true;
         hoveredForDragDrop = true;
         if (modifiable && (rfm.AnyHovered() || textboxCollider.OverlapPoint(Camera.main.ScreenToWorldPoint(Input.mousePosition)))) return;

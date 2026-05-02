@@ -44,6 +44,7 @@ public class Solution : MonoBehaviour
         {
             LoadFromSerialised(JsonUtility.FromJson<SolutionSerialise>(File.ReadAllText(solFile)));
             (customReducerList.customButtons[0] as ReducerButton).DisableMenu();
+            customReducerList.customButtons[0].fixedAtTop = true;
             contents[0].r.SetReducerActive(mouseNode);
         }
         else
