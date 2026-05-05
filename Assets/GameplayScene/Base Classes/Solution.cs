@@ -19,6 +19,7 @@ public class Solution : MonoBehaviour
     public CustomReducerList customReducerList;
     public bool localReducersUnlocked = true;
     public bool foldersUnlocked = true;
+    public bool importsUnlocked = true;
 
     // fixed reducers
     public Reducer fixedLocalReducer;
@@ -101,6 +102,11 @@ public class Solution : MonoBehaviour
         {
             customReducerList.AddReducerOrFolderButton(rof);
         }
+    }
+
+    public void SetUninteractable()
+    {
+        
     }
 
     public Reducer.ExecuteReducer Execute(Reducer black, Reducer white)
