@@ -106,7 +106,12 @@ public class Solution : MonoBehaviour
 
     public void SetUninteractable()
     {
-        
+        mouseNode.onImportScreen = true;
+    }
+
+    public void SetInteractable()
+    {
+        mouseNode.onImportScreen = false;
     }
 
     public Reducer.ExecuteReducer Execute(Reducer black, Reducer white)

@@ -18,7 +18,7 @@ public abstract class SidebarButton : MonoBehaviour
             {
                 SetVis();
                 var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                if (colliderd2d.OverlapPoint(mousePos))
+                if (colliderd2d.OverlapPoint(mousePos) && !mouseNode.onImportScreen)
                 {
                     TopHalfMouseOverlap();
                 }
@@ -34,7 +34,7 @@ public abstract class SidebarButton : MonoBehaviour
             {
                 SetVis();
                 var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                if (colliderd2d.OverlapPoint(mousePos))
+                if (colliderd2d.OverlapPoint(mousePos) && !mouseNode.onImportScreen)
                 {
                     BottomHalfMouseOverlap();
                 }

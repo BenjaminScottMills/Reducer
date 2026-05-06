@@ -194,10 +194,10 @@ public class Node : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (mouseNode.mouseOverUI) return;
+        if (mouseNode.mouseOverUI || mouseNode.onImportScreen) return;
 
         var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition) + new Vector3(0, 0, 10);
-        if (Vector3.Distance(mousePos, transform.position) < radius && !mouseNode.mouseOverUI && sortingGroup.sortingOrder >= mouseNode.highestNodeSortingOrderThisFrame)
+        if (Vector3.Distance(mousePos, transform.position) < radius && sortingGroup.sortingOrder >= mouseNode.highestNodeSortingOrderThisFrame)
         {
             mouseNode.highestNodeSortingOrderThisFrame = sortingGroup.sortingOrder;
             mouseNode.hoveredThisFrame = this;

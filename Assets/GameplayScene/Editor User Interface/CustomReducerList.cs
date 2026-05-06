@@ -229,7 +229,7 @@ public class CustomReducerList : MonoBehaviour
     void Update()
     {
         mouseOverForDragDropLocation = false;
-        if (boxCollider.OverlapPoint(Camera.main.ScreenToWorldPoint(Input.mousePosition)))
+        if (boxCollider.OverlapPoint(Camera.main.ScreenToWorldPoint(Input.mousePosition)) && !mouseNode.onImportScreen)
         {
             mouseOverForDragDropLocation = true;
             mouseNode.mouseOverUI = true;

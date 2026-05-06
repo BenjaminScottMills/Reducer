@@ -84,7 +84,7 @@ public class FixedReducerList : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (boxCollider.OverlapPoint(Camera.main.ScreenToWorldPoint(Input.mousePosition)))
+        if (boxCollider.OverlapPoint(Camera.main.ScreenToWorldPoint(Input.mousePosition)) && !mouseNode.onImportScreen)
         {
             mouseNode.mouseOverUI = true;
 

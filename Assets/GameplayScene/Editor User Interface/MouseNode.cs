@@ -18,6 +18,7 @@ public class MouseNode : MonoBehaviour
     public DragDropLocation dragDropLocation;
     public DragDimmer dragDimmer;
     public bool mouseOverUI;
+    public bool onImportScreen;
     public int nodeSortingOrderCount = 1;
     public int highestNodeSortingOrderThisFrame;
     public Node hoveredThisFrame = null;
@@ -37,6 +38,7 @@ public class MouseNode : MonoBehaviour
     void Awake()
     {
         selectedNodes = new HashSet<Node>();
+        onImportScreen = false;
     }
 
     // Update is called once per frame
@@ -54,7 +56,7 @@ public class MouseNode : MonoBehaviour
 
         customListDragVisual.enabled = false;
 
-        if (topMenu.selectedScreen == 'E')
+        if (topMenu.selectedScreen == 'E' && !onImportScreen)
         {
             if (hoveredThisFrame != null && !draggingInCustomList)
             {
@@ -386,7 +388,7 @@ public class MouseNode : MonoBehaviour
             currentlyDragging = false;
         }
 
-        mouseOverUI = false;
+        mouseOverUI = onImportScreen;
         highestNodeSortingOrderThisFrame = -1;
         hoveredThisFrame = null;
         testHoveredThisFrame = null;

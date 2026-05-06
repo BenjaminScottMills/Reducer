@@ -3891,6 +3891,7 @@ MonoBehaviour:
   currentReducer: {fileID: 0}
   reducerPrefab: {fileID: 7035577877054418780, guid: 2247df583972bd64980a0a0a0113cbab, type: 3}
   customReducerList: {fileID: 572047288}
+  onImportScreen: 0
   localReducersUnlocked: 1
   foldersUnlocked: 1
   importsUnlocked: 1
@@ -4706,6 +4707,7 @@ MonoBehaviour:
   dragDropLocation: {fileID: 930203045}
   dragDimmer: {fileID: 276883045}
   mouseOverUI: 0
+  onImportScreen: 0
   nodeSortingOrderCount: 1
   highestNodeSortingOrderThisFrame: 0
   hoveredThisFrame: {fileID: 0}

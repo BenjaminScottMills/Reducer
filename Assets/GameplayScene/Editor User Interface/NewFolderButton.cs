@@ -22,7 +22,7 @@ public class NewFolderButton : MonoBehaviour
         {
             spriteRenderer.enabled = true;
             var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            if (collider2d.OverlapPoint(mousePos))
+            if (collider2d.OverlapPoint(mousePos) && !solution.mouseNode.onImportScreen)
             {
                 tooltipText.text = "Add Folder";
                 if (Input.GetMouseButtonDown(0))
