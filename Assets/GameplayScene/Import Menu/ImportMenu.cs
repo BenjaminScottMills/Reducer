@@ -30,4 +30,9 @@ public class ImportMenu : MonoBehaviour
         gameObject.SetActive(false);
         solution.SetInteractable();
     }
+
+    public void SetActiveReducer(Reducer reducer)
+    {
+        
+    }
 }
