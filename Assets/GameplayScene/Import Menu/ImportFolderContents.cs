@@ -77,6 +77,11 @@ public class ImportFolderContents : MonoBehaviour
                 currDirectory = Path.Combine(currDirectory, "solutions");
                 currLevel = ImportMenu.DirectoryLevel.solutions;
                 contents = Directory.GetDirectories(currDirectory).Select((s) => Path.GetFileName(s)).ToArray();
+                if (Path.GetFullPath(currDirectory) == Path.GetFullPath(Directory.GetParent(importMenu.solution.solutionPath).FullName))
+                {
+                    contents = contents.Where(s => s != Path.GetFileName(importMenu.solution.solutionPath)).ToArray();
+                }
+
                 break;
             case ImportMenu.DirectoryLevel.solutions:
                 importMenu.solutionContainer = Instantiate(solutionContainerPrefab, Vector3.zero, Quaternion.identity, importMenu.transform);
