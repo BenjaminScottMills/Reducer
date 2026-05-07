@@ -17,6 +17,7 @@ public class Solution : MonoBehaviour
     public ReducerEnumerable reducers;
     public GameObject reducerPrefab;
     public CustomReducerList customReducerList;
+    bool usedForImporting;
     public bool localReducersUnlocked = true;
     public bool foldersUnlocked = true;
     public bool importsUnlocked = true;
@@ -37,6 +38,7 @@ public class Solution : MonoBehaviour
 
     void Start()
     {
+        if (usedForImporting) return;
         solutionPath = PlayerPrefs.GetString("solution path");
         reducers = new ReducerEnumerable(this);
         string solFile = Path.Combine(solutionPath, "solution.json");
@@ -52,6 +54,36 @@ public class Solution : MonoBehaviour
         {
             CreateMainReducer();
         }
+    }
+
+    public void LoadFromSerialisedForImporting(SolutionSerialise s)
+    {
+        usedForImporting = true;
+        reducers = new ReducerEnumerable(this);
+        contents = new List<ReducerOrFolder>();
+        LoadFromSerialised(s);
+    }
+
+    public void CopyFixedReducers(Solution s)
+    {
+        fixedLocalReducer = s.fixedLocalReducer;
+        nullReducer = s.nullReducer;
+        fireReducer = s.fireReducer;
+        earthReducer = s.earthReducer;
+        plantReducer = s.plantReducer;
+        waterReducer = s.waterReducer;
+        combineReducer = s.combineReducer;
+        blackInputReducer = s.blackInputReducer;
+        whiteInputReducer = s.whiteInputReducer;
+        localOuterBlackReducer = s.localOuterBlackReducer;
+        localOuterWhiteReducer = s.localOuterWhiteReducer;
+        outputNodeReducer = s.outputNodeReducer;
+    }
+
+    public void CopySettings(Solution s)
+    {
+        localReducersUnlocked = s.localReducersUnlocked;
+        Debug.Log("Once localReducersUnlocked is replaced with the real thing, take a look at this because it could cause errors");
     }
 
     void CreateMainReducer()
@@ -97,6 +129,8 @@ public class Solution : MonoBehaviour
         {
             r.LoadFromSerialised(reducers);
         }
+
+        if (usedForImporting) return;
 
         foreach (var rof in contents)
         {

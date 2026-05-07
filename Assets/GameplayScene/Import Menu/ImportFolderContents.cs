@@ -15,22 +15,18 @@ public class ImportFolderContents : MonoBehaviour
     public GameObject reducerEntryPrefab;
     public RectTransform scrollViewContent;
     public ImportMenu.DirectoryLevel currLevel;
+    public ImportMenu importMenu;
+    public GameObject dummySolutionPrefab;
+    public GameObject solutionContainerPrefab;
     public string currDirectory;
     List<GameObject> entries;
     float baseScrollViewHeight;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         baseScrollViewHeight = scrollViewContent.sizeDelta.y;
         entries = new();
-
-        // levelNameZone.text = Path.GetFileName(levelPath).Substring(2);
-        // string solutionsPath = Path.Combine(levelPath, "solutions");
-        // string[] solutions = Directory.GetDirectories(solutionsPath);
-        // Array.Sort(solutions);
-
-        // PositionSolutionButtons(true);
     }
 
     public void ClearContents()
@@ -44,7 +40,25 @@ public class ImportFolderContents : MonoBehaviour
 
     public void LoadFolderContents(List<ReducerOrFolder> contents)
     {
-        
+        foreach (var rof in contents)
+        {
+            if (rof.IsReducer())
+            {
+                var newEntry = Instantiate(reducerEntryPrefab, Vector3.zero, Quaternion.identity, scrollViewContent).GetComponent<ImportReducerEntry>();
+                newEntry.gameObject.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+                newEntry.importMenu = importMenu;
+                newEntry.Initialise(rof.r);
+                entries.Add(newEntry.gameObject);
+            }
+            else
+            {
+                var newEntry = Instantiate(folderEntryPrefab, Vector3.zero, Quaternion.identity, scrollViewContent).GetComponent<ImportFolderEntry>();
+                newEntry.gameObject.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+                newEntry.importFolderContents = this;
+                newEntry.InitialiseRFolder(rof.f);
+                entries.Add(newEntry.gameObject);
+            }
+        }
     }
 
     public void LoadFolderContents(string folderPath)
@@ -58,11 +72,19 @@ public class ImportFolderContents : MonoBehaviour
                 contents = Directory.GetDirectories(currDirectory).Select((s) => Path.GetFileName(s)).ToArray();
                 break;
             case ImportMenu.DirectoryLevel.levels:
+                currDirectory = Path.Combine(currDirectory, "solutions");
                 currLevel = ImportMenu.DirectoryLevel.solutions;
-                contents = Directory.GetDirectories(Path.Combine(currDirectory, "solutions")).Select((s) => Path.GetFileName(s)).ToArray();
+                contents = Directory.GetDirectories(currDirectory).Select((s) => Path.GetFileName(s)).ToArray();
                 break;
             case ImportMenu.DirectoryLevel.solutions:
-                // load reducer and stuff
+                importMenu.solutionContainer = Instantiate(solutionContainerPrefab, Vector3.zero, Quaternion.identity, importMenu.transform);
+                importMenu.loadedSolution = Instantiate(dummySolutionPrefab, Vector3.zero, Quaternion.identity, importMenu.solutionContainer.transform).GetComponent<Solution>();
+                importMenu.loadedSolution.CopyFixedReducers(importMenu.solution);
+                importMenu.loadedSolution.CopySettings(importMenu.solution);
+                importMenu.loadedSolution.mouseNode = importMenu.solution.mouseNode;
+                importMenu.loadedSolution.LoadFromSerialisedForImporting(JsonUtility.FromJson<SolutionSerialise>(File.ReadAllText(Path.Combine(currDirectory, "solution.json"))));
+                LoadFolderContents(importMenu.loadedSolution.contents);
+                PositionButtons();
                 return;
         }
 
@@ -73,7 +95,6 @@ public class ImportFolderContents : MonoBehaviour
     void CreateFolderButtons(string[] contents)
     {
         Array.Sort(contents);
-        // Vector3 middle = 
 
         foreach (var inner in contents)
         {
@@ -81,7 +102,6 @@ public class ImportFolderContents : MonoBehaviour
             {
                 return;
             }
-            Instantiate(folderEntryPrefab);
             var newEntry = Instantiate(folderEntryPrefab, Vector3.zero, Quaternion.identity, scrollViewContent).GetComponent<ImportFolderEntry>();
             newEntry.gameObject.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
             newEntry.importFolderContents = this;
@@ -101,31 +121,6 @@ public class ImportFolderContents : MonoBehaviour
             entry.transform.localPosition = new Vector3(entry.transform.localPosition.x, newButtonPos.y);
             newButtonPos += entryListOffset;
         }
-    }
-
-    // public void AddSolution()
-    // {
-    //     int newNumber;
-    //     if (solutionButtons.Count == 0) newNumber = 0;
-    //     else newNumber = solutionButtons.Last().levelNumber + 1;
-
-    //     string newDirectory = Path.Combine(levelPath, "solutions", (newNumber < 10 ? "0" : "") + newNumber + "New Solution");
-    //     Directory.CreateDirectory(newDirectory);
-
-    //     File.WriteAllText(Path.Combine(newDirectory, "status.json"), JsonUtility.ToJson(new ChapterMenu.LevelStatus{completed = false}));
-
-    //     SolutionButton sb = Instantiate(solutionButtonPrefab, addSolutionButton.transform.position, Quaternion.identity, scrollViewContent).GetComponent<SolutionButton>();
-    //     sb.SetSolution(newDirectory, "New Solution", newNumber, Path.Combine(levelPath, "solutions")); // First 2 characters are for ordering, ie "04".
-    //     sb.levelMenu = this;
-    //     solutionButtons.Add(sb);
-
-    //     PositionSolutionButtons(false);
-    // }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     public void Initialise()
