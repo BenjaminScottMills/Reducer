@@ -34,7 +34,7 @@ public class ChapterMenu : MonoBehaviour
             lb.unlocked = levelCompleted;
             newButtonPos += levelListOffset;
 
-            levelCompleted = JsonUtility.FromJson<LevelStatus>(File.ReadAllText(Path.Combine(level, "status.json"))).completed;
+            levelCompleted = LevelCompleted(level);
 
             lb.completed = levelCompleted;
         }
@@ -48,6 +48,11 @@ public class ChapterMenu : MonoBehaviour
     void Update()
     {
 
+    }
+
+    public static bool LevelCompleted(string levelPath)
+    {
+        return JsonUtility.FromJson<LevelStatus>(File.ReadAllText(Path.Combine(levelPath, "status.json"))).completed;
     }
     
     public struct LevelStatus

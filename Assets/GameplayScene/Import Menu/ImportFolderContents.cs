@@ -71,7 +71,7 @@ public class ImportFolderContents : MonoBehaviour
         {
             case ImportMenu.DirectoryLevel.chapters:
                 currLevel = ImportMenu.DirectoryLevel.levels;
-                contents = Directory.GetDirectories(currDirectory).Select((s) => Path.GetFileName(s)).ToArray();
+                contents = Directory.GetDirectories(currDirectory).Where(s => ChapterMenu.LevelCompleted(s)).Select((s) => Path.GetFileName(s)).ToArray();
                 break;
             case ImportMenu.DirectoryLevel.levels:
                 currDirectory = Path.Combine(currDirectory, "solutions");
@@ -105,10 +105,6 @@ public class ImportFolderContents : MonoBehaviour
 
         foreach (var inner in contents)
         {
-            if (false) // if inner has not been completed. Consider currLevel when deciding
-            {
-                return;
-            }
             var newEntry = Instantiate(folderEntryPrefab, Vector3.zero, Quaternion.identity, scrollViewContent).GetComponent<ImportFolderEntry>();
             newEntry.gameObject.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
             newEntry.importFolderContents = this;
@@ -136,6 +132,18 @@ public class ImportFolderContents : MonoBehaviour
         currDirectory = Path.Combine(Application.persistentDataPath, "chapters");
         currLevel = ImportMenu.DirectoryLevel.chapters;
         string[] contents = Directory.GetDirectories(currDirectory).Select((s) => Path.GetFileName(s)).ToArray();
+        Array.Sort(contents);
+        int firstEmptyChapter = 1;
+        for (; firstEmptyChapter < contents.Length; ++firstEmptyChapter)
+        {
+            string[] chapterContents = Directory.GetDirectories(Path.Combine(currDirectory, contents[firstEmptyChapter]));
+            Array.Sort(chapterContents);
+            if (!ChapterMenu.LevelCompleted(chapterContents[0]))
+            {
+                break;
+            }
+        }
+        contents = contents[..firstEmptyChapter];
         CreateFolderButtons(contents);
         PositionButtons();
     }
