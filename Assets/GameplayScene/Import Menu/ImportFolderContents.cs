@@ -59,6 +59,8 @@ public class ImportFolderContents : MonoBehaviour
                 entries.Add(newEntry.gameObject);
             }
         }
+
+        PositionButtons();
     }
 
     public void LoadFolderContents(string folderPath)
