@@ -19,6 +19,7 @@ public class ImportFolderContents : MonoBehaviour
     public GameObject dummySolutionPrefab;
     public GameObject solutionContainerPrefab;
     public string currDirectory;
+    public List<FavouritedReducer> favouritedReducers;
     List<GameObject> entries;
     float baseScrollViewHeight;
 
@@ -36,6 +37,20 @@ public class ImportFolderContents : MonoBehaviour
             Destroy(entry);
         }
         entries.Clear();
+    }
+
+    public void LoadFolderContentsFavourites()
+    {
+        for (int i = favouritedReducers.Count - 1; i >= 0; --i)
+        {
+            var newEntry = Instantiate(reducerEntryPrefab, Vector3.zero, Quaternion.identity, scrollViewContent).GetComponent<ImportReducerEntry>();
+            newEntry.gameObject.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+            newEntry.importMenu = importMenu;
+            newEntry.Initialise(favouritedReducers[i]);
+            entries.Add(newEntry.gameObject);
+        }
+
+        PositionButtons();
     }
 
     public void LoadFolderContents(List<ReducerOrFolder> contents)
@@ -146,5 +161,123 @@ public class ImportFolderContents : MonoBehaviour
         contents = contents[..firstEmptyChapter];
         CreateFolderButtons(contents);
         PositionButtons();
+    }
+
+    public bool IsFavourited(Reducer r)
+    {
+        return IsFavourited(r.id);
+    }
+
+    public bool IsFavourited(uint id)
+    {
+        Debug.Log("Potential Error stemming from this: solution nums change if we delete something earlier. Thus, maybe increase it to 5 digits and make it not go down?");
+        (string targetLevelPath, int targetSolutionNum) = SolutionPathToFavouritedReducerInfo(currDirectory);
+
+        foreach (var fv in favouritedReducers)
+        {
+            if (fv.reducerId == id && fv.solutionNum == targetSolutionNum && targetLevelPath == Path.GetFullPath(fv.levelPath))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public void AddFavourite(Reducer r)
+    {
+        favouritedReducers.Add(new FavouritedReducer(r, currDirectory));
+        WriteFavourites();
+    }
+
+    public void AddFavourite(FavouritedReducer r)
+    {
+        favouritedReducers.Add(r);
+        WriteFavourites();
+    }
+
+    public void RemoveFavourite(Reducer r)
+    {
+        RemoveFavourite(r.id);
+    }
+
+    public void RemoveFavourite(uint id)
+    {
+        (string targetLevelPath, int targetSolutionNum) = SolutionPathToFavouritedReducerInfo(currDirectory);
+
+        for (int i = 0; i < favouritedReducers.Count; ++i)
+        {
+            if (favouritedReducers[i].reducerId == id && favouritedReducers[i].solutionNum == targetSolutionNum && targetLevelPath == Path.GetFullPath(favouritedReducers[i].levelPath))
+            {
+                favouritedReducers.RemoveAt(i);
+                WriteFavourites();
+                return;
+            }
+        }
+    }
+
+    public void RemoveFavourite(FavouritedReducer r)
+    {
+        for (int i = 0; i < favouritedReducers.Count; ++i)
+        {
+            if (favouritedReducers[i].reducerId == r.reducerId && favouritedReducers[i].solutionNum == r.solutionNum && Path.GetFullPath(r.levelPath) == Path.GetFullPath(favouritedReducers[i].levelPath))
+            {
+                favouritedReducers.RemoveAt(i);
+                WriteFavourites();
+                return;
+            }
+        }
+    }
+
+    void WriteFavourites()
+    {
+        File.WriteAllTextAsync(
+            Path.Combine(Application.persistentDataPath, "chapters", "00favourites", "favourites.json"),
+            JsonUtility.ToJson(new FavouritesSerialise(favouritedReducers)));
+    }
+
+    void ReadFavourites()
+    {
+        favouritedReducers = JsonUtility.FromJson<FavouritesSerialise>(Path.Combine(Application.persistentDataPath, "chapters", "00favourites", "favourites.json")).reducers.ToList();
+    }
+
+    public static (string levelPath, int solutionNum) SolutionPathToFavouritedReducerInfo(string path)
+    {
+        string levelPath = Path.GetFullPath(Directory.GetParent(path).FullName);
+        int solutionNum = int.Parse(Path.GetDirectoryName(path)[..2]);
+        return (levelPath, solutionNum);
+    }
+
+    [Serializable]
+    public struct FavouritedReducer
+    {
+        public string levelPath;
+        public int solutionNum;
+        public uint reducerId;
+        public string reducerName;
+        public int bgc;
+        public int fgc;
+        public int fgs;
+
+        public FavouritedReducer(Reducer r, string path)
+        {
+            (levelPath, solutionNum) = SolutionPathToFavouritedReducerInfo(path);
+            reducerId = r.id;
+            reducerName = r.rName;
+            bgc = r.backgroundColour;
+            fgc = r.foregroundColour;
+            fgs = r.foregroundSprite;
+        }
+    }
+
+    [Serializable]
+    public struct FavouritesSerialise
+    {
+        public FavouritedReducer[] reducers;
+
+        public FavouritesSerialise(List<FavouritedReducer> faves)
+        {
+            reducers = faves.ToArray();
+        }
     }
 }

@@ -21,6 +21,12 @@ public class UIReducerVisual : MonoBehaviour
         SetVisual();
     }
 
+    public void SetVisual(ImportFolderContents.FavouritedReducer fr)
+    {
+        reducerVisual.SetVisual(fr);
+        SetVisual();
+    }
+
     public void SetVisual(int bgc, int fgc, int fgs)
     {
         reducerVisual.SetVisual(bgc, fgc, fgs);

@@ -22,6 +22,11 @@ public class ReducerVisual : MonoBehaviour
         SetVisual(r.backgroundColour, r.foregroundColour, r.foregroundSprite);
     }
 
+    public void SetVisual(ImportFolderContents.FavouritedReducer fr)
+    {
+        SetVisual(fr.bgc, fr.fgc, fr.fgs);
+    }
+
     public void SetVisual(int bgc, int fgc, int fgs)
     {
         backgroundColour = bgc;
