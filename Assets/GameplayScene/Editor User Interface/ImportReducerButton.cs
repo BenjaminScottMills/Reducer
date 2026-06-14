@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,9 +21,12 @@ public class ImportReducerButton : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData pointerEventData)
     {
-        solution.SetUninteractable();
-        parentMenu.gameObject.SetActive(false);
-        importMenu.gameObject.SetActive(true);
-        importMenu.Initialise();
+        if (importMenu.IsReady())
+        {
+            solution.SetUninteractable();
+            parentMenu.gameObject.SetActive(false);
+            importMenu.gameObject.SetActive(true);
+            importMenu.Initialise();
+        }
     }
 }

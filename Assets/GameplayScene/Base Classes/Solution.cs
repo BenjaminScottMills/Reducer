@@ -17,6 +17,7 @@ public class Solution : MonoBehaviour
     public ReducerEnumerable reducers;
     public GameObject reducerPrefab;
     public CustomReducerList customReducerList;
+    public ImportFolderContents importFolderContents;
     bool usedForImporting;
     public bool localReducersUnlocked = true;
     public bool foldersUnlocked = true;
@@ -54,6 +55,7 @@ public class Solution : MonoBehaviour
         {
             CreateMainReducer();
         }
+        importFolderContents.StartReadingFavourites();
     }
 
     public void LoadFromSerialisedForImporting(SolutionSerialise s)
@@ -215,7 +217,7 @@ public class Solution : MonoBehaviour
     {
         File.WriteAllTextAsync(
             Path.Combine(solutionPath, "solution.json"),
-            JsonUtility.ToJson(new SolutionSerialise(this)));
+            JsonUtility.ToJson(new SolutionSerialise(this, importFolderContents, solutionPath)));
     }
 
     public void ReturnToMenus()

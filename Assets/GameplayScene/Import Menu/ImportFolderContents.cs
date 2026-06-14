@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.UI;
@@ -20,6 +21,7 @@ public class ImportFolderContents : MonoBehaviour
     public GameObject solutionContainerPrefab;
     public string currDirectory;
     public List<FavouritedReducer> favouritedReducers;
+    Task favouriteLoadingTask;
     List<GameObject> entries;
     float baseScrollViewHeight;
 
@@ -28,6 +30,16 @@ public class ImportFolderContents : MonoBehaviour
     {
         baseScrollViewHeight = scrollViewContent.sizeDelta.y;
         entries = new();
+    }
+
+    public void StartReadingFavourites()
+    {
+        favouriteLoadingTask = ReadFavourites();
+    }
+
+    public bool FavouritesLoaded()
+    {
+        return favouriteLoadingTask?.IsCompleted ?? false;
     }
 
     public void ClearContents()
@@ -86,12 +98,12 @@ public class ImportFolderContents : MonoBehaviour
         {
             case ImportMenu.DirectoryLevel.chapters:
                 currLevel = ImportMenu.DirectoryLevel.levels;
-                contents = Directory.GetDirectories(currDirectory).Where(s => ChapterMenu.LevelCompleted(s)).Select((s) => Path.GetFileName(s)).ToArray();
+                contents = Directory.GetDirectories(currDirectory).Where(s => ChapterMenu.LevelCompleted(s)).Select(s => Path.GetFileName(s)).ToArray();
                 break;
             case ImportMenu.DirectoryLevel.levels:
                 currDirectory = Path.Combine(currDirectory, "solutions");
                 currLevel = ImportMenu.DirectoryLevel.solutions;
-                contents = Directory.GetDirectories(currDirectory).Select((s) => Path.GetFileName(s)).ToArray();
+                contents = Directory.GetDirectories(currDirectory).Select(s => Path.GetFileName(s)).ToArray();
                 if (Path.GetFullPath(currDirectory) == Path.GetFullPath(Directory.GetParent(importMenu.solution.solutionPath).FullName))
                 {
                     contents = contents.Where(s => s != Path.GetFileName(importMenu.solution.solutionPath)).ToArray();
@@ -146,7 +158,7 @@ public class ImportFolderContents : MonoBehaviour
         ClearContents();
         currDirectory = Path.Combine(Application.persistentDataPath, "chapters");
         currLevel = ImportMenu.DirectoryLevel.chapters;
-        string[] contents = Directory.GetDirectories(currDirectory).Select((s) => Path.GetFileName(s)).ToArray();
+        string[] contents = Directory.GetDirectories(currDirectory).Select(s => Path.GetFileName(s)).ToArray();
         Array.Sort(contents);
         int firstEmptyChapter = 1;
         for (; firstEmptyChapter < contents.Length; ++firstEmptyChapter)
@@ -170,12 +182,11 @@ public class ImportFolderContents : MonoBehaviour
 
     public bool IsFavourited(uint id)
     {
-        Debug.Log("Potential Error stemming from this: solution nums change if we delete something earlier. Thus, maybe increase it to 5 digits and make it not go down?");
-        (string targetLevelPath, int targetSolutionNum) = SolutionPathToFavouritedReducerInfo(currDirectory);
+        string targetSolPath = Path.GetFullPath(currDirectory);
 
         foreach (var fv in favouritedReducers)
         {
-            if (fv.reducerId == id && fv.solutionNum == targetSolutionNum && targetLevelPath == Path.GetFullPath(fv.levelPath))
+            if (fv.reducerId == id && targetSolPath == Path.GetFullPath(fv.solutionPath))
             {
                 return true;
             }
@@ -186,14 +197,16 @@ public class ImportFolderContents : MonoBehaviour
 
     public void AddFavourite(Reducer r)
     {
-        favouritedReducers.Add(new FavouritedReducer(r, currDirectory));
-        WriteFavourites();
+        FavouritedReducer newFavRed = new FavouritedReducer(r, currDirectory, DateTimeOffset.UtcNow.ToUnixTimeSeconds());
+        favouritedReducers.Add(newFavRed);
+        newFavRed.AddToSolSerialise();
     }
 
     public void AddFavourite(FavouritedReducer r)
     {
-        favouritedReducers.Add(r);
-        WriteFavourites();
+        FavouritedReducer newFavRed = new FavouritedReducer(r, DateTimeOffset.UtcNow.ToUnixTimeSeconds());
+        favouritedReducers.Add(newFavRed);
+        newFavRed.AddToSolSerialise();
     }
 
     public void RemoveFavourite(Reducer r)
@@ -203,81 +216,115 @@ public class ImportFolderContents : MonoBehaviour
 
     public void RemoveFavourite(uint id)
     {
-        (string targetLevelPath, int targetSolutionNum) = SolutionPathToFavouritedReducerInfo(currDirectory);
-
-        for (int i = 0; i < favouritedReducers.Count; ++i)
-        {
-            if (favouritedReducers[i].reducerId == id && favouritedReducers[i].solutionNum == targetSolutionNum && targetLevelPath == Path.GetFullPath(favouritedReducers[i].levelPath))
-            {
-                favouritedReducers.RemoveAt(i);
-                WriteFavourites();
-                return;
-            }
-        }
+        RemoveFavourite(id, currDirectory);
     }
 
     public void RemoveFavourite(FavouritedReducer r)
     {
+        RemoveFavourite(r.reducerId, r.solutionPath);
+    }
+
+    public void RemoveFavourite(uint id, string targetPath)
+    {
+        targetPath = Path.GetFullPath(targetPath);
         for (int i = 0; i < favouritedReducers.Count; ++i)
         {
-            if (favouritedReducers[i].reducerId == r.reducerId && favouritedReducers[i].solutionNum == r.solutionNum && Path.GetFullPath(r.levelPath) == Path.GetFullPath(favouritedReducers[i].levelPath))
+            if (favouritedReducers[i].reducerId == id && targetPath == Path.GetFullPath(favouritedReducers[i].solutionPath))
             {
+                favouritedReducers[i].RemoveFromSolSerialise();
                 favouritedReducers.RemoveAt(i);
-                WriteFavourites();
                 return;
             }
         }
     }
 
-    void WriteFavourites()
+    public async Task ReadFavourites()
     {
-        File.WriteAllTextAsync(
-            Path.Combine(Application.persistentDataPath, "chapters", "00favourites", "favourites.json"),
-            JsonUtility.ToJson(new FavouritesSerialise(favouritedReducers)));
+        favouritedReducers = new();
+        string[] chapterDirs = Directory.GetDirectories(Path.Combine(Application.persistentDataPath, "chapters"));
+        foreach (string chapter in chapterDirs)
+        {
+            string[] levelDirs = Directory.GetDirectories(chapter);
+            foreach (string level in levelDirs)
+            {
+                string[] solDirs = Directory.GetDirectories(Path.Combine(level, "solutions"));
+                foreach (string solutionPath in solDirs)
+                {
+                    ReadSolutionFavourites
+                    (
+                        solutionPath,
+                        JsonUtility.FromJson<SolutionSerialise>(await File.ReadAllTextAsync(Path.Combine(solutionPath, "solution.json")))
+                    );
+                }
+            }
+        }
     }
 
-    void ReadFavourites()
+    void ReadSolutionFavourites(string solutionPath, SolutionSerialise solSerialise)
     {
-        favouritedReducers = JsonUtility.FromJson<FavouritesSerialise>(Path.Combine(Application.persistentDataPath, "chapters", "00favourites", "favourites.json")).reducers.ToList();
+        foreach (var fe in solSerialise.favourites)
+        {
+            favouritedReducers.Add(new FavouritedReducer(fe, solutionPath));
+        }
     }
 
-    public static (string levelPath, int solutionNum) SolutionPathToFavouritedReducerInfo(string path)
+    public class FavouritedReducer
     {
-        string levelPath = Path.GetFullPath(Directory.GetParent(path).FullName);
-        int solutionNum = int.Parse(Path.GetDirectoryName(path)[..2]);
-        return (levelPath, solutionNum);
-    }
-
-    [Serializable]
-    public struct FavouritedReducer
-    {
-        public string levelPath;
-        public int solutionNum;
+        public string solutionPath;
         public uint reducerId;
         public string reducerName;
         public int bgc;
         public int fgc;
         public int fgs;
+        public long lastAccessed;
 
-        public FavouritedReducer(Reducer r, string path)
+        public FavouritedReducer(Reducer r, string solPathArg, long lastAccessedArg)
         {
-            (levelPath, solutionNum) = SolutionPathToFavouritedReducerInfo(path);
+            solutionPath = solPathArg;
             reducerId = r.id;
             reducerName = r.rName;
             bgc = r.backgroundColour;
             fgc = r.foregroundColour;
             fgs = r.foregroundSprite;
+            lastAccessed = lastAccessedArg;
         }
-    }
 
-    [Serializable]
-    public struct FavouritesSerialise
-    {
-        public FavouritedReducer[] reducers;
-
-        public FavouritesSerialise(List<FavouritedReducer> faves)
+        public FavouritedReducer(FavouritedReducer fr, long lastAccessedArg)
         {
-            reducers = faves.ToArray();
+            solutionPath = fr.solutionPath;
+            reducerId = fr.reducerId;
+            reducerName = fr.reducerName;
+            bgc = fr.bgc;
+            fgc = fr.fgc;
+            fgs = fr.fgs;
+            lastAccessed = lastAccessedArg;
+        }
+
+        public FavouritedReducer(SolutionSerialise.FavouriteEntry fe, string solPathArg)
+        {
+            solutionPath = solPathArg;
+            reducerId = fe.reducerId;
+            reducerName = fe.reducerName;
+            bgc = fe.bgc;
+            fgc = fe.fgc;
+            fgs = fe.fgs;
+            lastAccessed = fe.lastAccessed;
+        }
+
+        public void AddToSolSerialise()
+        {
+            string jsonFile = Path.Combine(solutionPath, "solution.json");
+            SolutionSerialise solSerialise = JsonUtility.FromJson<SolutionSerialise>(File.ReadAllText(jsonFile));
+            solSerialise.favourites = solSerialise.favourites.Append(new SolutionSerialise.FavouriteEntry(this, true)).ToArray();
+            File.WriteAllTextAsync(jsonFile, JsonUtility.ToJson(solSerialise));
+        }
+
+        public void RemoveFromSolSerialise()
+        {
+            string jsonFile = Path.Combine(solutionPath, "solution.json");
+            SolutionSerialise solSerialise = JsonUtility.FromJson<SolutionSerialise>(File.ReadAllText(jsonFile));
+            solSerialise.favourites = solSerialise.favourites.Where(fe => fe.reducerId != reducerId).ToArray();
+            File.WriteAllTextAsync(jsonFile, JsonUtility.ToJson(solSerialise));
         }
     }
 }

@@ -2,20 +2,67 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using System.IO;
 
 public struct SolutionSerialise
 {
-    public SolutionSerialise(Solution solution)
+    public SolutionSerialise(Solution solution, ImportFolderContents ifc, string solutionPath)
     {
         name = solution.sName;
         idCounter = solution.idCounter;
+        Dictionary<uint, FavouriteEntry> favouritesMap = ifc.favouritedReducers
+                                            .Where(fr => Path.GetFullPath(fr.solutionPath) == Path.GetFullPath(solutionPath))
+                                            .Select(fr => new FavouriteEntry(fr, false))
+                                            .ToDictionary(fr => fr.reducerId);
+        foreach (Reducer r in solution.reducers)
+        {
+            if (favouritesMap.ContainsKey(r.id))
+            {
+                favouritesMap[r.id].UpdateVals(r);
+            }
+        }
+        favourites = favouritesMap.Select(kvp => kvp.Value).Where(fe => fe.validated).ToArray();
+
         contents = solution.contents.Select(r => new ReducerOrFolderSerialise(r)).ToArray();
     }
 
     public string name;
     public uint idCounter;
     public ReducerOrFolderSerialise[] contents;
+    public FavouriteEntry[] favourites;
 
+    [System.Serializable]
+    public struct FavouriteEntry
+    {
+        public FavouriteEntry(ImportFolderContents.FavouritedReducer fr, bool validatedArg)
+        {
+            lastAccessed = fr.lastAccessed;
+            reducerId = fr.reducerId;
+            reducerName = fr.reducerName;
+            bgc = fr.bgc;
+            fgc = fr.fgc;
+            fgs = fr.fgs;
+            validated = validatedArg;
+        }
+
+        public void UpdateVals(Reducer r)
+        {
+            reducerName = r.rName;
+            bgc = r.backgroundColour;
+            fgc = r.foregroundColour;
+            fgs = r.foregroundSprite;
+            validated = true;
+        }
+
+        public long lastAccessed;
+        public uint reducerId;
+        public string reducerName;
+        public int bgc;
+        public int fgc;
+        public int fgs;
+        public bool validated;
+    }
+    
     [System.Serializable]
     public struct ReducerOrFolderSerialise
     {

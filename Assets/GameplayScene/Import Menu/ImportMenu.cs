@@ -10,16 +10,10 @@ public class ImportMenu : MonoBehaviour
     public Solution loadedSolution;
     public GameObject solutionContainer;
     public ImportFolderContents importFolderContents;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
+    public bool IsReady()
     {
-        
+        return importFolderContents.FavouritesLoaded();
     }
 
     public void Initialise()
