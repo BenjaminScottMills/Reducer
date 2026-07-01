@@ -5,11 +5,12 @@ using UnityEngine;
 
 public class ImportMenu : MonoBehaviour
 {
-    public enum DirectoryLevel {chapters, levels, solutions};
+    public enum DirectoryLevel {chapters, levels, solutions, specificSolution};
     public Solution solution;
     public Solution loadedSolution;
     public GameObject solutionContainer;
     public ImportFolderContents importFolderContents;
+    public PathDisplay pathDisplay;
 
     public bool IsReady()
     {

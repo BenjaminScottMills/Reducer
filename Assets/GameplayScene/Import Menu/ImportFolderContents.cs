@@ -63,9 +63,10 @@ public class ImportFolderContents : MonoBehaviour
         }
 
         PositionButtons();
+        importMenu.pathDisplay.CreateFolderButtonsFavourites();
     }
 
-    public void LoadFolderContents(List<ReducerOrFolder> contents)
+    public void LoadFolderContents(List<ReducerOrFolder> contents, RFolder currentFolder)
     {
         foreach (var rof in contents)
         {
@@ -88,6 +89,7 @@ public class ImportFolderContents : MonoBehaviour
         }
 
         PositionButtons();
+        importMenu.pathDisplay.CreateFolderButtons(currLevel, currDirectory, currentFolder);
     }
 
     public void LoadFolderContents(string folderPath)
@@ -111,19 +113,23 @@ public class ImportFolderContents : MonoBehaviour
 
                 break;
             case ImportMenu.DirectoryLevel.solutions:
+                currLevel = ImportMenu.DirectoryLevel.specificSolution;
                 importMenu.solutionContainer = Instantiate(solutionContainerPrefab, Vector3.zero, Quaternion.identity, importMenu.transform);
                 importMenu.loadedSolution = Instantiate(dummySolutionPrefab, Vector3.zero, Quaternion.identity, importMenu.solutionContainer.transform).GetComponent<Solution>();
                 importMenu.loadedSolution.CopyFixedReducers(importMenu.solution);
                 importMenu.loadedSolution.CopySettings(importMenu.solution);
                 importMenu.loadedSolution.mouseNode = importMenu.solution.mouseNode;
                 importMenu.loadedSolution.LoadFromSerialisedForImporting(JsonUtility.FromJson<SolutionSerialise>(File.ReadAllText(Path.Combine(currDirectory, "solution.json"))));
-                LoadFolderContents(importMenu.loadedSolution.contents);
+                LoadFolderContents(importMenu.loadedSolution.contents, null);
                 PositionButtons();
                 return;
+            default:
+                throw new Exception("ImportFolderContents case switch messed up");
         }
 
         CreateFolderButtons(contents);
         PositionButtons();
+        importMenu.pathDisplay.CreateFolderButtons(currLevel, currDirectory, null);
     }
 
     void CreateFolderButtons(string[] contents)
@@ -173,6 +179,7 @@ public class ImportFolderContents : MonoBehaviour
         contents = contents[..firstEmptyChapter];
         CreateFolderButtons(contents);
         PositionButtons();
+        importMenu.pathDisplay.CreateFolderButtons(currLevel, currDirectory, null);
     }
 
     public bool IsFavourited(Reducer r)

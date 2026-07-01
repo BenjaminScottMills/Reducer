@@ -49,7 +49,7 @@ public class ImportFolderEntry : MonoBehaviour, IPointerClickHandler
         }
         else
         {
-            importFolderContents.LoadFolderContents(innerRFolder.contents);
+            importFolderContents.LoadFolderContents(innerRFolder.contents, innerRFolder);
         }
     }
 }

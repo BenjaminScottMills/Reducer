@@ -7152,6 +7152,58 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1834314214}
   m_CullTransparentMesh: 1
+--- !u!1 &1842152374
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1842152375}
+  - component: {fileID: 1842152376}
+  m_Layer: 0
+  m_Name: PathDisplay
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1842152375
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1842152374}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5014740030293178605}
+  m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -30, y: -85}
+  m_SizeDelta: {x: -220, y: 55}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1842152376
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1842152374}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b3907890b2116041a4f7a87c9bc4202, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rectTransform: {fileID: 1842152375}
+  folderButtonPrefab: {fileID: 4272238374056465715, guid: 5b899507038d4db46917d4dc02c2402e, type: 3}
+  folderButtons: []
 --- !u!1 &1869615942
 GameObject:
   m_ObjectHideFlags: 0
@@ -8193,7 +8245,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 6756416230557651694}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.9871782
+  m_Size: 0.9976691
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -8254,7 +8306,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.0000657924}
+  m_AnchoredPosition: {x: 0, y: 0.000046332123}
   m_SizeDelta: {x: 0, y: 70}
   m_Pivot: {x: 0, y: 1}
 --- !u!1001 &2692748726787805173
@@ -8577,6 +8629,7 @@ RectTransform:
   - {fileID: 5014740031384195157}
   - {fileID: 11506889}
   - {fileID: 8260589272974192693}
+  - {fileID: 1842152375}
   m_Father: {fileID: 5014740031739183928}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -9378,6 +9431,7 @@ MonoBehaviour:
   loadedSolution: {fileID: 0}
   solutionContainer: {fileID: 0}
   importFolderContents: {fileID: 8260589272974192694}
+  pathDisplay: {fileID: 1842152376}
 --- !u!1 &5014740031862336132
 GameObject:
   m_ObjectHideFlags: 0
@@ -9608,7 +9662,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 0.9871782}
+  m_AnchorMax: {x: 1, y: 0.9976691}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
