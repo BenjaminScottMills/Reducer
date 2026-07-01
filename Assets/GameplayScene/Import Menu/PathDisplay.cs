@@ -7,6 +7,7 @@ using UnityEngine;
 
 public class PathDisplay : MonoBehaviour
 {
+    public ImportFolderContents importFolderContents;
     public RectTransform rectTransform;
     public GameObject folderButtonPrefab;
     public List<PathFolderButton> folderButtons;
@@ -63,10 +64,9 @@ public class PathDisplay : MonoBehaviour
         {
             PathFolderButton newButton = Instantiate(folderButtonPrefab, nextPosition, Quaternion.identity, transform).GetComponent<PathFolderButton>();
             folderButtons.Add(newButton);
-            newButton.Setup(pair.level, pair.folder, solutionPath);
+            newButton.Setup(pair.level, pair.folder, solutionPath, importFolderContents);
             nextPosition = TopRightCorner(newButton.rectTransform);
         }
-        folderButtons.Last().DisableClickEffect();
 
         float contentRightEdge = TopRightCorner(folderButtons.Last().rectTransform).x;
         float boxRightEdge = TopRightCorner(rectTransform).x;
@@ -83,7 +83,7 @@ public class PathDisplay : MonoBehaviour
         folderButtons.Clear();
         PathFolderButton newButton = Instantiate(folderButtonPrefab, TopLeftCorner(rectTransform), Quaternion.identity, transform).GetComponent<PathFolderButton>();
         folderButtons.Add(newButton);
-        newButton.Setup(ImportMenu.DirectoryLevel.chapters, null, "");
+        newButton.Setup(ImportMenu.DirectoryLevel.chapters, null, "", importFolderContents);
         newButton = Instantiate(folderButtonPrefab, TopRightCorner(newButton.rectTransform), Quaternion.identity, transform).GetComponent<PathFolderButton>();
         folderButtons.Add(newButton);
         newButton.SetupFavourites();

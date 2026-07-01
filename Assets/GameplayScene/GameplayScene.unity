@@ -7204,6 +7204,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b3907890b2116041a4f7a87c9bc4202, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  importFolderContents: {fileID: 8260589272974192694}
   rectTransform: {fileID: 1842152375}
   folderButtonPrefab: {fileID: 4272238374056465715, guid: 5b899507038d4db46917d4dc02c2402e, type: 3}
   folderButtons: []

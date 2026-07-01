@@ -7,9 +7,13 @@ using UnityEngine.UI;
 
 public class PathFolderButton : MonoBehaviour
 {
+    public ImportFolderContents importFolderContents;
     public RectTransform rectTransform;
     public Text text;
     public string targetDirectory;
+    public RFolder targetFolder;
+    public bool isFavourite = false;
+    public ImportMenu.DirectoryLevel targetLevel;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,8 +26,10 @@ public class PathFolderButton : MonoBehaviour
         
     }
 
-    public void Setup(ImportMenu.DirectoryLevel level, RFolder folder, string currPath)
+    public void Setup(ImportMenu.DirectoryLevel level, RFolder folder, string currPath, ImportFolderContents ifc)
     {
+        importFolderContents = ifc;
+        targetLevel = level;
         switch (level)
         {
             case ImportMenu.DirectoryLevel.chapters:
@@ -31,12 +37,10 @@ public class PathFolderButton : MonoBehaviour
                 text.text = NameToButtonText("Chapters");
                 break;
             case ImportMenu.DirectoryLevel.levels:
-                Debug.Log(currPath);
                 targetDirectory = NthParent(currPath, 3);
                 text.text = NameToButtonText(Path.GetFileName(targetDirectory).Substring(2));
                 break;
             case ImportMenu.DirectoryLevel.solutions:
-                Debug.Log(currPath);
                 targetDirectory = NthParent(currPath, 2);
                 text.text = NameToButtonText(Path.GetFileName(targetDirectory).Substring(2));
                 break;
@@ -49,6 +53,7 @@ public class PathFolderButton : MonoBehaviour
                 else
                 {
                     text.text = NameToButtonText(folder.folderName);
+                    targetFolder = folder;
                 }
                 break;
         }
@@ -56,14 +61,36 @@ public class PathFolderButton : MonoBehaviour
         LayoutRebuilder.ForceRebuildLayoutImmediate(rectTransform);
     }
 
-    public void DisableClickEffect()
-    {
-        
-    }
-
     public void SetupFavourites()
     {
-        
+        isFavourite = true;
+        text.text = NameToButtonText("Favourites");
+    }
+
+    public void OnClick()
+    {
+        importFolderContents.ClearContents();
+        if (isFavourite)
+        {
+            importFolderContents.LoadFolderContentsFavourites();
+        }
+        else if (targetLevel == ImportMenu.DirectoryLevel.specificSolution)
+        {
+            List<ReducerOrFolder> contents = null;
+            if (targetFolder == null)
+            {
+                contents = importFolderContents.importMenu.loadedSolution.contents;
+            }
+            else
+            {
+                contents = targetFolder.contents;
+            }
+            importFolderContents.LoadFolderContents(contents, targetFolder);
+        }
+        else
+        {
+            importFolderContents.LoadFolderContents(targetDirectory, targetLevel);
+        }
     }
 
     static string NameToButtonText(string str)

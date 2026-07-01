@@ -94,17 +94,51 @@ public class ImportFolderContents : MonoBehaviour
 
     public void LoadFolderContents(string folderPath)
     {
+        ImportMenu.DirectoryLevel newLevel;
+        switch(currLevel)
+        {
+            case ImportMenu.DirectoryLevel.chapters:
+                newLevel = ImportMenu.DirectoryLevel.levels;
+                break;
+            case ImportMenu.DirectoryLevel.levels:
+                newLevel = ImportMenu.DirectoryLevel.solutions;
+                break;
+            case ImportMenu.DirectoryLevel.solutions:
+                newLevel = ImportMenu.DirectoryLevel.specificSolution;
+                break;
+            default:
+                throw new Exception("ImportFolderContents case switch messed up");
+        }
+        LoadFolderContents(folderPath, newLevel);
+    }
+
+    public void LoadFolderContents(string folderPath, ImportMenu.DirectoryLevel newLevel)
+    {
         currDirectory = folderPath;
+        currLevel = newLevel;
         string[] contents = null;
         switch (currLevel)
         {
             case ImportMenu.DirectoryLevel.chapters:
-                currLevel = ImportMenu.DirectoryLevel.levels;
-                contents = Directory.GetDirectories(currDirectory).Where(s => ChapterMenu.LevelCompleted(s)).Select(s => Path.GetFileName(s)).ToArray();
+                contents = Directory.GetDirectories(currDirectory).Select(s => Path.GetFileName(s)).ToArray();
+                Array.Sort(contents);
+                int firstEmptyChapter = 1;
+                for (; firstEmptyChapter < contents.Length; ++firstEmptyChapter)
+                {
+                    string[] chapterContents = Directory.GetDirectories(Path.Combine(currDirectory, contents[firstEmptyChapter]));
+                    Array.Sort(chapterContents);
+                    if (!ChapterMenu.LevelCompleted(chapterContents[0]))
+                    {
+                        break;
+                    }
+                }
+                contents = contents[..firstEmptyChapter];
                 break;
             case ImportMenu.DirectoryLevel.levels:
+                contents = Directory.GetDirectories(currDirectory).Where(s => ChapterMenu.LevelCompleted(s)).Select(s => Path.GetFileName(s)).ToArray();
+                break;
+            case ImportMenu.DirectoryLevel.solutions:
                 currDirectory = Path.Combine(currDirectory, "solutions");
-                currLevel = ImportMenu.DirectoryLevel.solutions;
                 contents = Directory.GetDirectories(currDirectory).Select(s => Path.GetFileName(s)).ToArray();
                 if (Path.GetFullPath(currDirectory) == Path.GetFullPath(Directory.GetParent(importMenu.solution.solutionPath).FullName))
                 {
@@ -112,8 +146,7 @@ public class ImportFolderContents : MonoBehaviour
                 }
 
                 break;
-            case ImportMenu.DirectoryLevel.solutions:
-                currLevel = ImportMenu.DirectoryLevel.specificSolution;
+            case ImportMenu.DirectoryLevel.specificSolution:
                 importMenu.solutionContainer = Instantiate(solutionContainerPrefab, Vector3.zero, Quaternion.identity, importMenu.transform);
                 importMenu.loadedSolution = Instantiate(dummySolutionPrefab, Vector3.zero, Quaternion.identity, importMenu.solutionContainer.transform).GetComponent<Solution>();
                 importMenu.loadedSolution.CopyFixedReducers(importMenu.solution);
@@ -121,7 +154,6 @@ public class ImportFolderContents : MonoBehaviour
                 importMenu.loadedSolution.mouseNode = importMenu.solution.mouseNode;
                 importMenu.loadedSolution.LoadFromSerialisedForImporting(JsonUtility.FromJson<SolutionSerialise>(File.ReadAllText(Path.Combine(currDirectory, "solution.json"))));
                 LoadFolderContents(importMenu.loadedSolution.contents, null);
-                PositionButtons();
                 return;
             default:
                 throw new Exception("ImportFolderContents case switch messed up");
@@ -162,24 +194,7 @@ public class ImportFolderContents : MonoBehaviour
     public void Initialise()
     {
         ClearContents();
-        currDirectory = Path.Combine(Application.persistentDataPath, "chapters");
-        currLevel = ImportMenu.DirectoryLevel.chapters;
-        string[] contents = Directory.GetDirectories(currDirectory).Select(s => Path.GetFileName(s)).ToArray();
-        Array.Sort(contents);
-        int firstEmptyChapter = 1;
-        for (; firstEmptyChapter < contents.Length; ++firstEmptyChapter)
-        {
-            string[] chapterContents = Directory.GetDirectories(Path.Combine(currDirectory, contents[firstEmptyChapter]));
-            Array.Sort(chapterContents);
-            if (!ChapterMenu.LevelCompleted(chapterContents[0]))
-            {
-                break;
-            }
-        }
-        contents = contents[..firstEmptyChapter];
-        CreateFolderButtons(contents);
-        PositionButtons();
-        importMenu.pathDisplay.CreateFolderButtons(currLevel, currDirectory, null);
+        LoadFolderContents(Path.Combine(Application.persistentDataPath, "chapters"), ImportMenu.DirectoryLevel.chapters);
     }
 
     public bool IsFavourited(Reducer r)
