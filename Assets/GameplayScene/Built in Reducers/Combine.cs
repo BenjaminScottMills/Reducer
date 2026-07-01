@@ -58,7 +58,7 @@ public class Combine : Reducer
                         case (int)SpecialReducers.fire:
                             return new ExecuteReducer(fire);
                         case (int)SpecialReducers.plant:
-                            return new ExecuteReducer(earth);
+                            return new ExecuteReducer(fire);
                         case (int)SpecialReducers.water:
                             return new ExecuteReducer(nullReducer);
                         default:
@@ -70,9 +70,9 @@ public class Combine : Reducer
                         case (int)SpecialReducers.earth:
                             return new ExecuteReducer(plant);
                         case (int)SpecialReducers.fire:
-                            return new ExecuteReducer(earth);
+                            return new ExecuteReducer(fire);
                         case (int)SpecialReducers.plant:
-                            return new ExecuteReducer(nullReducer);
+                            return new ExecuteReducer(earth);
                         case (int)SpecialReducers.water:
                             return new ExecuteReducer(plant);
                         default:
