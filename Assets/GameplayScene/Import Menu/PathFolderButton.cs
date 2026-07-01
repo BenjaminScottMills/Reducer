@@ -44,7 +44,7 @@ public class PathFolderButton : MonoBehaviour
                 targetDirectory = currPath;
                 if (folder == null)
                 {
-                    text.text = NameToButtonText(folder.solution.sName);
+                    text.text = NameToButtonText(Path.GetFileName(targetDirectory).Substring(2));
                 }
                 else
                 {

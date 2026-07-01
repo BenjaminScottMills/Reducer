@@ -68,8 +68,13 @@ public class PathDisplay : MonoBehaviour
         }
         folderButtons.Last().DisableClickEffect();
 
-        // check for overflow. If it occured, then shift all left by a certain amount, determined by comparing top right of this with top right of last new button.
-        // Just use a mask to hide the overflow on the left hand side.
+        float contentRightEdge = TopRightCorner(folderButtons.Last().rectTransform).x;
+        float boxRightEdge = TopRightCorner(rectTransform).x;
+        if (contentRightEdge > boxRightEdge)
+        {
+            Vector3 requiredDisplacement = new Vector3(boxRightEdge - contentRightEdge, 0);
+            folderButtons.ForEach(b => b.transform.position += requiredDisplacement);
+        }
     }
 
     public void CreateFolderButtonsFavourites()
