@@ -32,6 +32,8 @@ public class Reducer : MonoBehaviour
     {
         child = Instantiate(reducerPrefab, Vector3.zero, Quaternion.identity, transform.parent).GetComponent<Reducer>();
 
+        ApplyVisualFromSerialised();
+
         SolutionSerialise.ReducerSerialise r = rsForLoadingIn.Value;
         rsForLoadingIn = null;
 
@@ -39,10 +41,6 @@ public class Reducer : MonoBehaviour
         rName = r.name;
         description = r.description;
         nodeIdCounter = r.nodeIdCounter;
-
-        backgroundColour = r.backgroundColour;
-        foregroundColour = r.foregroundColour;
-        foregroundSprite = r.foregroundSprite;
 
         nodes = new List<Node>();
         for (int i = 0; i < r.nodes.Length; i++)
@@ -74,6 +72,16 @@ public class Reducer : MonoBehaviour
         for (int i = 0; i < r.childNodes.Length; i++)
         {
             child.nodes[i].CreateLinksFromSerialised(r.childNodes[i], child.nodes);
+        }
+    }
+
+    public void ApplyVisualFromSerialised()
+    {
+        if (rsForLoadingIn != null)
+        {
+            backgroundColour = rsForLoadingIn.Value.backgroundColour;
+            foregroundColour = rsForLoadingIn.Value.foregroundColour;
+            foregroundSprite = rsForLoadingIn.Value.foregroundSprite;
         }
     }
 

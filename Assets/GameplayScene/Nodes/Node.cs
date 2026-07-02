@@ -78,6 +78,7 @@ public class Node : MonoBehaviour
         else
         {
             reducer = reducers.First(r => r.id == ns.redId);
+            reducer.ApplyVisualFromSerialised();
         }
 
         reducerVisual.SetVisual(reducer);
