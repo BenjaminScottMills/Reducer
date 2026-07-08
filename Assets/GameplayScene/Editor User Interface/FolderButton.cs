@@ -53,7 +53,7 @@ public class FolderButton : SidebarButton
         mouseNode.tooltipText.text = upInHiearchy ? goUpStr : rFolder.folderName;
         if (Input.GetMouseButtonDown(0))
         {
-            if (!upInHiearchy && (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)))
+            if (modifiable && (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)))
             {
                 mouseNode.StartDraggingSidebarButton(this);
             }
@@ -66,7 +66,6 @@ public class FolderButton : SidebarButton
                 if (upInHiearchy && rFolder == null)
                 {
                     newFileContents = mouseNode.solution.contents;
-
                 }
                 else
                 {
