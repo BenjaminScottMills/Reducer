@@ -77,6 +77,12 @@ public class FolderButton : SidebarButton
                 {
                     customReducerList.AddReducerOrFolderButton(rof, false);
                 }
+
+                if (customReducerList.mouseNode.topMenu.selectedScreen == 'T')
+                {
+                    customReducerList.ActivateTestMode();
+                }
+
                 customReducerList.ResetPosition(); // make it so that customButtons[0] is at the top edge
             }
         }
