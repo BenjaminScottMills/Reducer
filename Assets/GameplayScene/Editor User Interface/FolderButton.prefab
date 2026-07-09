@@ -127,8 +127,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   colliderd2d: {fileID: 4392335878307214165}
   upperHalf: 0
+  fixedAtTop: 0
   mouseNode: {fileID: 0}
+  beingDragged: 0
+  hoveredForDragDrop: 0
   highlight: {fileID: 5531012534374978936}
+  targetHighlight: 0
+  highlightTimer: 0
   textboxCollider: {fileID: 4966430006068431510}
   rfm: {fileID: 3743813450997877480}
   visual: {fileID: 5021523088186108774}
@@ -1323,7 +1328,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6429248986238013672}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1

@@ -11,6 +11,8 @@ public class FolderButton : SidebarButton
     const string goUpStr = "Parent Folder";
     public bool hoveredForDragDrop;
     public SpriteRenderer highlight;
+    public bool targetHighlight;
+    public float highlightTimer;
     public Collider2D textboxCollider;
     public RemoveFolderManager rfm;
     public GameObject visual;
@@ -28,6 +30,10 @@ public class FolderButton : SidebarButton
     protected override void SetInvis()
     {
         hoveredForDragDrop = false;
+        highlightTimer = 0;
+        highlight.enabled = false;
+        targetHighlight = false;
+
         visual.gameObject.SetActive(false);
     }
 
@@ -35,7 +41,27 @@ public class FolderButton : SidebarButton
     {
         hoveredForDragDrop = false;
         visual.gameObject.SetActive(true);
-        highlight.enabled = inputField.isFocused;
+
+        const float timerMax = 0.125f;
+        Debug.Log(highlightTimer);
+        Debug.Log(targetHighlight);
+        if (highlightTimer <= timerMax && highlight.enabled != targetHighlight) highlightTimer += Time.deltaTime;
+        else
+        {
+            highlight.enabled = targetHighlight;
+            highlightTimer = 0;
+        }
+
+        if (inputField.isFocused)
+        {
+            highlight.enabled = true;
+            targetHighlight = true;
+        }
+        else
+        {
+            targetHighlight = false;
+        }
+
         DetermineIfModifiable();
     }
 
@@ -46,7 +72,7 @@ public class FolderButton : SidebarButton
     protected override void BottomHalfMouseOverlap()
     {
         if (beingDragged) return;
-        highlight.enabled = true;
+        targetHighlight = true;
         hoveredForDragDrop = true;
         if (modifiable && (rfm.AnyHovered() || textboxCollider.OverlapPoint(Camera.main.ScreenToWorldPoint(Input.mousePosition)))) return;
 
