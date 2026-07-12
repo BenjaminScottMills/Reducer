@@ -13,6 +13,8 @@ public class ImportFolderEntry : MonoBehaviour, IPointerClickHandler
     bool isFavourites;
     public Text buttonText;
     public ImportFolderContents importFolderContents;
+    public Sprite favouriteVisual;
+    public Image icon;
 
     public void InitialiseDirectory(string directory)
     {
@@ -27,7 +29,7 @@ public class ImportFolderEntry : MonoBehaviour, IPointerClickHandler
         isDirectory = false;
         isFavourites = true;
         buttonText.text = "Favourites";
-        // favouriteVisual toggled on here
+        icon.sprite = favouriteVisual;
     }
 
     public void InitialiseRFolder(RFolder rFolder)

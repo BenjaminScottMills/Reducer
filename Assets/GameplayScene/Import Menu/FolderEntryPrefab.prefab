@@ -214,6 +214,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buttonText: {fileID: 7781445762827198191}
   importFolderContents: {fileID: 0}
+  favouriteVisual: {fileID: 21300000, guid: e40db6fb824198741ac7d40d0751380e, type: 3}
+  icon: {fileID: 1268787152606346978}
 --- !u!1 &7401200144878604824
 GameObject:
   m_ObjectHideFlags: 0
