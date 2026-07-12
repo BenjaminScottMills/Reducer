@@ -43,8 +43,6 @@ public class FolderButton : SidebarButton
         visual.gameObject.SetActive(true);
 
         const float timerMax = 0.125f;
-        Debug.Log(highlightTimer);
-        Debug.Log(targetHighlight);
         if (highlightTimer <= timerMax && highlight.enabled != targetHighlight) highlightTimer += Time.deltaTime;
         else
         {
