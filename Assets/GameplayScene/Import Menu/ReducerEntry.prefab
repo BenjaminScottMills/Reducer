@@ -94,7 +94,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 0
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -138,8 +138,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myReducer: {fileID: 0}
+  isFavouriteType: 0
   buttonText: {fileID: 7781445762827198191}
   importMenu: {fileID: 0}
+  importFolderContents: {fileID: 0}
   reducerVisual: {fileID: 8433533995075710117}
   favouriteButton: {fileID: 6791541043400478099}
 --- !u!1 &7401200144878604824
@@ -313,7 +315,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 0
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
