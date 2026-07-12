@@ -55,6 +55,8 @@ public class ImportFolderContents : MonoBehaviour
     {
         for (int i = favouritedReducers.Count - 1; i >= 0; --i)
         {
+            if (Path.GetFullPath(favouritedReducers[i].solutionPath) == Path.GetFullPath(importMenu.solution.solutionPath)) continue;
+
             var newEntry = Instantiate(reducerEntryPrefab, Vector3.zero, Quaternion.identity, scrollViewContent).GetComponent<ImportReducerEntry>();
             newEntry.gameObject.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
             newEntry.importMenu = importMenu;
