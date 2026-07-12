@@ -166,6 +166,15 @@ public class ImportFolderContents : MonoBehaviour
 
     void CreateFolderButtons(string[] contents)
     {
+        if (currLevel == ImportMenu.DirectoryLevel.chapters)
+        {
+            var newEntry = Instantiate(folderEntryPrefab, Vector3.zero, Quaternion.identity, scrollViewContent).GetComponent<ImportFolderEntry>();
+            newEntry.gameObject.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+            newEntry.importFolderContents = this;
+            newEntry.InitialiseFavourites();
+            entries.Add(newEntry.gameObject);
+        }
+
         Array.Sort(contents);
 
         foreach (var inner in contents)

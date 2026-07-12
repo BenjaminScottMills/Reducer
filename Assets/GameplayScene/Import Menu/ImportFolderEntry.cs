@@ -26,6 +26,8 @@ public class ImportFolderEntry : MonoBehaviour, IPointerClickHandler
     {
         isDirectory = false;
         isFavourites = true;
+        buttonText.text = "Favourites";
+        // favouriteVisual toggled on here
     }
 
     public void InitialiseRFolder(RFolder rFolder)

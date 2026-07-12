@@ -61,8 +61,9 @@ public class PathFolderButton : MonoBehaviour
         LayoutRebuilder.ForceRebuildLayoutImmediate(rectTransform);
     }
 
-    public void SetupFavourites()
+    public void SetupFavourites(ImportFolderContents ifc)
     {
+        importFolderContents = ifc;
         isFavourite = true;
         text.text = NameToButtonText("Favourites");
     }

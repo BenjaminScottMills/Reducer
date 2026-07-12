@@ -86,7 +86,7 @@ public class PathDisplay : MonoBehaviour
         newButton.Setup(ImportMenu.DirectoryLevel.chapters, null, "", importFolderContents);
         newButton = Instantiate(folderButtonPrefab, TopRightCorner(newButton.rectTransform), Quaternion.identity, transform).GetComponent<PathFolderButton>();
         folderButtons.Add(newButton);
-        newButton.SetupFavourites();
+        newButton.SetupFavourites(importFolderContents);
     }
 
     static Vector3 TopRightCorner(RectTransform rt)
