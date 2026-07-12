@@ -18,7 +18,9 @@ public struct SolutionSerialise
         {
             if (favouritesMap.ContainsKey(r.id))
             {
-                favouritesMap[r.id].UpdateVals(r);
+                var favEntry = favouritesMap[r.id];
+                favEntry.UpdateVals(r);
+                favouritesMap[r.id] = favEntry;
             }
         }
         favourites = favouritesMap.Select(kvp => kvp.Value).Where(fe => fe.validated).ToArray();
