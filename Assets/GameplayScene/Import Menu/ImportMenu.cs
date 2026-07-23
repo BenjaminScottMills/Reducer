@@ -31,6 +31,11 @@ public class ImportMenu : MonoBehaviour
 
     public void SetActiveReducer(Reducer reducer)
     {
-        
+        // HERE!
+        // TO DO:
+        // text for reducer name
+        // text for reducer description
+        // area for reducer's nodes (do last. Use viewport. Be within UI.)
+        // button for selecting it
     }
 }
