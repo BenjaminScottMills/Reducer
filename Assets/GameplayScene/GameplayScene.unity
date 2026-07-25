@@ -9318,6 +9318,8 @@ MonoBehaviour:
   reducerDescriptionText: {fileID: 1897267016}
   importReducerButton: {fileID: 1324935013}
   nodeDisplay: {fileID: 2136096708}
+  dummySolutionPrefab: {fileID: 6195297759337099437, guid: e3b0435c4ac20d548bf007027e3d9831, type: 3}
+  solutionContainerPrefab: {fileID: 5199003888023073657, guid: c62d58fb2223e354c96b89d70e42696e, type: 3}
 --- !u!114 &5163378584171831281
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9478,8 +9480,6 @@ MonoBehaviour:
   scrollViewContent: {fileID: 2067684682035993451}
   currLevel: 0
   importMenu: {fileID: 5014740031739183930}
-  dummySolutionPrefab: {fileID: 6195297759337099437, guid: e3b0435c4ac20d548bf007027e3d9831, type: 3}
-  solutionContainerPrefab: {fileID: 5199003888023073657, guid: c62d58fb2223e354c96b89d70e42696e, type: 3}
   mouseNode: {fileID: 1384790493}
   currDirectory: 
 --- !u!114 &9069195676497666153
