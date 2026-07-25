@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ImportReducerEntry : MonoBehaviour, IPointerClickHandler
+public class ImportReducerEntry : UIPointerHoverDetector, IPointerClickHandler
 {
     public Reducer myReducer;
     public ImportFolderContents.FavouritedReducer myFavReducer;
@@ -68,6 +68,14 @@ public class ImportReducerEntry : MonoBehaviour, IPointerClickHandler
         else
         {
             importFolderContents.RemoveFavourite(myReducer);
+        }
+    }
+
+    void Update()
+    {
+        if (isPointerHovered)
+        {
+            importFolderContents.mouseNode.tooltipText.text = buttonText.text;
         }
     }
 }

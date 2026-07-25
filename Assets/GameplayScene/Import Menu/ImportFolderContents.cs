@@ -20,6 +20,7 @@ public class ImportFolderContents : MonoBehaviour
     public ImportMenu importMenu;
     public GameObject dummySolutionPrefab;
     public GameObject solutionContainerPrefab;
+    public MouseNode mouseNode;
     public string currDirectory;
     public List<FavouritedReducer> favouritedReducers;
     Task favouriteLoadingTask;

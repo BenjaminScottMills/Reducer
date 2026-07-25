@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ImportFolderEntry : MonoBehaviour, IPointerClickHandler
+public class ImportFolderEntry : UIPointerHoverDetector, IPointerClickHandler
 {
     string innerDirectory;
     RFolder innerRFolder;
@@ -54,6 +54,14 @@ public class ImportFolderEntry : MonoBehaviour, IPointerClickHandler
         else
         {
             importFolderContents.LoadFolderContents(innerRFolder.contents, innerRFolder);
+        }
+    }
+
+    void Update()
+    {
+        if (isPointerHovered)
+        {
+            importFolderContents.mouseNode.tooltipText.text = buttonText.text;
         }
     }
 }
