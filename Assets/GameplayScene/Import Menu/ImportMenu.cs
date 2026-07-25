@@ -52,6 +52,7 @@ public class ImportMenu : MonoBehaviour
     {
         gameObject.SetActive(false);
         Destroy(solutionContainer);
+        solutionContainer = null;
         solution.SetInteractable();
     }
 
@@ -62,12 +63,20 @@ public class ImportMenu : MonoBehaviour
 
     public void LoadSolution(string solutionPath)
     {
-        if (solutionContainer != null) Destroy(solutionContainer);
+        if (solutionContainer != null)
+        {
+            if (loadedSolution != null && Path.GetFullPath(loadedSolution.solutionPath) == Path.GetFullPath(solutionPath))
+            {
+                return;
+            }
+            Destroy(solutionContainer);
+        }
         solutionContainer = Instantiate(solutionContainerPrefab, Vector3.zero, Quaternion.identity, transform);
         loadedSolution = Instantiate(dummySolutionPrefab, Vector3.zero, Quaternion.identity, solutionContainer.transform).GetComponent<Solution>();
         loadedSolution.CopyFixedReducers(solution);
         loadedSolution.CopySettings(solution);
         loadedSolution.mouseNode = solution.mouseNode;
+        loadedSolution.solutionPath = solutionPath;
         loadedSolution.LoadFromSerialisedForImporting(JsonUtility.FromJson<SolutionSerialise>(File.ReadAllText(Path.Combine(solutionPath, "solution.json")))); // Potentially do async stuff if this ends up being problematic. Could cause more issues though so be careful and test stuff like clicking buttons really really fast.
     }
 
