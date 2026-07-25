@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,6 +19,8 @@ public class ImportMenu : MonoBehaviour
     public Text reducerDescriptionText;
     public GenericButton importReducerButton;
     public ImportMenuNodeDisplay nodeDisplay;
+    public GameObject dummySolutionPrefab;
+    public GameObject solutionContainerPrefab;
 
     void Start()
     {
@@ -52,6 +55,34 @@ public class ImportMenu : MonoBehaviour
         solution.SetInteractable();
     }
 
+    public bool MatchesSelectedReducer(Reducer r)
+    {
+        return r != null && r == selectedReducer;
+    }
+
+    public void LoadSolution(string solutionPath)
+    {
+        if (solutionContainer != null) Destroy(solutionContainer);
+        solutionContainer = Instantiate(solutionContainerPrefab, Vector3.zero, Quaternion.identity, transform);
+        loadedSolution = Instantiate(dummySolutionPrefab, Vector3.zero, Quaternion.identity, solutionContainer.transform).GetComponent<Solution>();
+        loadedSolution.CopyFixedReducers(solution);
+        loadedSolution.CopySettings(solution);
+        loadedSolution.mouseNode = solution.mouseNode;
+        loadedSolution.LoadFromSerialisedForImporting(JsonUtility.FromJson<SolutionSerialise>(File.ReadAllText(Path.Combine(solutionPath, "solution.json")))); // Potentially do async stuff if this ends up being problematic. Could cause more issues though so be careful and test stuff like clicking buttons really really fast.
+    }
+
+    public Reducer SetSelectedReducer(ImportFolderContents.FavouritedReducer favouritedReducer)
+    {
+        LoadSolution(favouritedReducer.solutionPath);
+        Reducer foundRed = loadedSolution.reducers.First(r => r.id == favouritedReducer.reducerId);
+        if (foundRed == null)
+        {
+            throw new Exception("The solution referenced by a favourites entry does not have a matching reducer");
+        }
+        SetSelectedReducer(foundRed);
+        return foundRed;
+    }
+    
     public void SetSelectedReducer(Reducer reducer)
     {
         selectedReducer = reducer;

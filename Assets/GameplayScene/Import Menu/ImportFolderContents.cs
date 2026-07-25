@@ -18,8 +18,6 @@ public class ImportFolderContents : MonoBehaviour
     public RectTransform scrollViewContent;
     public ImportMenu.DirectoryLevel currLevel;
     public ImportMenu importMenu;
-    public GameObject dummySolutionPrefab;
-    public GameObject solutionContainerPrefab;
     public MouseNode mouseNode;
     public string currDirectory;
     public List<FavouritedReducer> favouritedReducers;
@@ -157,12 +155,7 @@ public class ImportFolderContents : MonoBehaviour
 
                 break;
             case ImportMenu.DirectoryLevel.specificSolution:
-                importMenu.solutionContainer = Instantiate(solutionContainerPrefab, Vector3.zero, Quaternion.identity, importMenu.transform);
-                importMenu.loadedSolution = Instantiate(dummySolutionPrefab, Vector3.zero, Quaternion.identity, importMenu.solutionContainer.transform).GetComponent<Solution>();
-                importMenu.loadedSolution.CopyFixedReducers(importMenu.solution);
-                importMenu.loadedSolution.CopySettings(importMenu.solution);
-                importMenu.loadedSolution.mouseNode = importMenu.solution.mouseNode;
-                importMenu.loadedSolution.LoadFromSerialisedForImporting(JsonUtility.FromJson<SolutionSerialise>(File.ReadAllText(Path.Combine(currDirectory, "solution.json"))));
+                importMenu.LoadSolution(currDirectory);
                 LoadFolderContents(importMenu.loadedSolution.contents, null);
                 return;
             default:

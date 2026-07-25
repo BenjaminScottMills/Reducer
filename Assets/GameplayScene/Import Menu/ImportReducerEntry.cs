@@ -22,7 +22,15 @@ public class ImportReducerEntry : UIPointerHoverDetector, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData pointerEventData)
     {
-        importMenu.SetSelectedReducer(myReducer);
+        if (importMenu.MatchesSelectedReducer(myReducer)) return;
+        if (isFavouriteType)
+        {
+            importMenu.SetSelectedReducer(myFavReducer);
+        }
+        else
+        {
+            importMenu.SetSelectedReducer(myReducer);
+        }
     }
 
     public void Initialise(Reducer r)

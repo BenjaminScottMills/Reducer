@@ -17,6 +17,6 @@ public class ImportReducerEntryHighlight : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        visual.enabled = importMenu.selectedReducer != null && importMenu.selectedReducer == importReducerEntry.myReducer;
+        visual.enabled = importMenu.MatchesSelectedReducer(importReducerEntry.myReducer);
     }
 }
