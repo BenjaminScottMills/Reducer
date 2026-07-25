@@ -14,6 +14,7 @@ public class ImportFolderContents : MonoBehaviour
     public Vector3 entryListOffset;
     public GameObject folderEntryPrefab;
     public GameObject reducerEntryPrefab;
+    public GameObject reducerEntryHighlightPrefab;
     public RectTransform scrollViewContent;
     public ImportMenu.DirectoryLevel currLevel;
     public ImportMenu importMenu;
@@ -57,11 +58,14 @@ public class ImportFolderContents : MonoBehaviour
         {
             if (Path.GetFullPath(favouritedReducers[i].solutionPath) == Path.GetFullPath(importMenu.solution.solutionPath)) continue;
 
-            var newEntry = Instantiate(reducerEntryPrefab, Vector3.zero, Quaternion.identity, scrollViewContent).GetComponent<ImportReducerEntry>();
-            newEntry.gameObject.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+            var newEntryHighlight = Instantiate(reducerEntryHighlightPrefab, Vector3.zero, Quaternion.identity, scrollViewContent).GetComponent<ImportReducerEntryHighlight>();
+            var newEntry = Instantiate(reducerEntryPrefab, Vector3.zero, Quaternion.identity, newEntryHighlight.transform).GetComponent<ImportReducerEntry>();
+            newEntryHighlight.importReducerEntry = newEntry;
+            newEntryHighlight.importMenu = importMenu;
+            newEntryHighlight.gameObject.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
             newEntry.importMenu = importMenu;
             newEntry.Initialise(favouritedReducers[i]);
-            entries.Add(newEntry.gameObject);
+            entries.Add(newEntryHighlight.gameObject);
         }
 
         PositionButtons();
@@ -74,11 +78,14 @@ public class ImportFolderContents : MonoBehaviour
         {
             if (rof.IsReducer())
             {
-                var newEntry = Instantiate(reducerEntryPrefab, Vector3.zero, Quaternion.identity, scrollViewContent).GetComponent<ImportReducerEntry>();
-                newEntry.gameObject.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+                var newEntryHighlight = Instantiate(reducerEntryHighlightPrefab, Vector3.zero, Quaternion.identity, scrollViewContent).GetComponent<ImportReducerEntryHighlight>();
+                var newEntry = Instantiate(reducerEntryPrefab, Vector3.zero, Quaternion.identity, newEntryHighlight.transform).GetComponent<ImportReducerEntry>();
+                newEntryHighlight.importReducerEntry = newEntry;
+                newEntryHighlight.importMenu = importMenu;
+                newEntryHighlight.gameObject.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
                 newEntry.importMenu = importMenu;
                 newEntry.Initialise(rof.r);
-                entries.Add(newEntry.gameObject);
+                entries.Add(newEntryHighlight.gameObject);
             }
             else
             {

@@ -9474,6 +9474,7 @@ MonoBehaviour:
   entryListOffset: {x: 0, y: -60, z: 0}
   folderEntryPrefab: {fileID: 5029750518125571384, guid: 9e8c449ce3d569f449870903c7e0f084, type: 3}
   reducerEntryPrefab: {fileID: 5029750518125571384, guid: 8252fca3c5f7ada4db5477126d107705, type: 3}
+  reducerEntryHighlightPrefab: {fileID: 5029750518125571384, guid: 0d757a1f2c9e551428bc7006278ce4ce, type: 3}
   scrollViewContent: {fileID: 2067684682035993451}
   currLevel: 0
   importMenu: {fileID: 5014740031739183930}
