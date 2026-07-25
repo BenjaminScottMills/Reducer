@@ -22,7 +22,7 @@ public class ImportReducerEntry : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData pointerEventData)
     {
-        importMenu.SetActiveReducer(myReducer);
+        importMenu.SetSelectedReducer(myReducer);
     }
 
     public void Initialise(Reducer r)
