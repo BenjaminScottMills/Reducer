@@ -5,10 +5,11 @@ using UnityEngine.EventSystems;
 
 public class GenericButton : MonoBehaviour, IPointerClickHandler
 {
+    public bool restrictToLeftClicks;
     public MethodInvoker invoker;
     public void OnPointerClick(PointerEventData pointerEventData)
     {
-        invoker.InvokeMethod();
+        if (!restrictToLeftClicks || pointerEventData.button == PointerEventData.InputButton.Left) invoker.InvokeMethod();
     }
 
     public abstract class MethodInvoker

@@ -7,6 +7,7 @@ public class ImportMenuNodeDisplay : MonoBehaviour
     public GameObject connectorPrefab; // UIReducerConnector
     public GameObject nodeButtonPrefab; // ImportMenuNodeButton
     public GameObject contentsHolderPrefab;
+    public GenericButton backgroundButton;
     public Transform connectorLayerTransform;
     public TooltipText tooltipText;
     GameObject connectorLayerContentsHolder;
@@ -20,6 +21,17 @@ public class ImportMenuNodeDisplay : MonoBehaviour
     {
         baseScale = transform.localScale;
         basePosition = transform.localPosition;
+        backgroundButton.invoker = new PopReducerInvoker{nodeDisplay = this};
+        backgroundButton.restrictToLeftClicks = true;
+    }
+
+    class PopReducerInvoker : GenericButton.MethodInvoker
+    {
+        public ImportMenuNodeDisplay nodeDisplay;
+        public override void InvokeMethod()
+        {
+            nodeDisplay.TryPopReducer();
+        }
     }
 
     // Update is called once per frame
