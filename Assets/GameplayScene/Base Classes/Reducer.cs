@@ -152,6 +152,8 @@ public class Reducer : MonoBehaviour
             node.nextConnector?.gameObject.SetActive(true);
         }
 
+        Debug.Log("HERE!");
+
         Camera.main.transform.position = TestScreen.cameraDefaultPos;
     }
 

@@ -18,7 +18,7 @@ public class Solution : MonoBehaviour
     public GameObject reducerPrefab;
     public CustomReducerList customReducerList;
     public ImportFolderContents importFolderContents;
-    bool usedForImporting;
+    bool usedForImporting; // prevents loading reducer buttons into right sidebar
     public bool localReducersUnlocked = true;
     public bool foldersUnlocked = true;
     public bool importsUnlocked = true;

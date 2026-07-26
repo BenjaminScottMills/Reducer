@@ -6,7 +6,7 @@ using UnityEngine;
 public class TestScreen : MonoBehaviour
 {
     [HideInInspector]
-    public static Vector3 cameraDefaultPos = new Vector3(0, 0, -10);
+    public static Vector3 cameraDefaultPos = new Vector3(1.5f, 0, -10);
     public GameObject reducerNodeHolder;
     public GameObject displayNodePrefab;
     public GameObject reducerNodeHolderPrefab;

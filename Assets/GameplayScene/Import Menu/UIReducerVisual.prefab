@@ -281,6 +281,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f9a99f4ae8d5ef4e9acd45c1db5b5a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rectTransform: {fileID: 4186776016415269697}
   reducerVisual: {fileID: 8890591386474224227}
   foreground: {fileID: 3502256273103796484}
   background: {fileID: 5590818767979990137}
