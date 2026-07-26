@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class ImportMenuNodeDisplay : MonoBehaviour
 {
+    public GameObject connectorPrefab; // UIReducerConnector
+    public GameObject nodeButtonPrefab; // GenericButton
+    public GameObject reducerVisualPrefab; // UIReducerVisual
+    public Transform connectorLayerTransform;
+    public Transform reducerVisualLayerTransform;
     // Start is called before the first frame update
     void Start()
     {
