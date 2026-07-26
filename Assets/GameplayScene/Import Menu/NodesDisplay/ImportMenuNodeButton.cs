@@ -12,7 +12,7 @@ public class ImportMenuNodeButton : UIPointerHoverDetector, IPointerClickHandler
     public UIReducerVisual reducerVisual;
     public void OnPointerClick(PointerEventData pointerEventData)
     {
-        if (reducer.Selectable() && pointerEventData.button != PointerEventData.InputButton.Right)
+        if (reducer.Selectable() && pointerEventData.button == PointerEventData.InputButton.Left)
         {
             importMenuNodeDisplay.PushReducer(reducer);
         }
