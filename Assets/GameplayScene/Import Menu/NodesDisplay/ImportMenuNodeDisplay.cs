@@ -5,10 +5,10 @@ using UnityEngine;
 public class ImportMenuNodeDisplay : MonoBehaviour
 {
     public GameObject connectorPrefab; // UIReducerConnector
-    public GameObject nodeButtonPrefab; // GenericButton
-    public GameObject reducerVisualPrefab; // UIReducerVisual
+    public GameObject nodeButtonPrefab; // ImportMenuNodeButton
     public GameObject contentsHolderPrefab;
     public Transform connectorLayerTransform;
+    public TooltipText tooltipText;
     GameObject connectorLayerContentsHolder;
     public Transform reducerVisualLayerTransform;
     GameObject reducerVisualLayerContentsHolder;
@@ -26,17 +26,6 @@ public class ImportMenuNodeDisplay : MonoBehaviour
     void Update()
     {
         
-    }
-
-    class NodeButtonInvoker : GenericButton.MethodInvoker
-    {
-        public ImportMenuNodeDisplay importMenuNodeDisplay;
-        
-        public Reducer reducer;
-        public override void InvokeMethod()
-        {
-            importMenuNodeDisplay.PushReducer(reducer);
-        }
     }
 
     void DisplayReducer(Reducer reducer)
@@ -57,32 +46,27 @@ public class ImportMenuNodeDisplay : MonoBehaviour
         sortedNodes.Sort((a, b) => a.sortingGroup.sortingOrder.CompareTo(b.sortingGroup.sortingOrder));
         foreach (var node in reducer.nodes)
         {
-            NodeButtonInvoker invoker = new NodeButtonInvoker{importMenuNodeDisplay = this};
-            GenericButton nodeButton = Instantiate(nodeButtonPrefab, Vector3.zero, Quaternion.identity, connectorLayerContentsHolder.transform).GetComponent<GenericButton>();
-            UIReducerVisual reducerVisual = Instantiate(reducerVisualPrefab, Vector3.zero, Quaternion.identity, reducerVisualLayerContentsHolder.transform).GetComponent<UIReducerVisual>();
+            ImportMenuNodeButton nodeButton = Instantiate(nodeButtonPrefab, Vector3.zero, Quaternion.identity, reducerVisualLayerContentsHolder.transform).GetComponent<ImportMenuNodeButton>();
             nodeButton.transform.localPosition = node.transform.position;
-            reducerVisual.transform.localPosition = node.transform.position;
-            nodeButton.transform.localScale = new Vector3(1 / 35f, 1 / 35f, 1);
-            reducerVisual.transform.localScale = new Vector3(1 / 35f, 1 / 35f, 1);
-            nodeButton.invoker = invoker;
+            nodeButton.importMenuNodeDisplay = this;
 
             if (node.reducer.id == (int)Reducer.SpecialReducers.local)
             {
                 if (reducer.isChild)
                     {
-                        reducerVisual.SetVisual(reducer);
-                        invoker.reducer = reducer;
+                        nodeButton.reducerVisual.SetVisual(reducer);
+                        nodeButton.reducer = reducer;
                     }
                     else
                     {
-                        reducerVisual.SetVisual(reducer.child);
-                        invoker.reducer = reducer.child;
+                        nodeButton.reducerVisual.SetVisual(reducer.child);
+                        nodeButton.reducer = reducer.child;
                     }
             }
             else
             {
-                reducerVisual.SetVisual(node.reducer);
-                invoker.reducer = node.reducer;
+                nodeButton.reducerVisual.SetVisual(node.reducer);
+                nodeButton.reducer = node.reducer;
             }
             
 

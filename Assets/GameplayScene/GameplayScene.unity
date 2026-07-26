@@ -5003,7 +5003,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93e06b4c0f0373c4da39d8e2a06b5fcd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rectTransform: {fileID: 0}
 --- !u!1 &1341841381
 GameObject:
   m_ObjectHideFlags: 0
@@ -8821,9 +8820,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   connectorPrefab: {fileID: 7440976512734972642, guid: a37dd588315b3844b870518548d3981b, type: 3}
   nodeButtonPrefab: {fileID: 7440976512734972642, guid: d670aea13a2fa174fa0b1566188748f0, type: 3}
-  reducerVisualPrefab: {fileID: 7440976512734972642, guid: c7dec59b6771ff24a916090f64181dac, type: 3}
   contentsHolderPrefab: {fileID: 7440976512734972642, guid: 93e8db19c96db4c4e8648c39fffa994d, type: 3}
   connectorLayerTransform: {fileID: 272349297}
+  tooltipText: {fileID: 161163561}
   reducerVisualLayerTransform: {fileID: 472112108}
 --- !u!1 &2136287212
 GameObject:
