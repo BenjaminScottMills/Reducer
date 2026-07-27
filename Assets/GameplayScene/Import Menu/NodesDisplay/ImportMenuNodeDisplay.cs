@@ -10,6 +10,7 @@ public class ImportMenuNodeDisplay : MonoBehaviour
     public GenericButton backgroundButton;
     public Transform connectorLayerTransform;
     public TooltipText tooltipText;
+    public RectTransform backgroundTransform;
     GameObject connectorLayerContentsHolder;
     public Transform reducerVisualLayerTransform;
     GameObject reducerVisualLayerContentsHolder;
@@ -37,7 +38,18 @@ public class ImportMenuNodeDisplay : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        bool mouseWithinBounds = MouseInsideRectTransform(backgroundTransform);
+        Debug.Log(mouseWithinBounds);
+    }
+
+    // assumes that rectTransform is unrotated.
+    public static bool MouseInsideRectTransform(RectTransform rt)
+    {
+        Vector3[] cornersArray = new Vector3[4]; // 0 = bottom left, 2 = top right
+        rt.GetWorldCorners(cornersArray);
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        return  cornersArray[0].x <= mousePos.x && mousePos.x <= cornersArray[2].x &&
+                cornersArray[0].y <= mousePos.y && mousePos.y <= cornersArray[2].y;
     }
 
     void DisplayReducer(Reducer reducer)

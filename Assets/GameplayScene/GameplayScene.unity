@@ -8884,6 +8884,7 @@ MonoBehaviour:
   backgroundButton: {fileID: 1476732985}
   connectorLayerTransform: {fileID: 272349297}
   tooltipText: {fileID: 161163561}
+  backgroundTransform: {fileID: 1476732982}
   reducerVisualLayerTransform: {fileID: 472112108}
 --- !u!1 &2136287212
 GameObject:
