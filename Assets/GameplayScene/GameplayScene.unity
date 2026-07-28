@@ -8886,6 +8886,7 @@ MonoBehaviour:
   tooltipText: {fileID: 161163561}
   backgroundTransform: {fileID: 1476732982}
   reducerVisualLayerTransform: {fileID: 472112108}
+  rectTransform: {fileID: 2136096707}
 --- !u!1 &2136287212
 GameObject:
   m_ObjectHideFlags: 0

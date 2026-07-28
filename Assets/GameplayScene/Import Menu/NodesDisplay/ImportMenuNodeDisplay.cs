@@ -14,14 +14,12 @@ public class ImportMenuNodeDisplay : MonoBehaviour
     GameObject connectorLayerContentsHolder;
     public Transform reducerVisualLayerTransform;
     GameObject reducerVisualLayerContentsHolder;
+    public RectTransform rectTransform;
     public Stack<Reducer> reducerStack;
-    Vector3 baseScale;
-    Vector3 basePosition;
+    Vector3 prevMousePos;
     // Start is called before the first frame update
     void Start()
     {
-        baseScale = transform.localScale;
-        basePosition = transform.localPosition;
         backgroundButton.invoker = new PopReducerInvoker{nodeDisplay = this};
         backgroundButton.restrictToLeftClicks = true;
     }
@@ -38,8 +36,16 @@ public class ImportMenuNodeDisplay : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         bool mouseWithinBounds = MouseInsideRectTransform(backgroundTransform);
-        Debug.Log(mouseWithinBounds);
+
+        if (mouseWithinBounds && Input.GetMouseButton(1))
+        {
+            Vector3 mouseOffset = prevMousePos == Vector3.zero ? Vector3.zero : mousePos - prevMousePos;
+            transform.position += mouseOffset;
+        }
+        
+        prevMousePos = mousePos;
     }
 
     // assumes that rectTransform is unrotated.
@@ -105,9 +111,7 @@ public class ImportMenuNodeDisplay : MonoBehaviour
             }
         }
 
-        // Handle resetting position and scale here.
-        // transform.localScale = baseScale;
-        // transform.localPosition = basePosition;
+        rectTransform.anchoredPosition = Vector2.zero;
     }
 
     public void ResetToReducer(Reducer reducer)
