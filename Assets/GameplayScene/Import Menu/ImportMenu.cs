@@ -74,7 +74,6 @@ public class ImportMenu : MonoBehaviour
         solutionContainer = Instantiate(solutionContainerPrefab, Vector3.zero, Quaternion.identity, transform);
         loadedSolution = Instantiate(dummySolutionPrefab, Vector3.zero, Quaternion.identity, solutionContainer.transform).GetComponent<Solution>();
         loadedSolution.CopyFixedReducers(solution);
-        loadedSolution.CopySettings(solution);
         loadedSolution.mouseNode = solution.mouseNode;
         loadedSolution.solutionPath = solutionPath;
         loadedSolution.LoadFromSerialisedForImporting(JsonUtility.FromJson<SolutionSerialise>(File.ReadAllText(Path.Combine(solutionPath, "solution.json")))); // Potentially do async stuff if this ends up being problematic. Could cause more issues though so be careful and test stuff like clicking buttons really really fast.
@@ -103,6 +102,81 @@ public class ImportMenu : MonoBehaviour
 
     public void ImportReducer()
     {
-        // do stuff based on selectedReducer.
+        List<Reducer> dependencies = new List<Reducer>();
+        HashSet<uint> addedIds = new HashSet<uint>{selectedReducer.id};
+        Queue<Reducer> reducersToProcess = new Queue<Reducer>();
+        reducersToProcess.Enqueue(selectedReducer);
+
+        while (reducersToProcess.Count > 0)
+        {
+            Reducer currReducer = reducersToProcess.Dequeue();
+            currReducer.transform.SetParent(solution.transform.parent, true);
+            currReducer.child.transform.SetParent(solution.transform.parent, true);
+            if (loadedSolution.ReducerIsFixed(currReducer))
+            {
+                currReducer.foregroundSprite = 0;
+                currReducer.rName = currReducer.rName + " - from " + loadedSolution.sName;
+            }
+
+            foreach (Node node in currReducer.nodes)
+            {
+                node.transform.SetParent(solution.transform.parent, true);
+                if (node.nextConnector != null) node.nextConnector.transform.SetParent(solution.transform.parent, true);
+                if (node.reducer.id > 30 && !node.reducer.isChild && !addedIds.Contains(node.reducer.id))
+                {
+                    dependencies.Add(node.reducer);
+                    addedIds.Add(node.reducer.id);
+                    reducersToProcess.Enqueue(node.reducer);
+                }
+            }
+
+            foreach (Node node in currReducer.child.nodes)
+            {
+                node.transform.SetParent(solution.transform.parent, true);
+                if (node.nextConnector != null) node.nextConnector.transform.SetParent(solution.transform.parent, true);
+                if (node.reducer.id > 30 && !node.reducer.isChild && !addedIds.Contains(node.reducer.id))
+                {
+                    dependencies.Add(node.reducer);
+                    addedIds.Add(node.reducer.id);
+                    reducersToProcess.Enqueue(node.reducer);
+                }
+            }
+        }
+
+        // update ids.
+        RFolder newFolder = new RFolder(solution, solution.currentFolder);
+        newFolder.folderName = selectedReducer.rName + " - Dependencies";
+        foreach (Reducer r in dependencies)
+        {
+            r.id = solution.idCounter;
+            solution.idCounter++;
+            r.solution = solution;
+            r.folder = newFolder;
+            newFolder.contents.Add(new ReducerOrFolder(r));
+            r.child.ChildInit(r);
+        }
+        selectedReducer.id = solution.idCounter;
+        solution.idCounter++;
+        selectedReducer.solution = solution;
+        selectedReducer.folder = solution.currentFolder;
+        selectedReducer.child.ChildInit(selectedReducer);
+
+        if (solution.currentFolder != null)
+        {
+            solution.currentFolder.contents.Add(new ReducerOrFolder(selectedReducer));
+            solution.currentFolder.contents.Add(new ReducerOrFolder(newFolder));
+        }
+        else
+        {
+            solution.contents.Add(new ReducerOrFolder(selectedReducer));
+            solution.contents.Add(new ReducerOrFolder(newFolder));
+        }
+
+        ReducerButton newReducerButton = solution.customReducerList.AddReducerButton(selectedReducer);
+        solution.customReducerList.AddFolderButton(newFolder);
+
+        newReducerButton.EnableUpdateMenu();
+
+        CancelImport();
     }
 }

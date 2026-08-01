@@ -9,7 +9,7 @@ public class Solution : MonoBehaviour
 {
     public string sName;
     public string solutionPath;
-    public uint idCounter;
+    public uint idCounter; // next available id
     public MouseNode mouseNode;
     public Reducer currentReducer; // must be present in reducers
     public RFolder currentFolder;
@@ -19,7 +19,7 @@ public class Solution : MonoBehaviour
     public CustomReducerList customReducerList;
     public ImportFolderContents importFolderContents;
     bool usedForImporting; // prevents loading reducer buttons into right sidebar
-    public bool localReducersUnlocked = true;
+    public bool localReducersUnlocked = true; // only determines whether the buttons are present in the UI
     public bool foldersUnlocked = true;
     public bool importsUnlocked = true;
 
@@ -82,12 +82,6 @@ public class Solution : MonoBehaviour
         outputNodeReducer = s.outputNodeReducer;
     }
 
-    public void CopySettings(Solution s)
-    {
-        localReducersUnlocked = s.localReducersUnlocked;
-        Debug.Log("Once localReducersUnlocked is replaced with the real thing, take a look at this because it could cause errors");
-    }
-
     void CreateMainReducer()
     {
         AddReducer("Main", "", 1, 0, 12);
@@ -136,8 +130,10 @@ public class Solution : MonoBehaviour
 
         foreach (var rof in contents)
         {
-            customReducerList.AddReducerOrFolderButton(rof);
+            customReducerList.AddReducerOrFolderButton(rof, false);
         }
+
+        customReducerList.ResetPosition();
     }
 
     public void SetUninteractable()
@@ -223,6 +219,11 @@ public class Solution : MonoBehaviour
     public void ReturnToMenus()
     {
         SceneManager.LoadSceneAsync("MenuScene");
+    }
+
+    public bool ReducerIsFixed(Reducer r)
+    {
+        return r == contents[0].r;
     }
 
     public class ReducerEnumerable : IEnumerable

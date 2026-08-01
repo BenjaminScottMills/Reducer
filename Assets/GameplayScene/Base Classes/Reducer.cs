@@ -56,7 +56,6 @@ public class Reducer : MonoBehaviour
         }
 
         isChild = false;
-        if (!solution.localReducersUnlocked) return;
 
         child.nodeIdCounter = r.childNodeIdCounter;
         child.ChildInit(this);
@@ -122,6 +121,7 @@ public class Reducer : MonoBehaviour
         foregroundSprite = 9;
         nullReducer = parent.nullReducer;
         solution = parent.solution;
+        folder = parent.folder;
         id = (int)SpecialReducers.local;
         isChild = true;
         rName = parent.rName + " - Child";

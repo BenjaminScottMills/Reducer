@@ -76,8 +76,7 @@ public class ReducerButton : SidebarButton
             {
                 if (!reducer.isChild && updateMenu != null)
                 {
-                    updateMenu.gameObject.SetActive(true);
-                    updateMenu.Setup();
+                    EnableUpdateMenu();
                 }
             }
             else
@@ -91,5 +90,11 @@ public class ReducerButton : SidebarButton
     {
         Destroy(updateMenu.gameObject);
         updateMenu = null;
+    }
+
+    public void EnableUpdateMenu()
+    {
+        updateMenu.gameObject.SetActive(true);
+        updateMenu.Setup();
     }
 }
