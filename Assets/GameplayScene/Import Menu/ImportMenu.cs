@@ -143,9 +143,9 @@ public class ImportMenu : MonoBehaviour
             }
         }
 
-        // update ids.
-        RFolder newFolder = new RFolder(solution, solution.currentFolder);
-        newFolder.folderName = selectedReducer.rName + " - Dependencies";
+        bool createFolder = dependencies.Count > 0;
+        RFolder newFolder = createFolder ? new RFolder(solution, solution.currentFolder) : null;
+        if (createFolder) newFolder.folderName = selectedReducer.rName + " - Dependencies";
         foreach (Reducer r in dependencies)
         {
             r.id = solution.idCounter;
@@ -164,16 +164,16 @@ public class ImportMenu : MonoBehaviour
         if (solution.currentFolder != null)
         {
             solution.currentFolder.contents.Add(new ReducerOrFolder(selectedReducer));
-            solution.currentFolder.contents.Add(new ReducerOrFolder(newFolder));
+            if (createFolder) solution.currentFolder.contents.Add(new ReducerOrFolder(newFolder));
         }
         else
         {
             solution.contents.Add(new ReducerOrFolder(selectedReducer));
-            solution.contents.Add(new ReducerOrFolder(newFolder));
+            if (createFolder) solution.contents.Add(new ReducerOrFolder(newFolder));
         }
 
         ReducerButton newReducerButton = solution.customReducerList.AddReducerButton(selectedReducer);
-        solution.customReducerList.AddFolderButton(newFolder);
+        if (createFolder) solution.customReducerList.AddFolderButton(newFolder);
 
         newReducerButton.EnableUpdateMenu();
 
