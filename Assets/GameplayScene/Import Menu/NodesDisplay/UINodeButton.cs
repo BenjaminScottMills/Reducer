@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ImportMenuNodeButton : GenericButton
+public class UINodeButton : GenericButton
 {
     public Image highlight;
     public Reducer reducer;

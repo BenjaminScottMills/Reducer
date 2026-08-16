@@ -89,7 +89,7 @@ public class ImportMenuNodeDisplay : MonoBehaviour
         sortedNodes.Sort((a, b) => a.sortingGroup.sortingOrder.CompareTo(b.sortingGroup.sortingOrder));
         foreach (var node in reducer.nodes)
         {
-            ImportMenuNodeButton nodeButton = Instantiate(nodeButtonPrefab, Vector3.zero, Quaternion.identity, reducerVisualLayerContentsHolder.transform).GetComponent<ImportMenuNodeButton>();
+            UINodeButton nodeButton = Instantiate(nodeButtonPrefab, Vector3.zero, Quaternion.identity, reducerVisualLayerContentsHolder.transform).GetComponent<UINodeButton>();
             nodeButton.transform.localPosition = node.transform.position;
             nodeButton.restrictToLeftClicks = true;
             nodeButton.tooltipText = tooltipText;
