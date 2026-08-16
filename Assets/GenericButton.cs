@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class GenericButton : MonoBehaviour, IPointerClickHandler
+public class GenericButton : UIPointerHoverDetector, IPointerClickHandler
 {
     public bool restrictToLeftClicks;
     public MethodInvoker invoker;

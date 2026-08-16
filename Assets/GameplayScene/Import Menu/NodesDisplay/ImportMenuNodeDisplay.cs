@@ -33,6 +33,19 @@ public class ImportMenuNodeDisplay : MonoBehaviour
         }
     }
 
+    class PushReducerInvoker : GenericButton.MethodInvoker
+    {
+        public ImportMenuNodeDisplay nodeDisplay;
+        public Reducer reducer;
+        public override void InvokeMethod()
+        {
+            if (reducer.Selectable())
+            {
+                nodeDisplay.PushReducer(reducer);
+            }
+        }
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -78,7 +91,8 @@ public class ImportMenuNodeDisplay : MonoBehaviour
         {
             ImportMenuNodeButton nodeButton = Instantiate(nodeButtonPrefab, Vector3.zero, Quaternion.identity, reducerVisualLayerContentsHolder.transform).GetComponent<ImportMenuNodeButton>();
             nodeButton.transform.localPosition = node.transform.position;
-            nodeButton.importMenuNodeDisplay = this;
+            nodeButton.restrictToLeftClicks = true;
+            nodeButton.tooltipText = tooltipText;
 
             if (node.reducer.id == (int)Reducer.SpecialReducers.local)
             {
@@ -99,6 +113,7 @@ public class ImportMenuNodeDisplay : MonoBehaviour
                 nodeButton.reducer = node.reducer;
             }
             
+            nodeButton.invoker = new PushReducerInvoker{nodeDisplay = this, reducer = nodeButton.reducer};
 
             if (node.nextConnector != null)
             {

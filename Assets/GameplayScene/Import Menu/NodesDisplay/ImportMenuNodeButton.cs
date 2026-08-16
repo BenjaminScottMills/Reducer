@@ -4,26 +4,19 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ImportMenuNodeButton : UIPointerHoverDetector, IPointerClickHandler
+public class ImportMenuNodeButton : GenericButton
 {
     public Image highlight;
     public Reducer reducer;
-    public ImportMenuNodeDisplay importMenuNodeDisplay;
+    public TooltipText tooltipText;
     public UIReducerVisual reducerVisual;
-    public void OnPointerClick(PointerEventData pointerEventData)
-    {
-        if (reducer.Selectable() && pointerEventData.button == PointerEventData.InputButton.Left)
-        {
-            importMenuNodeDisplay.PushReducer(reducer);
-        }
-    }
 
     void Update()
     {
         if (isPointerHovered)
         {
             highlight.enabled = reducer.Selectable();
-            importMenuNodeDisplay.tooltipText.text = reducer.isChild ? "Child" : reducer.rName;
+            tooltipText.text = reducer.isChild ? "Child" : reducer.rName;
         }
         else
         {
