@@ -10,13 +10,15 @@ public class UINodeButton : GenericButton
     public Reducer reducer;
     public TooltipText tooltipText;
     public UIReducerVisual reducerVisual;
+    public bool enableHighlight;
+    public bool useRawName;
 
     void Update()
     {
         if (isPointerHovered)
         {
-            highlight.enabled = reducer.Selectable();
-            tooltipText.text = reducer.isChild ? "Child" : reducer.rName;
+            highlight.enabled = enableHighlight && reducer.Selectable();
+            tooltipText.text = (!useRawName && reducer.isChild) ? "Child" : reducer.rName;
         }
         else
         {

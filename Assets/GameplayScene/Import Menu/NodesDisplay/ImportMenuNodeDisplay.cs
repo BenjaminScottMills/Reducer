@@ -8,6 +8,7 @@ public class ImportMenuNodeDisplay : MonoBehaviour
     public GameObject nodeButtonPrefab; // ImportMenuNodeButton
     public GameObject contentsHolderPrefab;
     public GenericButton backgroundButton;
+    public CallStackDisplay callStackDisplay;
     public Transform connectorLayerTransform;
     public TooltipText tooltipText;
     public RectTransform backgroundTransform;
@@ -20,6 +21,7 @@ public class ImportMenuNodeDisplay : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        callStackDisplay.multiPopHandler = new ImportMenuMultiPopHandler{nodeDisplay = this};
         backgroundButton.invoker = new PopReducerInvoker{nodeDisplay = this};
         backgroundButton.restrictToLeftClicks = true;
     }
@@ -43,6 +45,20 @@ public class ImportMenuNodeDisplay : MonoBehaviour
             {
                 nodeDisplay.PushReducer(reducer);
             }
+        }
+    }
+
+    class ImportMenuMultiPopHandler : CallStackDisplay.MultiPopHandler
+    {
+        public ImportMenuNodeDisplay nodeDisplay;
+        
+        public override void MultiPop(int n)
+        {
+            for (int i = 0; i < n; i ++)
+            {
+                nodeDisplay.reducerStack.Pop();
+            }
+            nodeDisplay.DisplayReducer(nodeDisplay.reducerStack.Peek());
         }
     }
 
@@ -90,6 +106,8 @@ public class ImportMenuNodeDisplay : MonoBehaviour
         foreach (var node in reducer.nodes)
         {
             UINodeButton nodeButton = Instantiate(nodeButtonPrefab, Vector3.zero, Quaternion.identity, reducerVisualLayerContentsHolder.transform).GetComponent<UINodeButton>();
+            nodeButton.enableHighlight = true;
+            nodeButton.useRawName = false;
             nodeButton.transform.localPosition = node.transform.position;
             nodeButton.restrictToLeftClicks = true;
             nodeButton.tooltipText = tooltipText;
@@ -141,6 +159,7 @@ public class ImportMenuNodeDisplay : MonoBehaviour
         if (reducerStack == null) reducerStack = new();
         reducerStack.Push(reducer);
         DisplayReducer(reducer);
+        callStackDisplay.PushButtonToStack(reducer);
     }
 
     public void TryPopReducer()
@@ -149,5 +168,6 @@ public class ImportMenuNodeDisplay : MonoBehaviour
         if (reducerStack.Count <= 1) return;
         reducerStack.Pop();
         DisplayReducer(reducerStack.Peek());
+        callStackDisplay.PopButton();
     }
 }
