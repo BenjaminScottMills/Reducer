@@ -10,9 +10,29 @@ public class TestScreen : MonoBehaviour
     public GameObject reducerNodeHolder;
     public GameObject displayNodePrefab;
     public GameObject reducerNodeHolderPrefab;
+    public CallStackDisplay callStackDisplay;
     public MouseNode mouseNode;
     public Stack<Reducer.ExecuteReducer> eReducerStack = new();
     public bool collapseMenus;
+
+    class TestScreenMultiPopHandler : CallStackDisplay.MultiPopHandler
+    {
+        public TestScreen testScreen;
+        
+        public override void MultiPop(int n)
+        {
+            for (int i = 0; i < n; i ++)
+            {
+                testScreen.eReducerStack.Pop();
+            }
+            testScreen.DisplayReducer(testScreen.eReducerStack.Peek());
+        }
+    }
+
+    void Start()
+    {
+        callStackDisplay.multiPopHandler = new TestScreenMultiPopHandler{testScreen = this};
+    }
 
     void OnEnable()
     {
@@ -24,7 +44,9 @@ public class TestScreen : MonoBehaviour
     {
         Debug.Log(outputReducer.selfRed.rName);
         eReducerStack.Clear();
+        callStackDisplay.Reset();
         eReducerStack.Push(outputReducer);
+        callStackDisplay.PushButtonToStack(outputReducer.selfRed);
 
         DisplayReducer(outputReducer);
     }
@@ -32,6 +54,7 @@ public class TestScreen : MonoBehaviour
     public void ClearOutput()
     {
         eReducerStack.Clear();
+        callStackDisplay.Reset();
         if (reducerNodeHolder != null) Destroy(reducerNodeHolder);
     }
 
@@ -40,6 +63,7 @@ public class TestScreen : MonoBehaviour
         if (eReducerStack.ToArray().Length > 1)
         {
             eReducerStack.Pop();
+            callStackDisplay.PopButton();
             DisplayReducer(eReducerStack.Peek());
         }
     }

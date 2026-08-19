@@ -30,6 +30,7 @@ public class TestScreenDisplayNode : MonoBehaviour
         if (eReducer.Selectable())
         {
             testScreen.eReducerStack.Push(eReducer);
+            testScreen.callStackDisplay.PushButtonToStack(eReducer.selfRed);
             testScreen.DisplayReducer(eReducer);
         }
     }
