@@ -360,5 +360,10 @@ public class ImportFolderContents : MonoBehaviour
             solSerialise.favourites = solSerialise.favourites.Where(fe => fe.reducerId != reducerId).ToArray();
             File.WriteAllTextAsync(jsonFile, JsonUtility.ToJson(solSerialise));
         }
+
+        public bool MatchesReducer(Reducer r)
+        {
+            return r != null && r.id == reducerId && r.solution.solutionPath == solutionPath;
+        }
     }
 }

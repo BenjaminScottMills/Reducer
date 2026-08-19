@@ -61,6 +61,11 @@ public class ImportMenu : MonoBehaviour
         return r != null && r == selectedReducer;
     }
 
+    public bool MatchesSelectedReducer(ImportFolderContents.FavouritedReducer r)
+    {
+        return r != null && r.MatchesReducer(selectedReducer);
+    }
+
     public void LoadSolution(string solutionPath)
     {
         if (solutionContainer != null)
