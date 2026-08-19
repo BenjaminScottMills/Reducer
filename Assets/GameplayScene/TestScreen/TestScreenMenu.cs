@@ -13,6 +13,7 @@ public class TestScreenMenu : MonoBehaviour
     public Connector blackInCon;
     public Connector outCon;
     public TestScreen testScreen;
+    public MouseNode mouseNode;
 
     // Start is called before the first frame update
     void Start()
@@ -29,6 +30,11 @@ public class TestScreenMenu : MonoBehaviour
         var scale = Camera.main.orthographicSize / 5;
         transform.localScale = new Vector3(scale, scale, 1);
         transform.position = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width / 2, Screen.height)) + new Vector3(0, -1.5f * scale, 10);
+
+        if (testScreen.callStackDisplay.GetIsPointerHovered())
+        {
+            mouseNode.mouseOverUI = true;
+        }
     }
 
     public void RunTest()

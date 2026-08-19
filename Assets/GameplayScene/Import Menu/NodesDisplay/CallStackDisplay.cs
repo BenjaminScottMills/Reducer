@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class CallStackDisplay : MonoBehaviour
+public class CallStackDisplay : UIPointerHoverDetector
 {
     // set in code
     public List<UINodeButton> buttonStack;
@@ -40,7 +40,15 @@ public class CallStackDisplay : MonoBehaviour
 
     public void HandleHiding()
     {
-        gameObject.SetActive(buttonStack != null && buttonStack.Count > 1);
+        if (buttonStack == null || buttonStack.Count < 2)
+        {
+            isPointerHovered = false;
+            gameObject.SetActive(false);
+        }
+        else
+        {
+            gameObject.SetActive(true);
+        }
     }
 
     public void Reset()

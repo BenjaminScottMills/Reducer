@@ -16,4 +16,9 @@ public class UIPointerHoverDetector : MonoBehaviour, IPointerEnterHandler, IPoin
     {
         isPointerHovered = false;
     }
+
+    public bool GetIsPointerHovered()
+    {
+        return isPointerHovered;
+    }
 }
