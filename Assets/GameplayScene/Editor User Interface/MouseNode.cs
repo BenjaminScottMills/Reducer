@@ -402,4 +402,9 @@ public class MouseNode : MonoBehaviour
         dragDimmer.dragButton = sb;
         dragDimmer.internalDragDimmer.SetActive(true);
     }
+
+    public Vector3 GetPrevMousePos()
+    {
+        return prevMousePos;
+    }
 }
