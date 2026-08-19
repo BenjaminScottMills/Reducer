@@ -151,6 +151,7 @@ public class ImportMenuNodeDisplay : MonoBehaviour
     {
         if (reducerStack == null) reducerStack = new();
         reducerStack.Clear();
+        callStackDisplay.Reset();
         PushReducer(reducer);
     }
 

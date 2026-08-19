@@ -40,7 +40,19 @@ public class CallStackDisplay : MonoBehaviour
 
     void Start()
     {
-        buttonStack = new();
+        Reset();
+    }
+
+    public void Reset()
+    {
+        if (buttonStack == null) buttonStack = new();
+
+        foreach (UINodeButton button in buttonStack)
+        {
+            Destroy(button);
+        }
+        buttonStack.Clear();
+
         baseLocalPosition = baseButtonTransform.localPosition;
         buttonScale = baseButtonTransform.localScale;
         buttonOffset = (topButtonTransform.localPosition.y - baseButtonTransform.localPosition.y) / (maxReducers - 1);
