@@ -49,7 +49,7 @@ public class CallStackDisplay : MonoBehaviour
 
         foreach (UINodeButton button in buttonStack)
         {
-            Destroy(button);
+            Destroy(button.gameObject);
         }
         buttonStack.Clear();
 
