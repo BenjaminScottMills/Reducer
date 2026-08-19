@@ -212,10 +212,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06f1cc023f3ba7243a30cf6e7f97401f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  restrictToLeftClicks: 0
   highlight: {fileID: 4304955735967269062}
   reducer: {fileID: 0}
-  importMenuNodeDisplay: {fileID: 0}
+  tooltipText: {fileID: 0}
   reducerVisual: {fileID: 80422893753172119}
+  rectTransform: {fileID: 4186776016415269697}
+  enableHighlight: 0
+  useRawName: 0
 --- !u!1001 &1266957946335144870
 PrefabInstance:
   m_ObjectHideFlags: 0
