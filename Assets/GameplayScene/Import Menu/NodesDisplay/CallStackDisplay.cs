@@ -38,11 +38,6 @@ public class CallStackDisplay : MonoBehaviour
         }
     }
 
-    void Start()
-    {
-        Reset();
-    }
-
     public void Reset()
     {
         if (buttonStack == null) buttonStack = new();
