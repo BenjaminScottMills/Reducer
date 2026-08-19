@@ -38,6 +38,11 @@ public class CallStackDisplay : MonoBehaviour
         }
     }
 
+    public void HandleHiding()
+    {
+        gameObject.SetActive(buttonStack != null && buttonStack.Count > 1);
+    }
+
     public void Reset()
     {
         if (buttonStack == null) buttonStack = new();
@@ -51,6 +56,7 @@ public class CallStackDisplay : MonoBehaviour
         baseLocalPosition = baseButtonTransform.localPosition;
         buttonScale = baseButtonTransform.localScale;
         buttonOffset = (topButtonTransform.localPosition.y - baseButtonTransform.localPosition.y) / (maxReducers - 1);
+        HandleHiding();
     }
 
     public void PushButtonToStack(Reducer r)
@@ -89,6 +95,8 @@ public class CallStackDisplay : MonoBehaviour
                 buttonStack[n - i].transform.localPosition = newPos;
             }
         }
+
+        HandleHiding();
     }
 
     public void PopButton()
@@ -106,6 +114,8 @@ public class CallStackDisplay : MonoBehaviour
                 buttonStack[n - i].transform.localPosition = newPos;
             }
         }
+
+        HandleHiding();
     }
 
     public void ClickButtonAtIndex(int idx)
@@ -141,5 +151,6 @@ public class CallStackDisplay : MonoBehaviour
         }
 
         multiPopHandler.MultiPop(numPopped);
+        HandleHiding();
     }
 }
