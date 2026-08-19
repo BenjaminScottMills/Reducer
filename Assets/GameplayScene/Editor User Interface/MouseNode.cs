@@ -370,11 +370,7 @@ public class MouseNode : MonoBehaviour
 
             if (reducer != null && !leftClickHeld)
             {
-                if (!mouseOverUI)
-                {
-                    testScreenPlacementSlots.ForEach(s => s.CheckPlaced(reducer));
-                }
-
+                testScreenPlacementSlots.ForEach(s => s.CheckPlaced(reducer));
                 reducer = null;
             }
 
