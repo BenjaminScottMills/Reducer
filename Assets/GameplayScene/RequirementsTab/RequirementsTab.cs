@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using UnityEngine;
 
 public class RequirementsTab : MonoBehaviour
@@ -16,7 +15,7 @@ public class RequirementsTab : MonoBehaviour
         string levelDataPath = Path.Combine(levelPath, "levelData.json");
         levelData = LevelData.MakeLevelData(File.ReadAllText(levelDataPath));
         string customTestCasesPath = Path.Combine(levelPath, "customTests.json");
-        if (Directory.Exists(customTestCasesPath))
+        if (File.Exists(customTestCasesPath))
         {
             customTestCases = JsonUtility.FromJson<CustomTestCasesSerialise>(File.ReadAllText(levelDataPath)).GetTestCases(levelData.levelType);
         }
@@ -26,5 +25,13 @@ public class RequirementsTab : MonoBehaviour
         }
 
         return levelData.levelType;
+    }
+
+    public void WriteCustomTestCases()
+    {
+        string customTestCasesPath = Path.Combine(levelPath, "customTests.json");
+        CustomTestCasesSerialise serialisedTests = new CustomTestCasesSerialise(customTestCases, levelData.levelType);
+
+        File.WriteAllTextAsync(customTestCasesPath, JsonUtility.ToJson(serialisedTests));
     }
 }

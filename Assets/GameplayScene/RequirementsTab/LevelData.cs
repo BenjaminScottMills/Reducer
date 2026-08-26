@@ -194,6 +194,16 @@ public class StandardTestCase : TestCase
         whiteInput = serialised.whiteInput.TestCaseInputFromSerialised();
     }
 
+    public StandardTestCaseSerialise ToSerialised()
+    {
+        return new StandardTestCaseSerialise
+        {
+            isPrivate = isPrivate,
+            blackInput = blackInput.ToSerialised(),
+            whiteInput = whiteInput.ToSerialised(),
+        };
+    }
+
     public struct StandardTestCaseSerialise
     {
         public bool isPrivate;
@@ -211,6 +221,15 @@ public class SequentialTestCase : TestCase
         inputs = serialised.inputs.Select(s => s.TestCaseInputFromSerialised()).ToList();
     }
 
+    public SequentialTestCaseSerialise ToSerialised()
+    {
+        return new SequentialTestCaseSerialise
+        {
+            isPrivate = isPrivate,
+            inputs = inputs.Select(i => i.ToSerialised()).ToArray(),
+        };
+    }
+
     public struct SequentialTestCaseSerialise
     {
         public bool isPrivate;
@@ -223,6 +242,16 @@ public class SequentialTestCase : TestCase
 public abstract class TestCaseInput
 {
     public SchemaType type;
+
+    public TestCaseInputSerialise ToSerialised()
+    {
+        List<TestCaseComponent> componentsList = new List<TestCaseComponent>();
+        UpdateComponentsList(componentsList);
+
+        return new TestCaseInputSerialise{components = componentsList.ToArray()};
+    }
+
+    public abstract void UpdateComponentsList(List<TestCaseComponent> componentsList);
 
     public struct TestCaseInputSerialise
     {
@@ -266,15 +295,15 @@ public abstract class TestCaseInput
             outIdxValue = idx;
             return testCaseOutput;
         }
+    }
 
-        public struct TestCaseComponent
-        {
-            public SchemaType type; // only use primitiveOrFunction, just treat primitive and function types as primitiveOrFunction.
-            public ReducerValue reducerValue; // for primitive, function, and primitiveOrFunction. 
-            public bool booleanValue;
-            public int numberValue;
-            public int listLength; // treat finiteList and infiniteList the same
-        }
+    public struct TestCaseComponent
+    {
+        public SchemaType type; // only use primitiveOrFunction, just treat primitive and function types as primitiveOrFunction.
+        public ReducerValue reducerValue; // for primitive, function, and primitiveOrFunction. 
+        public bool booleanValue;
+        public int numberValue;
+        public int listLength; // treat finiteList and infiniteList the same
     }
 }
 
@@ -286,6 +315,17 @@ public class SimpleReducerTestCaseInput : TestCaseInput
     {
         reducerValue = reducerValueArg;
     }
+
+    public override void UpdateComponentsList(List<TestCaseComponent> componentsList)
+    {
+        componentsList.Add(
+            new TestCaseComponent
+            {
+                type = type,
+                reducerValue = reducerValue
+            }
+        );
+    }
 }
 
 public class BooleanTestCaseInput : TestCaseInput
@@ -295,6 +335,17 @@ public class BooleanTestCaseInput : TestCaseInput
     public BooleanTestCaseInput(bool booleanValueArg)
     {
         booleanValue = booleanValueArg;
+    }
+
+    public override void UpdateComponentsList(List<TestCaseComponent> componentsList)
+    {
+        componentsList.Add(
+            new TestCaseComponent
+            {
+                type = type,
+                booleanValue = booleanValue
+            }
+        );
     }
 }
 
@@ -306,6 +357,17 @@ public class NumberTestCaseInput : TestCaseInput
     {
         numberValue = numberValueArg;
     }
+
+    public override void UpdateComponentsList(List<TestCaseComponent> componentsList)
+    {
+        componentsList.Add(
+            new TestCaseComponent
+            {
+                type = type,
+                numberValue = numberValue
+            }
+        );
+    }
 }
 
 public class ListTestCaseInput : TestCaseInput
@@ -315,5 +377,21 @@ public class ListTestCaseInput : TestCaseInput
     public ListTestCaseInput()
     {
         listValue = new();
+    }
+
+    public override void UpdateComponentsList(List<TestCaseComponent> componentsList)
+    {
+        componentsList.Add(
+            new TestCaseComponent
+            {
+                type = type,
+                listLength = listValue.Count
+            }
+        );
+
+        foreach (TestCaseInput subInput in listValue)
+        {
+            subInput.UpdateComponentsList(componentsList);
+        }
     }
 }
