@@ -18,6 +18,7 @@ public class Solution : MonoBehaviour
     public GameObject reducerPrefab;
     public CustomReducerList customReducerList;
     public ImportFolderContents importFolderContents;
+    public RequirementsTab requirementsTab;
     bool usedForImporting; // prevents loading reducer buttons into right sidebar
     public bool localReducersUnlocked = true; // only determines whether the buttons are present in the UI
     public bool foldersUnlocked = true;
@@ -41,6 +42,8 @@ public class Solution : MonoBehaviour
     {
         if (usedForImporting) return;
         solutionPath = PlayerPrefs.GetString("solution path");
+        LevelType levelType = requirementsTab.Initialise(Directory.GetParent(Directory.GetParent(solutionPath).FullName).FullName);
+        if (levelType != LevelType.standard) throw new Exception("unprepared for level type");
         reducers = new ReducerEnumerable(this);
         string solFile = Path.Combine(solutionPath, "solution.json");
         contents = new List<ReducerOrFolder>();
