@@ -8,6 +8,7 @@ public class TopMenu : MonoBehaviour
     public BoxCollider2D boxCollider;
     public MouseNode mouseNode;
     public char selectedScreen;
+    public GameObject requirementsScreen;
     public GameObject editorScreen;
     public GameObject testScreen;
     public GameObject rightSidebar;
@@ -41,6 +42,7 @@ public class TopMenu : MonoBehaviour
     {
         if (newScreen == selectedScreen) return;
 
+        requirementsScreen.SetActive(newScreen == 'R');
         editorScreen.SetActive(newScreen == 'E');
         testScreen.SetActive(newScreen == 'T');
         rightSidebar.SetActive(newScreen != 'R');

@@ -14,24 +14,26 @@ public abstract class LevelData
     public Solution groundTruthSolution;
     public ReducerSchema outputSchema;
 
-    protected LevelData(LevelDataSerialise serialisedLevelData)
+    protected LevelData(LevelDataSerialise serialisedLevelData, Solution groundTruthSolutionArg)
     {
         requirementsDescription = serialisedLevelData.requirementsDescription;
         levelType = serialisedLevelData.levelType;
-        groundTruthSolution.LoadFromSerialisedForImporting(serialisedLevelData.groundTruthSolution);
+        groundTruthSolution = groundTruthSolutionArg;
+        Debug.Log("Remove this if statement check once we have this assigned");
+        // groundTruthSolution.LoadFromSerialisedForImporting(serialisedLevelData.groundTruthSolution);
         outputSchema = serialisedLevelData.outputSchema.ReducerSchemaFromSerialised();
     }
 
-    public static LevelData MakeLevelData(string serialisedText)
+    public static LevelData MakeLevelData(string serialisedText, Solution groundTruthSolutionObject)
     {
         LevelDataSerialise serialisedLevelData = JsonUtility.FromJson<LevelDataSerialise>(serialisedText);
 
         switch (serialisedLevelData.levelType)
         {
             case LevelType.standard:
-                return new StandardLevelData(serialisedLevelData);
+                return new StandardLevelData(serialisedLevelData, groundTruthSolutionObject);
             case LevelType.sequential:
-                return new SequentialLevelData(serialisedLevelData);
+                return new SequentialLevelData(serialisedLevelData, groundTruthSolutionObject);
             default:
                 Debug.Log("Level type is unimplemented");
                 return null;
@@ -40,6 +42,8 @@ public abstract class LevelData
 
     public abstract List<TestCase> GetTestCases();
 
+
+    [System.Serializable]
     public struct LevelDataSerialise
     {
         public string requirementsDescription;
@@ -51,6 +55,8 @@ public abstract class LevelData
         public StandardTestCase.StandardTestCaseSerialise[] standardtestCases;
         public SequentialTestCase.SequentialTestCaseSerialise[] sequentialTestCases;
 
+
+        [System.Serializable]
         public struct SchemaSerialise
         {
             public SchemaSerialiseComponent[] components;
@@ -90,6 +96,8 @@ public abstract class LevelData
                 return outputSchema;
             }
 
+
+            [System.Serializable]
             public struct SchemaSerialiseComponent
             {
                 public SchemaType type;
@@ -106,7 +114,7 @@ public class StandardLevelData : LevelData
     public ReducerSchema whiteInputSchema;
     public List<StandardTestCase> testCases;
 
-    public StandardLevelData(LevelDataSerialise serialisedLevelData) : base(serialisedLevelData)
+    public StandardLevelData(LevelDataSerialise serialisedLevelData, Solution groundTruthSolutionArg) : base(serialisedLevelData, groundTruthSolutionArg)
     {
         blackInputSchema = serialisedLevelData.blackInputSchema.ReducerSchemaFromSerialised();
         whiteInputSchema = serialisedLevelData.whiteInputSchema.ReducerSchemaFromSerialised();
@@ -124,7 +132,7 @@ public class SequentialLevelData : LevelData
     public ReducerSchema inputSchema;
     public List<SequentialTestCase> testCases;
 
-    public SequentialLevelData(LevelDataSerialise serialisedLevelData) : base(serialisedLevelData)
+    public SequentialLevelData(LevelDataSerialise serialisedLevelData, Solution groundTruthSolutionArg) : base(serialisedLevelData, groundTruthSolutionArg)
     {
         inputSchema = serialisedLevelData.blackInputSchema.ReducerSchemaFromSerialised();
         testCases = serialisedLevelData.sequentialTestCases.Select(s => new SequentialTestCase(s)).ToList();
@@ -204,6 +212,8 @@ public class StandardTestCase : TestCase
         };
     }
 
+
+    [System.Serializable]
     public struct StandardTestCaseSerialise
     {
         public bool isPrivate;
@@ -230,6 +240,8 @@ public class SequentialTestCase : TestCase
         };
     }
 
+
+    [System.Serializable]
     public struct SequentialTestCaseSerialise
     {
         public bool isPrivate;
@@ -253,6 +265,8 @@ public abstract class TestCaseInput
 
     public abstract void UpdateComponentsList(List<TestCaseComponent> componentsList);
 
+
+    [System.Serializable]
     public struct TestCaseInputSerialise
     {
         public TestCaseComponent[] components;
@@ -297,6 +311,8 @@ public abstract class TestCaseInput
         }
     }
 
+
+    [System.Serializable]
     public struct TestCaseComponent
     {
         public SchemaType type; // only use primitiveOrFunction, just treat primitive and function types as primitiveOrFunction.
