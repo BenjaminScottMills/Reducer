@@ -5965,7 +5965,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93e06b4c0f0373c4da39d8e2a06b5fcd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  restrictToLeftClicks: 0
 --- !u!1 &1341841381
 GameObject:
   m_ObjectHideFlags: 0
@@ -6957,7 +6956,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93e06b4c0f0373c4da39d8e2a06b5fcd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  restrictToLeftClicks: 1
 --- !u!114 &1476732986
 MonoBehaviour:
   m_ObjectHideFlags: 0

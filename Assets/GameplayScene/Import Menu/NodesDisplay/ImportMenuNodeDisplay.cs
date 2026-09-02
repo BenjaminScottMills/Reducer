@@ -23,7 +23,6 @@ public class ImportMenuNodeDisplay : MonoBehaviour
     {
         callStackDisplay.multiPopHandler = new ImportMenuMultiPopHandler{nodeDisplay = this};
         backgroundButton.invoker = new PopReducerInvoker{nodeDisplay = this};
-        backgroundButton.restrictToLeftClicks = true;
     }
 
     class PopReducerInvoker : GenericButton.MethodInvoker
@@ -109,7 +108,6 @@ public class ImportMenuNodeDisplay : MonoBehaviour
             nodeButton.enableHighlight = true;
             nodeButton.useRawName = false;
             nodeButton.transform.localPosition = node.transform.position;
-            nodeButton.restrictToLeftClicks = true;
             nodeButton.tooltipText = tooltipText;
 
             if (node.reducer.id == (int)Reducer.SpecialReducers.local)

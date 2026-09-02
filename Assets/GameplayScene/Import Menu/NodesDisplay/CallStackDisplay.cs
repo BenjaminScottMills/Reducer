@@ -85,7 +85,6 @@ public class CallStackDisplay : UIPointerHoverDetector
         newButton.transform.localScale = buttonScale;
         newButton.transform.eulerAngles = Vector3.zero;
         newButton.enableHighlight = false;
-        newButton.restrictToLeftClicks = true;
         newButton.useRawName = true;
         newButton.tooltipText = tooltipText;
         newButton.reducer = r;
