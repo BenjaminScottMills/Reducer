@@ -16,6 +16,7 @@ public class TestCaseButton : MonoBehaviour
     public GameObject whiteInputContainer;
     public GameObject sequentialInputContainer;
     public GameObject greyOverlay;
+    public GameObject topBorder;
     Solution solution;
     TestCasesList testCasesList;
     public TestCase testCase;
@@ -36,8 +37,9 @@ public class TestCaseButton : MonoBehaviour
         
     }
 
-    public void Initialise(TestCase testCaseArg, TestCasesList testCasesListArg, bool isCustomArg, int testNumberArg)
+    public void Initialise(TestCase testCaseArg, TestCasesList testCasesListArg, bool isCustomArg, int testNumberArg, bool showTopBorder)
     {
+        topBorder.SetActive(showTopBorder);
         testCasesList = testCasesListArg;
         solution = testCasesList.groundTruthSolution;
         isCustom = isCustomArg;

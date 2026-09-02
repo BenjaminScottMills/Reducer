@@ -11,6 +11,8 @@ public class TestCasesList : MonoBehaviour
     public List<TestCaseButton> customTestCaseButtons;
     public GenericButton addTestCaseButton;
     public Transform addTestCaseButtonContainer;
+    bool entryShouldHaveTopBorder = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -40,7 +42,8 @@ public class TestCasesList : MonoBehaviour
 
         if (customTestCaseButtons == null) customTestCaseButtons = new();
         if (isCustom) customTestCaseButtons.Add(newTestCaseButton);
-        newTestCaseButton.Initialise(newTestCase, this, isCustom, testNumber);
+        newTestCaseButton.Initialise(newTestCase, this, isCustom, testNumber, entryShouldHaveTopBorder);
+        entryShouldHaveTopBorder = true;
     }
 
     public void RemoveCustomTestCase(TestCaseButton buttonToRemove)
