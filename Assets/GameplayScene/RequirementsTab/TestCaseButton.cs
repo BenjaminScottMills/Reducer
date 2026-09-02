@@ -68,7 +68,7 @@ public class TestCaseButton : MonoBehaviour
         runTestButton.invoker = null;
         if (isCustom)
         {
-            deleteTestButton.invoker = new DeleteTestInvoker{testCaseButton = this};
+            deleteTestButton.invoker = new DeleteTestInvoker{testCaseButton = this, testCasesList = testCasesList};
         }
         else
         {
@@ -80,9 +80,10 @@ public class TestCaseButton : MonoBehaviour
     class DeleteTestInvoker : GenericButton.MethodInvoker
     {
         public TestCaseButton testCaseButton;
+        public TestCasesList testCasesList;
         public override void InvokeMethod()
         {
-            
+            testCasesList.RemoveCustomTestCase(testCaseButton);
         }
     }
 
