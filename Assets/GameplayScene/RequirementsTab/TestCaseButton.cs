@@ -17,6 +17,9 @@ public class TestCaseButton : MonoBehaviour
     public GameObject sequentialInputContainer;
     public GameObject greyOverlay;
     public GameObject topBorder;
+    public Image testResultDisplay;
+    public Sprite checkmarkSprite;
+    public Sprite redXSprite;
     Solution solution;
     TestCasesList testCasesList;
     public TestCase testCase;
@@ -39,6 +42,7 @@ public class TestCaseButton : MonoBehaviour
 
     public void Initialise(TestCase testCaseArg, TestCasesList testCasesListArg, bool isCustomArg, int testNumberArg, bool showTopBorder)
     {
+        testResultDisplay.gameObject.SetActive(false);
         topBorder.SetActive(showTopBorder);
         testCasesList = testCasesListArg;
         solution = testCasesList.groundTruthSolution;
