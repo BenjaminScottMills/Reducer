@@ -4,6 +4,7 @@ using UnityEngine;
 using System.Linq;
 using System.IO;
 
+[System.Serializable]
 public struct SolutionSerialise
 {
     public SolutionSerialise(Solution solution, ImportFolderContents ifc, string solutionPath)

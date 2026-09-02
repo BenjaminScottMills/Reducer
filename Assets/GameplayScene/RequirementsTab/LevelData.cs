@@ -19,8 +19,7 @@ public abstract class LevelData
         requirementsDescription = serialisedLevelData.requirementsDescription;
         levelType = serialisedLevelData.levelType;
         groundTruthSolution = groundTruthSolutionArg;
-        Debug.Log("Remove this if statement check once we have this assigned");
-        // groundTruthSolution.LoadFromSerialisedForImporting(serialisedLevelData.groundTruthSolution);
+        groundTruthSolution.LoadFromSerialisedForImporting(serialisedLevelData.groundTruthSolution);
         outputSchema = serialisedLevelData.outputSchema.ReducerSchemaFromSerialised();
     }
 
@@ -35,8 +34,7 @@ public abstract class LevelData
             case LevelType.sequential:
                 return new SequentialLevelData(serialisedLevelData, groundTruthSolutionObject);
             default:
-                Debug.Log("Level type is unimplemented");
-                return null;
+                throw new System.Exception("Level type is unimplemented");
         }
     }
 
@@ -264,6 +262,7 @@ public abstract class TestCaseInput
     }
 
     public abstract void UpdateComponentsList(List<TestCaseComponent> componentsList);
+    public abstract Reducer GetDisplayReducer(TestCasesList testCasesList);
 
 
     [System.Serializable]
@@ -342,6 +341,29 @@ public class SimpleReducerTestCaseInput : TestCaseInput
             }
         );
     }
+
+    public override Reducer GetDisplayReducer(TestCasesList testCasesList)
+    {
+        switch (reducerValue)
+        {
+            // nullRed, fire, earth, plant, water, combine, testReducer 
+            case ReducerValue.nullRed:
+                return testCasesList.groundTruthSolution.nullReducer;
+            case ReducerValue.fire:
+                return testCasesList.groundTruthSolution.fireReducer;
+            case ReducerValue.earth:
+                return testCasesList.groundTruthSolution.earthReducer;
+            case ReducerValue.plant:
+                return testCasesList.groundTruthSolution.plantReducer;
+            case ReducerValue.water:
+                return testCasesList.groundTruthSolution.waterReducer;
+            case ReducerValue.combine:
+                return testCasesList.groundTruthSolution.combineReducer;
+            case ReducerValue.testReducer:
+            default:
+                throw new System.Exception("testReducer not yet implemented");
+        }
+    }
 }
 
 public class BooleanTestCaseInput : TestCaseInput
@@ -363,6 +385,12 @@ public class BooleanTestCaseInput : TestCaseInput
             }
         );
     }
+
+    public override Reducer GetDisplayReducer(TestCasesList testCasesList)
+    {
+        Debug.Log("Incomplete code, should not run yet");
+        return null;
+    }
 }
 
 public class NumberTestCaseInput : TestCaseInput
@@ -383,6 +411,12 @@ public class NumberTestCaseInput : TestCaseInput
                 numberValue = numberValue
             }
         );
+    }
+
+    public override Reducer GetDisplayReducer(TestCasesList testCasesList)
+    {
+        Debug.Log("Incomplete code, should not run yet");
+        return null;
     }
 }
 
@@ -409,5 +443,11 @@ public class ListTestCaseInput : TestCaseInput
         {
             subInput.UpdateComponentsList(componentsList);
         }
+    }
+
+    public override Reducer GetDisplayReducer(TestCasesList testCasesList)
+    {
+        Debug.Log("Incomplete code, should not run yet");
+        return null;
     }
 }

@@ -969,6 +969,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   testCaseButtonPrefab: {fileID: 9058884883579342377, guid: 496bbbe74b2eba146bf5e5de7e371691, type: 3}
+  tooltipText: {fileID: 161163561}
+  groundTruthSolution: {fileID: 0}
+  requirementsTab: {fileID: 1687667642}
 --- !u!1 &161163559
 GameObject:
   m_ObjectHideFlags: 0
@@ -8142,7 +8145,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   requirementsText: {fileID: 1642373113}
   testCasesList: {fileID: 155761393}
-  groundTruthSolution: {fileID: 0}
+  dummySolutionPrefab: {fileID: 6195297759337099437, guid: e3b0435c4ac20d548bf007027e3d9831, type: 3}
+  mainSolution: {fileID: 1117210364}
 --- !u!1 &1701899420
 GameObject:
   m_ObjectHideFlags: 0

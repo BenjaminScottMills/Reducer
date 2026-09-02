@@ -12,9 +12,16 @@ public class RequirementsTab : MonoBehaviour
     List<TestCase> customTestCases;
     public Text requirementsText;
     public TestCasesList testCasesList;
-    public Solution groundTruthSolution;
+    Solution groundTruthSolution;
+    public GameObject dummySolutionPrefab;
+    public Solution mainSolution;
     public LevelType Initialise(string levelPathArg)
     {
+        groundTruthSolution = Instantiate(dummySolutionPrefab, transform).GetComponent<Solution>();
+        groundTruthSolution.CopyFixedReducers(mainSolution);
+        groundTruthSolution.mouseNode = mainSolution.mouseNode;
+        testCasesList.groundTruthSolution = groundTruthSolution;
+
         levelPath = levelPathArg;
         string levelDataPath = Path.Combine(levelPath, "levelData.json");
         levelData = LevelData.MakeLevelData(File.ReadAllText(levelDataPath), groundTruthSolution);
@@ -29,14 +36,15 @@ public class RequirementsTab : MonoBehaviour
             customTestCases = new();
         }
 
-        foreach (TestCase tc in levelData.GetTestCases())
+        var fixedTestCases = levelData.GetTestCases();
+        for (int i = 0; i < fixedTestCases.Count; i++)
         {
-            testCasesList.AddTestCase(tc, false);
+            testCasesList.AddTestCase(fixedTestCases[i], false, i);
         }
 
-        foreach (TestCase tc in customTestCases)
+        for (int i = 0; i < customTestCases.Count; i++)
         {
-            testCasesList.AddTestCase(tc, true);
+            testCasesList.AddTestCase(customTestCases[i], true, i);
         }
 
         return levelData.levelType;
