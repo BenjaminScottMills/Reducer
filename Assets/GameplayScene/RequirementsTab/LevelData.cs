@@ -40,6 +40,8 @@ public abstract class LevelData
 
     public abstract List<TestCase> GetTestCases();
 
+    public abstract TestCase CreateNewTestCase();
+
 
     [System.Serializable]
     public struct LevelDataSerialise
@@ -123,6 +125,15 @@ public class StandardLevelData : LevelData
     {
         return new List<TestCase>(testCases);
     }
+
+    public override TestCase CreateNewTestCase()
+    {
+        return new StandardTestCase(
+            blackInputArg: blackInputSchema.CreateDefaultInput(),
+            whiteInputArg: whiteInputSchema.CreateDefaultInput(),
+            isPrivateArg: false
+        );
+    }
 }
 
 public class SequentialLevelData : LevelData
@@ -140,6 +151,13 @@ public class SequentialLevelData : LevelData
     {
         return new List<TestCase>(testCases);
     }
+
+    public override TestCase CreateNewTestCase()
+    {
+        // it could potentially be nicer to have the input schema be a "infinite list" reducer schema and to have just a single TestCaseInput for Sequential test cases.
+        // consider if this would be better once we know more.
+        throw new System.Exception("test case creation for sequential unimplemented");
+    }
 }
 
 
@@ -147,6 +165,8 @@ public class SequentialLevelData : LevelData
 public abstract class ReducerSchema
 {
     public SchemaType type;
+
+    public abstract TestCaseInput CreateDefaultInput();
 }
 
 public class SimpleReducerSchema : ReducerSchema
@@ -157,6 +177,31 @@ public class SimpleReducerSchema : ReducerSchema
     {
         primitiveValueSet = primitiveValueSetArg;
     }
+
+    public override TestCaseInput CreateDefaultInput()
+    {
+        switch (type)
+        {
+            case SchemaType.primitiveOrFunction:
+            case SchemaType.primitive:
+                if (primitiveValueSet != null && primitiveValueSet.Length > 0)
+                {
+                    return new SimpleReducerTestCaseInput(primitiveValueSet[0]);
+                }
+                else
+                {
+                    return new SimpleReducerTestCaseInput(ReducerValue.nullRed);
+                }
+            case SchemaType.function:
+                return new SimpleReducerTestCaseInput(ReducerValue.combine);
+            case SchemaType.boolean:
+                return new BooleanTestCaseInput(false);
+            case SchemaType.natNumber:
+                return new NumberTestCaseInput(0);
+            default:
+                throw new System.Exception("expected primitiveOrFunction, primitive, function, boolean, or natNumber Schematype for SimpleReducerSchema");
+        }
+    }
 }
 
 public class FiniteListReducerSchema : ReducerSchema
@@ -166,6 +211,11 @@ public class FiniteListReducerSchema : ReducerSchema
     {
         childSchemas = new();
     }
+
+    public override TestCaseInput CreateDefaultInput()
+    {
+        return new ListTestCaseInput(childSchemas.Select(schema => schema.CreateDefaultInput()).ToList());
+    }
 }
 
 public class InfiniteListReducerSchema : ReducerSchema
@@ -174,6 +224,11 @@ public class InfiniteListReducerSchema : ReducerSchema
     public InfiniteListReducerSchema(ReducerSchema childSchemaArg)
     {
         childSchema = childSchemaArg;
+    }
+
+    public override TestCaseInput CreateDefaultInput()
+    {
+        return new ListTestCaseInput();
     }
 }
 
@@ -198,6 +253,12 @@ public class StandardTestCase : TestCase
     {
         blackInput = serialised.blackInput.TestCaseInputFromSerialised();
         whiteInput = serialised.whiteInput.TestCaseInputFromSerialised();
+    }
+
+    public StandardTestCase(TestCaseInput blackInputArg, TestCaseInput whiteInputArg, bool isPrivateArg) : base(isPrivateArg)
+    {
+        blackInput = blackInputArg;
+        whiteInput = whiteInputArg;
     }
 
     public StandardTestCaseSerialise ToSerialised()
@@ -331,6 +392,11 @@ public class SimpleReducerTestCaseInput : TestCaseInput
         reducerValue = reducerValueArg;
     }
 
+    public SimpleReducerTestCaseInput(Reducer.SpecialReducers specialReducerValue)
+    {
+        reducerValue = SpecialReducerToReducerValue(specialReducerValue);
+    }
+
     public override void UpdateComponentsList(List<TestCaseComponent> componentsList)
     {
         componentsList.Add(
@@ -362,6 +428,27 @@ public class SimpleReducerTestCaseInput : TestCaseInput
             case ReducerValue.testReducer:
             default:
                 throw new System.Exception("testReducer not yet implemented");
+        }
+    }
+
+    public static ReducerValue SpecialReducerToReducerValue(Reducer.SpecialReducers specialReducerValue)
+    {
+        switch (specialReducerValue)
+        {
+            case Reducer.SpecialReducers.nullRed:
+                return ReducerValue.nullRed;
+            case Reducer.SpecialReducers.fire:
+                return ReducerValue.fire;
+            case Reducer.SpecialReducers.earth:
+                return ReducerValue.earth;
+            case Reducer.SpecialReducers.plant:
+                return ReducerValue.plant;
+            case Reducer.SpecialReducers.water:
+                return ReducerValue.water;
+            case Reducer.SpecialReducers.combine:
+                return ReducerValue.combine;
+            default:
+                throw new System.Exception("handling for this special reducer value type not implemented");
         }
     }
 }
@@ -427,6 +514,11 @@ public class ListTestCaseInput : TestCaseInput
     public ListTestCaseInput()
     {
         listValue = new();
+    }
+
+    public ListTestCaseInput(List<TestCaseInput> listValueArg)
+    {
+        listValue = listValueArg;
     }
 
     public override void UpdateComponentsList(List<TestCaseComponent> componentsList)

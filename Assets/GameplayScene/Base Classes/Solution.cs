@@ -23,6 +23,7 @@ public class Solution : MonoBehaviour
     public bool localReducersUnlocked = true; // only determines whether the buttons are present in the UI
     public bool foldersUnlocked = true;
     public bool importsUnlocked = true;
+    public Transform reducersParentTransform;
 
     // fixed reducers
     public Reducer fixedLocalReducer;
@@ -63,6 +64,7 @@ public class Solution : MonoBehaviour
 
     public void LoadFromSerialisedForImporting(SolutionSerialise s)
     {
+        if (reducersParentTransform == null) reducersParentTransform = transform.parent;
         usedForImporting = true;
         reducers = new ReducerEnumerable(this);
         contents = new List<ReducerOrFolder>();
@@ -96,7 +98,7 @@ public class Solution : MonoBehaviour
     {
         if (rof.rs != null)
         {
-            var newRed = Instantiate(reducerPrefab, Vector3.zero, Quaternion.identity, transform.parent).GetComponent<Reducer>();
+            var newRed = Instantiate(reducerPrefab, Vector3.zero, Quaternion.identity, reducersParentTransform).GetComponent<Reducer>();
             newRed.id = rof.rs.Value.id;
             newRed.nullReducer = nullReducer;
             newRed.solution = this;
@@ -161,7 +163,7 @@ public class Solution : MonoBehaviour
 
     public void AddReducer(string name, string desc, int fgc, int bgc, int fgs)
     {
-        Reducer newReducer = Instantiate(reducerPrefab, Vector3.zero, Quaternion.identity, transform.parent).GetComponent<Reducer>();
+        Reducer newReducer = Instantiate(reducerPrefab, Vector3.zero, Quaternion.identity, reducersParentTransform).GetComponent<Reducer>();
 
         newReducer.rName = name;
         newReducer.description = desc;

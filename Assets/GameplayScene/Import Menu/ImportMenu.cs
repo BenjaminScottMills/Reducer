@@ -81,6 +81,7 @@ public class ImportMenu : MonoBehaviour
         loadedSolution.CopyFixedReducers(solution);
         loadedSolution.mouseNode = solution.mouseNode;
         loadedSolution.solutionPath = solutionPath;
+        
         loadedSolution.LoadFromSerialisedForImporting(JsonUtility.FromJson<SolutionSerialise>(File.ReadAllText(Path.Combine(solutionPath, "solution.json")))); // Potentially do async stuff if this ends up being problematic. Could cause more issues though so be careful and test stuff like clicking buttons really really fast.
     }
 
@@ -115,8 +116,8 @@ public class ImportMenu : MonoBehaviour
         while (reducersToProcess.Count > 0)
         {
             Reducer currReducer = reducersToProcess.Dequeue();
-            currReducer.transform.SetParent(solution.transform.parent, true);
-            currReducer.child.transform.SetParent(solution.transform.parent, true);
+            currReducer.transform.SetParent(solution.reducersParentTransform, true);
+            currReducer.child.transform.SetParent(solution.reducersParentTransform, true);
             if (loadedSolution.ReducerIsFixed(currReducer))
             {
                 currReducer.foregroundSprite = 0;
@@ -125,8 +126,8 @@ public class ImportMenu : MonoBehaviour
 
             foreach (Node node in currReducer.nodes)
             {
-                node.transform.SetParent(solution.transform.parent, true);
-                if (node.nextConnector != null) node.nextConnector.transform.SetParent(solution.transform.parent, true);
+                node.transform.SetParent(solution.reducersParentTransform, true);
+                if (node.nextConnector != null) node.nextConnector.transform.SetParent(solution.reducersParentTransform, true);
                 if (node.reducer.id > 30 && !node.reducer.isChild && !addedIds.Contains(node.reducer.id))
                 {
                     dependencies.Add(node.reducer);
@@ -137,8 +138,8 @@ public class ImportMenu : MonoBehaviour
 
             foreach (Node node in currReducer.child.nodes)
             {
-                node.transform.SetParent(solution.transform.parent, true);
-                if (node.nextConnector != null) node.nextConnector.transform.SetParent(solution.transform.parent, true);
+                node.transform.SetParent(solution.reducersParentTransform, true);
+                if (node.nextConnector != null) node.nextConnector.transform.SetParent(solution.reducersParentTransform, true);
                 if (node.reducer.id > 30 && !node.reducer.isChild && !addedIds.Contains(node.reducer.id))
                 {
                     dependencies.Add(node.reducer);

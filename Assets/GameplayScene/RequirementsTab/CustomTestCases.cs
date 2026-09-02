@@ -1,11 +1,13 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
+[Serializable]
 public struct CustomTestCasesSerialise
 {
-    StandardTestCase.StandardTestCaseSerialise[] standardTestCases;
-    SequentialTestCase.SequentialTestCaseSerialise[] sequentialTestCases;
+    public StandardTestCase.StandardTestCaseSerialise[] standardTestCases;
+    public SequentialTestCase.SequentialTestCaseSerialise[] sequentialTestCases;
 
     public CustomTestCasesSerialise(List<TestCase> testCases, LevelType levelType)
     {

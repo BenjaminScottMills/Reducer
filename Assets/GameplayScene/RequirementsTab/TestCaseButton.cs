@@ -12,10 +12,13 @@ public class TestCaseButton : MonoBehaviour
     public UINodeButton whiteInputButton;
     public GenericButton runTestButton;
     public GenericButton deleteTestButton;
-    public GameObject standardInputContainer;
+    public GameObject blackInputContainer;
+    public GameObject whiteInputContainer;
     public GameObject sequentialInputContainer;
+    public GameObject greyOverlay;
     Solution solution;
     TestCasesList testCasesList;
+    public TestCase testCase;
     StandardTestCase standardTestCase;
     SequentialTestCase sequentialTestCase;
     bool isStandardTestCase;
@@ -33,12 +36,13 @@ public class TestCaseButton : MonoBehaviour
         
     }
 
-    public void Initialise(TestCase testCase, TestCasesList testCasesListArg, bool isCustomArg, int testNumberArg)
+    public void Initialise(TestCase testCaseArg, TestCasesList testCasesListArg, bool isCustomArg, int testNumberArg)
     {
         testCasesList = testCasesListArg;
         solution = testCasesList.groundTruthSolution;
         isCustom = isCustomArg;
         testNumber = testNumberArg;
+        testCase = testCaseArg;
         standardTestCase = testCase as StandardTestCase;
         sequentialTestCase = testCase as SequentialTestCase;
         isStandardTestCase = standardTestCase != null;
@@ -48,17 +52,42 @@ public class TestCaseButton : MonoBehaviour
             whiteInputReducerVisual.SetVisual(solution.whiteInputReducer);
             SetupButton(blackInputButton, standardTestCase.blackInput);
             SetupButton(whiteInputButton, standardTestCase.whiteInput);
-            SetTestText();
         }
         else
         {
-            standardInputContainer.SetActive(false);
+            whiteInputContainer.SetActive(false);
+            blackInputContainer.SetActive(false);
             sequentialInputContainer.SetActive(true);
             Debug.Log("To Complete");
         }
 
+        SetTestText();
+
         runTestButton.invoker = null;
-        deleteTestButton.invoker = null;
+        if (isCustom)
+        {
+            deleteTestButton.invoker = new DeleteTestInvoker{testCaseButton = this};
+        }
+        else
+        {
+            deleteTestButton.gameObject.SetActive(false);
+            greyOverlay.SetActive(true);
+        }
+    }
+
+    class DeleteTestInvoker : GenericButton.MethodInvoker
+    {
+        public TestCaseButton testCaseButton;
+        public override void InvokeMethod()
+        {
+            
+        }
+    }
+
+    public void SetTestNumber(int newTestNumber)
+    {
+        testNumber = newTestNumber;
+        SetTestText();
     }
 
     void SetTestText()
@@ -68,7 +97,6 @@ public class TestCaseButton : MonoBehaviour
 
     void SetupButton(UINodeButton targetButton, TestCaseInput rootTestCaseInput)
     {
-        
         targetButton.enableHighlight = false;
         targetButton.useRawName = true;
         targetButton.tooltipText = testCasesList.tooltipText;
