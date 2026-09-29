@@ -90,6 +90,11 @@ public class RequirementsTab : MonoBehaviour
         testCasesList.AddTestCase(newTestCase, true, customTestCases.Count);
     }
 
+    public void DirtyCustomTestCases()
+    {
+        customTestCasesDirtied = true;
+    }
+
     public ReducerSchema GetBlackSchema()
     {
         return (levelData as StandardLevelData).blackInputSchema;

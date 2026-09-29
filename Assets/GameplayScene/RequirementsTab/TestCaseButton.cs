@@ -173,7 +173,7 @@ public class TestCaseButton : MonoBehaviour
                         UINodeButton addedButton = Instantiate(testCasesList.inputMenuReducerButtonPrefab, addButtonParent).GetComponent<UINodeButton>();
                         TestCaseInput fixedTestCaseInput = new BooleanTestCaseInput(bv);
                         SetupButton(addedButton, fixedTestCaseInput, null, testCasesList, false);
-                        addedButton.invoker = new UpdateInputToFixedTestCaseInput{fixedTestCaseInput = fixedTestCaseInput, parentButtonInvoker = this};
+                        addedButton.invoker = new UpdateInputToFixedTestCaseInput{fixedTestCaseInput = fixedTestCaseInput, parentButtonInvoker = this, requirementsTab = testCasesList.requirementsTab};
                     }
                     break;
                 default:
@@ -185,7 +185,7 @@ public class TestCaseButton : MonoBehaviour
                         UINodeButton addedButton = Instantiate(testCasesList.inputMenuReducerButtonPrefab, addButtonParent).GetComponent<UINodeButton>();
                         TestCaseInput fixedTestCaseInput = new SimpleReducerTestCaseInput(rv, inputSchema.type);
                         SetupButton(addedButton, fixedTestCaseInput, null, testCasesList, false);
-                        addedButton.invoker = new UpdateInputToFixedTestCaseInput{fixedTestCaseInput = fixedTestCaseInput, parentButtonInvoker = this};
+                        addedButton.invoker = new UpdateInputToFixedTestCaseInput{fixedTestCaseInput = fixedTestCaseInput, parentButtonInvoker = this, requirementsTab = testCasesList.requirementsTab};
                     }
                     break;
 
@@ -196,8 +196,11 @@ public class TestCaseButton : MonoBehaviour
         {
             public TestCaseInput fixedTestCaseInput;
             public TestCaseInputInvoker parentButtonInvoker;
+            public RequirementsTab requirementsTab;
             public override void InvokeMethod()
             {
+                requirementsTab.DirtyCustomTestCases();
+
                 parentButtonInvoker.testCaseInput.CopyFrom(fixedTestCaseInput);
 
                 Reducer reducerToSetTargetButtonTo = parentButtonInvoker.testCaseInput.GetDisplayReducer(parentButtonInvoker.testCasesList);
