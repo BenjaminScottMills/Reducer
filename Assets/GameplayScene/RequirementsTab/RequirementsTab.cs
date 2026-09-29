@@ -89,4 +89,14 @@ public class RequirementsTab : MonoBehaviour
 
         testCasesList.AddTestCase(newTestCase, true, customTestCases.Count);
     }
+
+    public ReducerSchema GetBlackSchema()
+    {
+        return (levelData as StandardLevelData).blackInputSchema;
+    }
+
+    public ReducerSchema GetWhiteSchema()
+    {
+        return (levelData as StandardLevelData).whiteInputSchema;
+    }
 }

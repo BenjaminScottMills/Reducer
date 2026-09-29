@@ -7,10 +7,23 @@ public class TestCasesList : MonoBehaviour
     public GameObject testCaseButtonPrefab;
     public TooltipText tooltipText;
     public Solution groundTruthSolution;
+    public TestCaseInputPickerPair mostRecentInputPickerPair;
     public RequirementsTab requirementsTab;
     public List<TestCaseButton> customTestCaseButtons;
     public GenericButton addTestCaseButton;
     public Transform addTestCaseButtonContainer;
+    public GameObject inputMenuReducerButtonPrefab;
+    public GameObject inputMenuListAddRemovePairPrefab;
+    public GameObject numberInputFieldPrefab;
+    public GameObject testCaseInputPickerMenuPairPrefab;
+    public Transform inputMenuContainer;
+
+    // special reduers for visuals
+    public Reducer trueVisualReducer;
+    public Reducer falseVisualReducer;
+    public Reducer numberVisualReducer;
+    public Reducer listVisualReducer;
+    public Reducer baseTestReducer; // Not just used for visuals, this will be used for executing later on. At the moment, it's empty; implement later.
     bool entryShouldHaveTopBorder = false;
 
     // Start is called before the first frame update
@@ -55,5 +68,25 @@ public class TestCasesList : MonoBehaviour
         {
             customTestCaseButtons[i].SetTestNumber(i + 1);
         }
+    }
+
+    public Transform OpenInputScrollWindow(RectTransform targetTransform)
+    {
+        TestCaseInputPickerPair newInputPickerPair = Instantiate(testCaseInputPickerMenuPairPrefab, mostRecentInputPickerPair?.transform ?? inputMenuContainer).GetComponent<TestCaseInputPickerPair>();
+        newInputPickerPair.transform.position = (mostRecentInputPickerPair ? mostRecentInputPickerPair.transform : targetTransform).position + new Vector3(-2, 0);
+        newInputPickerPair.InitialiseTracking(targetTransform);
+        newInputPickerPair.parentPair = mostRecentInputPickerPair;
+        mostRecentInputPickerPair = newInputPickerPair;
+        return newInputPickerPair.contentsTransform;
+    }
+
+    public ReducerSchema GetBlackSchema()
+    {
+        return requirementsTab.GetBlackSchema();
+    }
+
+    public ReducerSchema GetWhiteSchema()
+    {
+        return requirementsTab.GetWhiteSchema();
     }
 }

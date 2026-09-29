@@ -186,20 +186,43 @@ public class SimpleReducerSchema : ReducerSchema
             case SchemaType.primitive:
                 if (primitiveValueSet != null && primitiveValueSet.Length > 0)
                 {
-                    return new SimpleReducerTestCaseInput(primitiveValueSet[0]);
+                    return new SimpleReducerTestCaseInput(primitiveValueSet[0], type);
                 }
                 else
                 {
-                    return new SimpleReducerTestCaseInput(ReducerValue.nullRed);
+                    return new SimpleReducerTestCaseInput(ReducerValue.nullRed, type);
                 }
             case SchemaType.function:
-                return new SimpleReducerTestCaseInput(ReducerValue.combine);
+                return new SimpleReducerTestCaseInput(ReducerValue.combine, type);
             case SchemaType.boolean:
                 return new BooleanTestCaseInput(false);
             case SchemaType.natNumber:
                 return new NumberTestCaseInput(0);
             default:
                 throw new System.Exception("expected primitiveOrFunction, primitive, function, boolean, or natNumber Schematype for SimpleReducerSchema");
+        }
+    }
+
+    public ReducerValue[] ReducerValueOptions()
+    {
+        if (primitiveValueSet != null && primitiveValueSet.Length > 0)
+        {
+            return primitiveValueSet.Select(SimpleReducerTestCaseInput.SpecialReducerToReducerValue).ToArray();
+        }
+        else
+        {
+            if (type == SchemaType.primitive)
+            {
+                return new ReducerValue[]{ReducerValue.nullRed, ReducerValue.fire, ReducerValue.earth, ReducerValue.plant, ReducerValue.water};
+            }
+            else if (type == SchemaType.function)
+            {
+                return new ReducerValue[]{ReducerValue.combine, ReducerValue.testReducer};
+            }
+            else // should be primitiveOrFunction
+            {
+                return new ReducerValue[]{ReducerValue.nullRed, ReducerValue.fire, ReducerValue.earth, ReducerValue.plant, ReducerValue.water, ReducerValue.combine, ReducerValue.testReducer};
+            }
         }
     }
 }
@@ -214,7 +237,7 @@ public class FiniteListReducerSchema : ReducerSchema
 
     public override TestCaseInput CreateDefaultInput()
     {
-        return new ListTestCaseInput(childSchemas.Select(schema => schema.CreateDefaultInput()).ToList());
+        return new ListTestCaseInput(childSchemas.Select(schema => schema.CreateDefaultInput()).ToList(), SchemaType.finiteList);
     }
 }
 
@@ -228,7 +251,7 @@ public class InfiniteListReducerSchema : ReducerSchema
 
     public override TestCaseInput CreateDefaultInput()
     {
-        return new ListTestCaseInput();
+        return new ListTestCaseInput(type);
     }
 }
 
@@ -324,6 +347,8 @@ public abstract class TestCaseInput
 
     public abstract void UpdateComponentsList(List<TestCaseComponent> componentsList);
     public abstract Reducer GetDisplayReducer(TestCasesList testCasesList);
+    public abstract TestCaseInput Copy();
+    public abstract void CopyFrom(TestCaseInput other);
 
 
     [System.Serializable]
@@ -346,7 +371,7 @@ public abstract class TestCaseInput
             {
                 case SchemaType.finiteList:
                 case SchemaType.infiniteList:
-                    ListTestCaseInput finiteListOutputSchema = new ListTestCaseInput();
+                    ListTestCaseInput finiteListOutputSchema = new ListTestCaseInput(targetComponent.type);
                     for (int i = 0; i < targetComponent.listLength; i++)
                     {
                         finiteListOutputSchema.listValue.Add(TestCaseInputFromComponents(idx, out idx));
@@ -361,10 +386,9 @@ public abstract class TestCaseInput
                     testCaseOutput = new BooleanTestCaseInput(targetComponent.booleanValue);
                     break;
                 default:
-                    testCaseOutput = new SimpleReducerTestCaseInput(targetComponent.reducerValue);
+                    testCaseOutput = new SimpleReducerTestCaseInput(targetComponent.reducerValue, targetComponent.type);
                     break;
             }
-            testCaseOutput.type = targetComponent.type;
 
             outIdxValue = idx;
             return testCaseOutput;
@@ -387,13 +411,15 @@ public class SimpleReducerTestCaseInput : TestCaseInput
 {
     public ReducerValue reducerValue;
 
-    public SimpleReducerTestCaseInput(ReducerValue reducerValueArg)
+    public SimpleReducerTestCaseInput(ReducerValue reducerValueArg, SchemaType typeArg)
     {
+        type = typeArg;
         reducerValue = reducerValueArg;
     }
 
-    public SimpleReducerTestCaseInput(Reducer.SpecialReducers specialReducerValue)
+    public SimpleReducerTestCaseInput(Reducer.SpecialReducers specialReducerValue, SchemaType typeArg)
     {
+        type = typeArg;
         reducerValue = SpecialReducerToReducerValue(specialReducerValue);
     }
 
@@ -410,9 +436,27 @@ public class SimpleReducerTestCaseInput : TestCaseInput
 
     public override Reducer GetDisplayReducer(TestCasesList testCasesList)
     {
+        return ReducerValueToReducer(reducerValue, testCasesList);
+    }
+
+    public override TestCaseInput Copy()
+    {
+        return new SimpleReducerTestCaseInput(reducerValue, type);
+    }
+
+    public override void CopyFrom(TestCaseInput other)
+    {
+        SimpleReducerTestCaseInput castOther = other as SimpleReducerTestCaseInput;
+        if (castOther == null) throw new System.Exception("wrong input type in CopyFrom");
+
+        reducerValue = castOther.reducerValue;
+        type = other.type;
+    }
+
+    public static Reducer ReducerValueToReducer(ReducerValue reducerValue, TestCasesList testCasesList)
+    {
         switch (reducerValue)
         {
-            // nullRed, fire, earth, plant, water, combine, testReducer 
             case ReducerValue.nullRed:
                 return testCasesList.groundTruthSolution.nullReducer;
             case ReducerValue.fire:
@@ -426,8 +470,9 @@ public class SimpleReducerTestCaseInput : TestCaseInput
             case ReducerValue.combine:
                 return testCasesList.groundTruthSolution.combineReducer;
             case ReducerValue.testReducer:
+                return testCasesList.baseTestReducer;
             default:
-                throw new System.Exception("testReducer not yet implemented");
+                throw new System.Exception("not yet implemented");
         }
     }
 
@@ -459,6 +504,7 @@ public class BooleanTestCaseInput : TestCaseInput
 
     public BooleanTestCaseInput(bool booleanValueArg)
     {
+        type = SchemaType.boolean;
         booleanValue = booleanValueArg;
     }
 
@@ -475,8 +521,33 @@ public class BooleanTestCaseInput : TestCaseInput
 
     public override Reducer GetDisplayReducer(TestCasesList testCasesList)
     {
-        Debug.Log("Incomplete code, should not run yet");
-        return null;
+        return BooleanToDisplayReducer(booleanValue, testCasesList);
+    }
+
+    public static Reducer BooleanToDisplayReducer(bool boolValue, TestCasesList testCasesList)
+    {
+        if (boolValue)
+        {
+            return testCasesList.trueVisualReducer;
+        }
+        else
+        {
+            return testCasesList.falseVisualReducer;
+        }
+    }
+
+    public override TestCaseInput Copy()
+    {
+        return new BooleanTestCaseInput(booleanValue);
+    }
+
+    public override void CopyFrom(TestCaseInput other)
+    {
+        BooleanTestCaseInput castOther = other as BooleanTestCaseInput;
+        if (castOther == null) throw new System.Exception("wrong input type in CopyFrom");
+
+        booleanValue = castOther.booleanValue;
+        type = other.type;
     }
 }
 
@@ -486,6 +557,7 @@ public class NumberTestCaseInput : TestCaseInput
 
     public NumberTestCaseInput(int numberValueArg)
     {
+        type = SchemaType.natNumber;
         numberValue = numberValueArg;
     }
 
@@ -502,8 +574,21 @@ public class NumberTestCaseInput : TestCaseInput
 
     public override Reducer GetDisplayReducer(TestCasesList testCasesList)
     {
-        Debug.Log("Incomplete code, should not run yet");
-        return null;
+        return testCasesList.numberVisualReducer;
+    }
+
+    public override TestCaseInput Copy()
+    {
+        return new NumberTestCaseInput(numberValue);
+    }
+
+    public override void CopyFrom(TestCaseInput other)
+    {
+        NumberTestCaseInput castOther = other as NumberTestCaseInput;
+        if (castOther == null) throw new System.Exception("wrong input type in CopyFrom");
+
+        numberValue = castOther.numberValue;
+        type = other.type;
     }
 }
 
@@ -511,13 +596,15 @@ public class ListTestCaseInput : TestCaseInput
 {
     public List<TestCaseInput> listValue;
 
-    public ListTestCaseInput()
+    public ListTestCaseInput(SchemaType typeArg)
     {
+        type = typeArg;
         listValue = new();
     }
 
-    public ListTestCaseInput(List<TestCaseInput> listValueArg)
+    public ListTestCaseInput(List<TestCaseInput> listValueArg, SchemaType typeArg)
     {
+        type = typeArg;
         listValue = listValueArg;
     }
 
@@ -539,7 +626,20 @@ public class ListTestCaseInput : TestCaseInput
 
     public override Reducer GetDisplayReducer(TestCasesList testCasesList)
     {
-        Debug.Log("Incomplete code, should not run yet");
-        return null;
+        return testCasesList.listVisualReducer;
+    }
+
+    public override TestCaseInput Copy()
+    {
+        return new ListTestCaseInput(listValue.Select(tci => tci.Copy()).ToList(), type);
+    }
+
+    public override void CopyFrom(TestCaseInput other)
+    {
+        ListTestCaseInput castOther = other as ListTestCaseInput;
+        if (castOther == null) throw new System.Exception("wrong input type in CopyFrom");
+
+        listValue = castOther.listValue.Select(tci => tci.Copy()).ToList();
+        type = other.type;
     }
 }

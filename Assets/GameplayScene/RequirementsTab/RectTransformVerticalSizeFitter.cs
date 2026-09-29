@@ -7,6 +7,7 @@ public class RectTransformVerticalSizeFitter : MonoBehaviour
 {
     public RectTransform transformToUpdate;
     public RectTransform transformToMatchSize;
+    public RectTransform transformToMatchPosition;
     public float maxSize;
     public float topBottomPadding;
 
@@ -17,6 +18,8 @@ public class RectTransformVerticalSizeFitter : MonoBehaviour
     }
     public void UpdateConstraints()
     {
+        transformToUpdate.position = new Vector3(transformToUpdate.position.x, transformToMatchPosition.position.y);
+
         // update size
         transformToMatchSize.ForceUpdateRectTransforms();
         transformToUpdate.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, Math.Min(transformToMatchSize.sizeDelta.y, maxSize));
