@@ -8,17 +8,16 @@ public class UINodeButton : CircularGenericButton
 {
     public Image highlight;
     public Reducer reducer;
-    public TooltipText tooltipText;
     public UIReducerVisual reducerVisual;
     public bool enableHighlight;
     public bool useRawName;
 
-    void Update()
+    protected override void ChildUpdate()
     {
+        textToWrite = (!useRawName && reducer.isChild) ? "Child" : reducer.rName;
         if (isPointerHovered)
         {
             highlight.enabled = enableHighlight && reducer.Selectable();
-            tooltipText.text = (!useRawName && reducer.isChild) ? "Child" : reducer.rName;
         }
         else
         {

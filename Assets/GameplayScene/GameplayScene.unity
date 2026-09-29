@@ -978,7 +978,7 @@ MonoBehaviour:
   addTestCaseButton: {fileID: 310010547}
   addTestCaseButtonContainer: {fileID: 1647898043}
   inputMenuReducerButtonPrefab: {fileID: 3020671368121885439, guid: d5b319059d14c084eb5ef3c914f916c8, type: 3}
-  inputMenuListAddRemovePairPrefab: {fileID: 0}
+  inputMenuListAddRemovePairPrefab: {fileID: 4986895040704755642, guid: 8a29d6191c6c4bf4f99769fc24ffa3ba, type: 3}
   numberInputFieldPrefab: {fileID: 0}
   testCaseInputPickerMenuPairPrefab: {fileID: 4986895040704755642, guid: a092e3764a7374a4c86ee66e9c550b7c, type: 3}
   inputMenuContainer: {fileID: 290410651}
@@ -1563,6 +1563,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93e06b4c0f0373c4da39d8e2a06b5fcd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tooltipText: {fileID: 0}
+  textToWrite: 
 --- !u!114 &310010548
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6466,6 +6468,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93e06b4c0f0373c4da39d8e2a06b5fcd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tooltipText: {fileID: 0}
+  textToWrite: 
 --- !u!1 &1341841381
 GameObject:
   m_ObjectHideFlags: 0
@@ -7456,6 +7460,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93e06b4c0f0373c4da39d8e2a06b5fcd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tooltipText: {fileID: 0}
+  textToWrite: 
 --- !u!114 &1476732986
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8302,10 +8308,10 @@ RectTransform:
   m_Father: {fileID: 155761390}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 80}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 290, y: -40}
+  m_SizeDelta: {x: 580, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1656331995
 GameObject:
