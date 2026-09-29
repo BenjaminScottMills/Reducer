@@ -56,8 +56,8 @@ public class TestCaseButton : MonoBehaviour
         {
             blackInputReducerVisual.SetVisual(solution.blackInputReducer);
             whiteInputReducerVisual.SetVisual(solution.whiteInputReducer);
-            SetupButton(blackInputButton, standardTestCase.blackInput, testCasesList.GetBlackSchema());
-            SetupButton(whiteInputButton, standardTestCase.whiteInput, testCasesList.GetWhiteSchema());
+            SetupButton(blackInputButton, standardTestCase.blackInput, testCasesList.GetBlackSchema(), isCustom);
+            SetupButton(whiteInputButton, standardTestCase.whiteInput, testCasesList.GetWhiteSchema(), isCustom);
         }
         else
         {
