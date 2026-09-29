@@ -13,6 +13,11 @@ public class RectTransformVerticalPositionMatcher : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        UpdateConstraints();
+    }
+
+    public void UpdateConstraints()
+    {
         transformToUpdate.position = new Vector3(transformToUpdate.position.x, transformToMatchPosition.position.y);
         transformToUpdate.ForceUpdateRectTransforms();
 

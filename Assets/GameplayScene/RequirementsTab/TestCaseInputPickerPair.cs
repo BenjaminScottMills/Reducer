@@ -25,5 +25,8 @@ public class TestCaseInputPickerPair : MonoBehaviour
     {
         scrollViewComponent.transformToMatchPosition = target;
         arrowComponent.transformToMatchPosition = target;
+
+        scrollViewComponent.UpdateConstraints();
+        arrowComponent.UpdateConstraints();
     }
 }
