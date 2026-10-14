@@ -61,7 +61,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parentPair: {fileID: 0}
-  contentsTransform: {fileID: 8189387988683754689}
+  contentsTransform: {fileID: 8889984016393144800}
   scrollViewComponent: {fileID: 7941455074881565572}
   arrowComponent: {fileID: 8557289679366056615}
 --- !u!1001 &4005221507973379102
@@ -208,8 +208,24 @@ PrefabInstance:
       propertyPath: m_Name
       value: Test Case Input Picker ScrollView
       objectReference: {fileID: 0}
+    - target: {fileID: 5186809570898022704, guid: b14497ac2ad5f134990b9419072c7f56, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5549035567982973969, guid: b14497ac2ad5f134990b9419072c7f56, type: 3}
       propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5738509919501784254, guid: b14497ac2ad5f134990b9419072c7f56, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5738509919501784254, guid: b14497ac2ad5f134990b9419072c7f56, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5738509919501784254, guid: b14497ac2ad5f134990b9419072c7f56, type: 3}
+      propertyPath: m_SizeDelta.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5895898508481997542, guid: b14497ac2ad5f134990b9419072c7f56, type: 3}
@@ -242,7 +258,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5895898508481997542, guid: b14497ac2ad5f134990b9419072c7f56, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 65
+      value: 57
       objectReference: {fileID: 0}
     - target: {fileID: 5895898508481997542, guid: b14497ac2ad5f134990b9419072c7f56, type: 3}
       propertyPath: m_SizeDelta.y
@@ -314,8 +330,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64c56130d5f9ade49802b5bba2b964c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!224 &8189387988683754689 stripped
+--- !u!224 &8889984016393144800 stripped
 RectTransform:
-  m_CorrespondingSourceObject: {fileID: 5549035567982973969, guid: b14497ac2ad5f134990b9419072c7f56, type: 3}
+  m_CorrespondingSourceObject: {fileID: 5186809570898022704, guid: b14497ac2ad5f134990b9419072c7f56, type: 3}
   m_PrefabInstance: {fileID: 4369809465428056272}
   m_PrefabAsset: {fileID: 0}
