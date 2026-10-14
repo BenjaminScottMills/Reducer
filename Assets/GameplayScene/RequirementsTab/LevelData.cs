@@ -336,6 +336,7 @@ public class SequentialTestCase : TestCase
 public abstract class TestCaseInput
 {
     public SchemaType type;
+    public GameObject tciButton; // it is possible that tciButton points to a deleted gameobject if there is no current button for the tci. Don't rely on checking if tciButton == null.
 
     public TestCaseInputSerialise ToSerialised()
     {

@@ -107,12 +107,13 @@ public class TestCaseButton : MonoBehaviour
         SetupButton(targetButton, rootTestCaseInput, inputSchema, testCasesList, setInvoker);
     }
 
-    static void SetupButton(UINodeButton targetButton, TestCaseInput rootTestCaseInput, ReducerSchema inputSchema, TestCasesList testCasesList, bool setInvoker = true)
+    public static void SetupButton(UINodeButton targetButton, TestCaseInput rootTestCaseInput, ReducerSchema inputSchema, TestCasesList testCasesList, bool setInvoker = true)
     {
         targetButton.enableHighlight = false;
         targetButton.useRawName = true;
         targetButton.tooltipText = testCasesList.tooltipText;
         Reducer reducerToSetTargetButtonTo = rootTestCaseInput.GetDisplayReducer(testCasesList);
+        rootTestCaseInput.tciButton = targetButton.gameObject;
         targetButton.reducer = reducerToSetTargetButtonTo;
         targetButton.reducerVisual.SetVisual(reducerToSetTargetButtonTo);
         if (setInvoker)
@@ -142,7 +143,7 @@ public class TestCaseButton : MonoBehaviour
             {
                 case SchemaType.natNumber:
                     Instantiate(testCasesList.numberInputFieldPrefab, addButtonParent);
-                    // TODO: initialise it by passing in testCaseInput or whatever.
+                    Debug.Log("TODO: the input field needs to be initialised by passing in testCaseInput or smth");
                     break;
                 case SchemaType.finiteList:
                     var finiteListInputSchema = inputSchema as FiniteListReducerSchema;
@@ -165,6 +166,9 @@ public class TestCaseButton : MonoBehaviour
                         UINodeButton addedButton = Instantiate(testCasesList.inputMenuReducerButtonPrefab, addButtonParent).GetComponent<UINodeButton>();
                         SetupButton(addedButton, tci, infiniteListInputSchema.childSchema, testCasesList);
                     }
+
+                    ListInputPickerAddRemoveButtons bottomPair = Instantiate(testCasesList.inputMenuListAddRemovePairPrefab, addButtonParent).GetComponent<ListInputPickerAddRemoveButtons>();
+                    bottomPair.Setup(testCasesList, infiniteListTestCaseInput, infiniteListInputSchema.childSchema);
                     break;
                 case SchemaType.boolean:
                     List<bool> boolValueOptions = new List<bool>{false, true};
