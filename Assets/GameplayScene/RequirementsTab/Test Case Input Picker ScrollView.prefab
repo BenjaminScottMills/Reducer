@@ -420,7 +420,7 @@ MonoBehaviour:
   minSize: 56
   minSizePaddingAdjuster: {fileID: 2404238236315776122}
   maxSize: 280
-  topBottomPadding: 0
+  topBottomPadding: 2
 --- !u!1 &8087534116211116317
 GameObject:
   m_ObjectHideFlags: 0

@@ -61,8 +61,8 @@ public class RectTransformVerticalSizeFitter : MonoBehaviour
         float transformTop = cornersArray[2].y;
         float transformBottom = cornersArray[0].y;
 
-        float screenTop = Camera.main.ScreenToWorldPoint(new Vector3(0, Screen.height)).y - topBottomPadding;
-        float screenBottom = Camera.main.ScreenToWorldPoint(new Vector3(0, 0)).y + topBottomPadding;
+        float screenTop = Camera.main.ScreenToWorldPoint(new Vector3(0, Screen.height - topBottomPadding)).y;
+        float screenBottom = Camera.main.ScreenToWorldPoint(new Vector3(0, topBottomPadding)).y;
 
         if (transformTop > screenTop)
         {
