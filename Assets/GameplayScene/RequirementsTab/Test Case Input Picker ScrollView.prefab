@@ -417,6 +417,8 @@ MonoBehaviour:
   transformToUpdate: {fileID: 5895898508481997542}
   transformToMatchSize: {fileID: 5186809570898022704}
   transformToMatchPosition: {fileID: 0}
+  minSize: 56
+  minSizePaddingAdjuster: {fileID: 2404238236315776122}
   maxSize: 280
   topBottomPadding: 0
 --- !u!1 &8087534116211116317

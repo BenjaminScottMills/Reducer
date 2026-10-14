@@ -143,7 +143,7 @@ public class TestCaseButton : MonoBehaviour
             {
                 case SchemaType.natNumber:
                     Instantiate(testCasesList.numberInputFieldPrefab, addButtonParent);
-                    Debug.Log("TODO: the input field needs to be initialised by passing in testCaseInput or smth");
+                    // Debug.Log("TODO: the input field needs to be initialised by passing in testCaseInput or smth");
                     break;
                 case SchemaType.finiteList:
                     var finiteListInputSchema = inputSchema as FiniteListReducerSchema;

@@ -10,14 +10,9 @@ public class RectTransformVerticalPositionMatcher : MonoBehaviour
     public float topBottomPadding;
     public Image selfVisual;
 
-    // Update is called once per frame
-    void Update()
-    {
-        UpdateConstraints();
-    }
-
     public void UpdateConstraints()
     {
+        gameObject.SetActive(true);
         transformToUpdate.position = new Vector3(transformToUpdate.position.x, transformToMatchPosition.position.y);
         transformToUpdate.ForceUpdateRectTransforms();
 

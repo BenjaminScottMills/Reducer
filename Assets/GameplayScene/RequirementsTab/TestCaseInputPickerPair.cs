@@ -9,24 +9,17 @@ public class TestCaseInputPickerPair : MonoBehaviour
     public RectTransformVerticalSizeFitter scrollViewComponent;
     public RectTransformVerticalPositionMatcher arrowComponent;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
     // Update is called once per frame
     void Update()
     {
-        
+        scrollViewComponent.UpdateConstraints();
+        arrowComponent.UpdateConstraints();
     }
 
     public void InitialiseTracking(RectTransform target)
     {
         scrollViewComponent.transformToMatchPosition = target;
         arrowComponent.transformToMatchPosition = target;
-
-        scrollViewComponent.UpdateConstraints();
-        arrowComponent.UpdateConstraints();
     }
 }

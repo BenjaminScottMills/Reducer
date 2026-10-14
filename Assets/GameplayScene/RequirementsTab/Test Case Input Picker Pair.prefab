@@ -75,6 +75,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Test Case Input Menu Arrow
       objectReference: {fileID: 0}
+    - target: {fileID: 4986895040704755642, guid: 87f5591dc1e838b449df209888190379, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5895898508481997542, guid: 87f5591dc1e838b449df209888190379, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -196,6 +200,14 @@ PrefabInstance:
       propertyPath: m_SizeDelta.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4117485796318914654, guid: b14497ac2ad5f134990b9419072c7f56, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4117485796318914654, guid: b14497ac2ad5f134990b9419072c7f56, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4402948869594024745, guid: b14497ac2ad5f134990b9419072c7f56, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -208,9 +220,13 @@ PrefabInstance:
       propertyPath: m_Name
       value: Test Case Input Picker ScrollView
       objectReference: {fileID: 0}
+    - target: {fileID: 4986895040704755642, guid: b14497ac2ad5f134990b9419072c7f56, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5186809570898022704, guid: b14497ac2ad5f134990b9419072c7f56, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 5549035567982973969, guid: b14497ac2ad5f134990b9419072c7f56, type: 3}
       propertyPath: m_SizeDelta.y
@@ -218,11 +234,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5738509919501784254, guid: b14497ac2ad5f134990b9419072c7f56, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5738509919501784254, guid: b14497ac2ad5f134990b9419072c7f56, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5738509919501784254, guid: b14497ac2ad5f134990b9419072c7f56, type: 3}
       propertyPath: m_SizeDelta.x
