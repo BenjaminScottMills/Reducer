@@ -66,6 +66,7 @@ public class ListInputPickerAddRemoveButtons : MonoBehaviour
 
     public void RemoveEntry()
     {
+        if (listTestCaseInput.listValue.Count == 0) return;
         testCasesList.requirementsTab.DirtyCustomTestCases();
         TestCaseInput tciToRemove = listTestCaseInput.listValue.Last();
         Destroy(tciToRemove.tciButton);
