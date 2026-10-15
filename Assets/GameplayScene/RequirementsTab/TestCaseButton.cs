@@ -142,8 +142,8 @@ public class TestCaseButton : MonoBehaviour
             switch (inputSchema.type)
             {
                 case SchemaType.natNumber:
-                    Instantiate(testCasesList.numberInputFieldPrefab, addButtonParent);
-                    // Debug.Log("TODO: the input field needs to be initialised by passing in testCaseInput or smth");
+                    NumberTestCaseInputField inputField = Instantiate(testCasesList.numberInputFieldPrefab, addButtonParent).GetComponent<NumberTestCaseInputField>();
+                    inputField.Initialise(testCasesList, testCaseInput as NumberTestCaseInput);
                     break;
                 case SchemaType.finiteList:
                     var finiteListInputSchema = inputSchema as FiniteListReducerSchema;
