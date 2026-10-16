@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class PublicMousePressInputModule : StandaloneInputModule
+public class ExtendedStandaloneInputModule : StandaloneInputModule
 {
     public void ReTriggerTouchPress(PointerEventData pointerEventData)
     {

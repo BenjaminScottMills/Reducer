@@ -20,7 +20,7 @@ public class TestCasesList : MonoBehaviour
     public GameObject numberInputFieldPrefab;
     public GameObject testCaseInputPickerMenuPairPrefab;
     public Transform inputMenuContainer;
-    public PublicMousePressInputModule inputModule;
+    public ExtendedStandaloneInputModule inputModule;
 
     // special reduers for visuals
     public Reducer trueVisualReducer;
