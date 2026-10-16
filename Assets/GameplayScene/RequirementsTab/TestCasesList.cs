@@ -89,7 +89,7 @@ public class TestCasesList : MonoBehaviour
     {
         TestCaseInputPickerPair newInputPickerPair = Instantiate(testCaseInputPickerMenuPairPrefab, mostRecentInputPickerPair?.transform ?? inputMenuContainer).GetComponent<TestCaseInputPickerPair>();
         newInputPickerPair.tcl = this;
-        newInputPickerPair.transform.position = targetTransform.position + new Vector3(-2, 0);
+        newInputPickerPair.transform.position = targetTransform.position + new Vector3(-1.7f, 0);
         newInputPickerPair.InitialiseTracking(targetTransform);
         if (firstInputPickerPair == null)
         {
