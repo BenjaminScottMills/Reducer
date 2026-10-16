@@ -43,6 +43,7 @@ public class RectTransformVerticalSizeFitter : MonoBehaviour
         transformToUpdate.position = new Vector3(transformToUpdate.position.x, transformToMatchPosition.position.y);
 
         // update size
+        LayoutRebuilder.ForceRebuildLayoutImmediate(transformToMatchSize);
         transformToMatchSize.ForceUpdateRectTransforms();
         if (transformToMatchSize.sizeDelta.y < minSize)
         {
