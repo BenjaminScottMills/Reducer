@@ -14,6 +14,7 @@ public class TopMenu : MonoBehaviour
     public GameObject rightSidebar;
     public CustomReducerList customReducerList;
     public FixedReducerList fixedReducerList;
+    public TestCasesList testCasesList;
 
     private Vector3 editorScreenPosition;
     private float editorScreenCameraSize;
@@ -43,6 +44,7 @@ public class TopMenu : MonoBehaviour
         if (newScreen == selectedScreen) return;
 
         requirementsScreen.SetActive(newScreen == 'R');
+        testCasesList.SetLeftmostInputPickerPair(null);
         editorScreen.SetActive(newScreen == 'E');
         testScreen.SetActive(newScreen == 'T');
         rightSidebar.SetActive(newScreen != 'R');

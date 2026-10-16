@@ -111,7 +111,6 @@ public class TestCasesList : MonoBehaviour
         {
             Destroy(firstInputPickerPair?.gameObject);
             firstInputPickerPair = null;
-            mostRecentInputPickerPair = null;
             testCaseInputMenuBackground.gameObject.SetActive(false);
         }
         else

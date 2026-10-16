@@ -5146,6 +5146,7 @@ MonoBehaviour:
   rightSidebar: {fileID: 1053681474}
   customReducerList: {fileID: 572047288}
   fixedReducerList: {fileID: 761875610}
+  testCasesList: {fileID: 155761393}
 --- !u!61 &1090522434
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -8403,10 +8404,10 @@ RectTransform:
   m_Father: {fileID: 155761390}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 290, y: -40}
-  m_SizeDelta: {x: 580, y: 80}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1656331995
 GameObject:
