@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TestCaseInputPickerPair : MonoBehaviour
 {
-    public TestCaseInputPickerPair parentPair;
+    public TestCaseInputPickerPair childPair;
     public Transform contentsTransform;
     public RectTransformVerticalSizeFitter scrollViewComponent;
     public RectTransformVerticalPositionMatcher arrowComponent;

@@ -123,7 +123,8 @@ public class TestCaseButton : MonoBehaviour
                 testCaseInput = rootTestCaseInput,
                 testCasesList = testCasesList,
                 inputSchema = inputSchema,
-                targetButton = targetButton
+                targetButton = targetButton,
+                testCaseInputPickerPair = testCasesList.mostRecentInputPickerPair
             };
         }
     }
@@ -134,9 +135,13 @@ public class TestCaseButton : MonoBehaviour
         public ReducerSchema inputSchema;
         public TestCasesList testCasesList;
         public UINodeButton targetButton;
+        public TestCaseInputPickerPair testCaseInputPickerPair;
 
         public override void InvokeMethod()
         {
+            
+            testCasesList.SetLeftmostInputPickerPair(testCaseInputPickerPair);
+
             // make the window to the left pop out.
             Transform addButtonParent = testCasesList.OpenInputScrollWindow(targetButton.rectTransform);
             switch (inputSchema.type)

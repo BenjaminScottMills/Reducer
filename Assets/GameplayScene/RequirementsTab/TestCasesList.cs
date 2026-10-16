@@ -8,9 +8,11 @@ public class TestCasesList : MonoBehaviour
     public TooltipText tooltipText;
     public Solution groundTruthSolution;
     public TestCaseInputPickerPair mostRecentInputPickerPair;
+    public TestCaseInputPickerPair firstInputPickerPair;
     public RequirementsTab requirementsTab;
     public List<TestCaseButton> customTestCaseButtons;
     public GenericButton addTestCaseButton;
+    public GenericButton testCaseInputMenuBackground;
     public Transform addTestCaseButtonContainer;
     public GameObject inputMenuReducerButtonPrefab;
     public GameObject inputMenuListAddRemovePairPrefab;
@@ -30,6 +32,7 @@ public class TestCasesList : MonoBehaviour
     void Start()
     {
         addTestCaseButton.invoker = new AddTestCaseInvoker{requirementsTab = requirementsTab};
+        testCaseInputMenuBackground.invoker = new ClearTestCaseMenu{tci = this};
     }
 
     class AddTestCaseInvoker : GenericButton.MethodInvoker
@@ -38,6 +41,15 @@ public class TestCasesList : MonoBehaviour
         public override void InvokeMethod()
         {
             requirementsTab.CreateCustomTestCase();
+        }
+    }
+
+    class ClearTestCaseMenu : GenericButton.MethodInvoker
+    {
+        public TestCasesList tci;
+        public override void InvokeMethod()
+        {
+            tci.SetLeftmostInputPickerPair(null);
         }
     }
 
@@ -73,11 +85,36 @@ public class TestCasesList : MonoBehaviour
     public Transform OpenInputScrollWindow(RectTransform targetTransform)
     {
         TestCaseInputPickerPair newInputPickerPair = Instantiate(testCaseInputPickerMenuPairPrefab, mostRecentInputPickerPair?.transform ?? inputMenuContainer).GetComponent<TestCaseInputPickerPair>();
-        newInputPickerPair.transform.position = (mostRecentInputPickerPair ? mostRecentInputPickerPair.transform : targetTransform).position + new Vector3(-2, 0);
+        newInputPickerPair.transform.position = targetTransform.position + new Vector3(-2, 0);
         newInputPickerPair.InitialiseTracking(targetTransform);
-        newInputPickerPair.parentPair = mostRecentInputPickerPair;
+        if (firstInputPickerPair == null)
+        {
+            firstInputPickerPair = newInputPickerPair;
+            testCaseInputMenuBackground.gameObject.SetActive(true);
+        }
+        else
+        {
+            mostRecentInputPickerPair.childPair = newInputPickerPair;
+        }
         mostRecentInputPickerPair = newInputPickerPair;
         return newInputPickerPair.contentsTransform;
+    }
+
+    public void SetLeftmostInputPickerPair(TestCaseInputPickerPair newLeftmost)
+    {
+        mostRecentInputPickerPair = newLeftmost;
+        if (newLeftmost == null)
+        {
+            Destroy(firstInputPickerPair?.gameObject);
+            firstInputPickerPair = null;
+            mostRecentInputPickerPair = null;
+            testCaseInputMenuBackground.gameObject.SetActive(false);
+        }
+        else
+        {
+            Destroy(newLeftmost.childPair?.gameObject);
+            newLeftmost.childPair = null;
+        }
     }
 
     public ReducerSchema GetBlackSchema()

@@ -10,6 +10,7 @@ public class ListInputPickerAddRemoveButtons : MonoBehaviour
     public ListTestCaseInput listTestCaseInput;
     public TestCasesList testCasesList;
     public ReducerSchema childSchema;
+    public TestCaseInputPickerPair testCaseInputPickerPair;
     // Start is called before the first frame update
     void Start()
     {
@@ -27,6 +28,7 @@ public class ListInputPickerAddRemoveButtons : MonoBehaviour
         listTestCaseInput = listTestCaseInputArg;
         testCasesList = testCasesListArg;
         childSchema = childSchemaArg;
+        testCaseInputPickerPair = testCasesList.mostRecentInputPickerPair;
         addButton.tooltipText = testCasesList.tooltipText;
         addButton.textToWrite = "Add element to end of list";
         addButton.invoker = new AddInvoker{lipard = this};
@@ -55,6 +57,7 @@ public class ListInputPickerAddRemoveButtons : MonoBehaviour
 
     public void AddEntry()
     {
+        testCasesList.SetLeftmostInputPickerPair(testCaseInputPickerPair);
         testCasesList.requirementsTab.DirtyCustomTestCases();
         TestCaseInput newTci = childSchema.CreateDefaultInput();
         listTestCaseInput.listValue.Add(newTci);
@@ -67,6 +70,7 @@ public class ListInputPickerAddRemoveButtons : MonoBehaviour
     public void RemoveEntry()
     {
         if (listTestCaseInput.listValue.Count == 0) return;
+        testCasesList.SetLeftmostInputPickerPair(testCaseInputPickerPair);
         testCasesList.requirementsTab.DirtyCustomTestCases();
         TestCaseInput tciToRemove = listTestCaseInput.listValue.Last();
         Destroy(tciToRemove.tciButton);
