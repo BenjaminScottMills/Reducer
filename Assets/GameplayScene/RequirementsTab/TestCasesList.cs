@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class TestCasesList : MonoBehaviour
 {
@@ -19,6 +20,7 @@ public class TestCasesList : MonoBehaviour
     public GameObject numberInputFieldPrefab;
     public GameObject testCaseInputPickerMenuPairPrefab;
     public Transform inputMenuContainer;
+    public PublicMousePressInputModule inputModule;
 
     // special reduers for visuals
     public Reducer trueVisualReducer;
@@ -50,6 +52,7 @@ public class TestCasesList : MonoBehaviour
         public override void InvokeMethod()
         {
             tci.SetLeftmostInputPickerPair(null);
+            tci.inputModule.ReTriggerTouchPress(pointerEventData);
         }
     }
 
@@ -85,6 +88,7 @@ public class TestCasesList : MonoBehaviour
     public Transform OpenInputScrollWindow(RectTransform targetTransform)
     {
         TestCaseInputPickerPair newInputPickerPair = Instantiate(testCaseInputPickerMenuPairPrefab, mostRecentInputPickerPair?.transform ?? inputMenuContainer).GetComponent<TestCaseInputPickerPair>();
+        newInputPickerPair.tcl = this;
         newInputPickerPair.transform.position = targetTransform.position + new Vector3(-2, 0);
         newInputPickerPair.InitialiseTracking(targetTransform);
         if (firstInputPickerPair == null)

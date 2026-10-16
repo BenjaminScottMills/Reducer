@@ -984,6 +984,7 @@ MonoBehaviour:
   numberInputFieldPrefab: {fileID: 7820108304452805410, guid: 5a91d61635469454b8162d4253108a7b, type: 3}
   testCaseInputPickerMenuPairPrefab: {fileID: 4986895040704755642, guid: a092e3764a7374a4c86ee66e9c550b7c, type: 3}
   inputMenuContainer: {fileID: 290410651}
+  inputModule: {fileID: 1288112884}
   trueVisualReducer: {fileID: 1551852467}
   falseVisualReducer: {fileID: 1773106099}
   numberVisualReducer: {fileID: 892862693}
@@ -5848,7 +5849,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1288112883}
   - component: {fileID: 1288112882}
-  - component: {fileID: 1288112881}
+  - component: {fileID: 1288112884}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -5856,26 +5857,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1288112881
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1288112880}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SendPointerHoverToParent: 1
-  m_HorizontalAxis: Horizontal
-  m_VerticalAxis: Vertical
-  m_SubmitButton: Submit
-  m_CancelButton: Cancel
-  m_InputActionsPerSecond: 10
-  m_RepeatDelay: 0.5
-  m_ForceModuleActive: 0
 --- !u!114 &1288112882
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5906,6 +5887,26 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1288112884
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1288112880}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e9c60b5034e5a448a97f399bf6d403d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SendPointerHoverToParent: 1
+  m_HorizontalAxis: Horizontal
+  m_VerticalAxis: Vertical
+  m_SubmitButton: Submit
+  m_CancelButton: Cancel
+  m_InputActionsPerSecond: 10
+  m_RepeatDelay: 0.5
+  m_ForceModuleActive: 0
 --- !u!1 &1294561506
 GameObject:
   m_ObjectHideFlags: 0
@@ -8183,7 +8184,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.078431375}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

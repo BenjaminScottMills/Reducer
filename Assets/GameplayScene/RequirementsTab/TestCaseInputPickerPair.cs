@@ -1,14 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class TestCaseInputPickerPair : MonoBehaviour
+public class TestCaseInputPickerPair : MonoBehaviour, IPointerClickHandler
 {
     public TestCaseInputPickerPair childPair;
     public Transform contentsTransform;
     public RectTransformVerticalSizeFitter scrollViewComponent;
     public RectTransformVerticalPositionMatcher arrowComponent;
+    public TestCasesList tcl;
 
+    public void OnPointerClick(PointerEventData pointerEventData)
+    {
+        tcl.SetLeftmostInputPickerPair(this);
+    }
 
     // Update is called once per frame
     void Update()

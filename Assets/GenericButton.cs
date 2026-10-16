@@ -10,7 +10,11 @@ public class GenericButton : UIPointerHoverDetector, IPointerClickHandler
     public string textToWrite;
     public void OnPointerClick(PointerEventData pointerEventData)
     {
-        if (pointerEventData.button == PointerEventData.InputButton.Left) invoker?.InvokeMethod();
+        if (pointerEventData.button == PointerEventData.InputButton.Left)
+        {
+            invoker.pointerEventData = pointerEventData;
+            invoker?.InvokeMethod();
+        }
     }
 
     void Update()
@@ -27,6 +31,7 @@ public class GenericButton : UIPointerHoverDetector, IPointerClickHandler
 
     public abstract class MethodInvoker
     {
+        public PointerEventData pointerEventData;
         public abstract void InvokeMethod();
     }
 }
