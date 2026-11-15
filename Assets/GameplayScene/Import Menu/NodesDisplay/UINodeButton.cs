@@ -24,4 +24,9 @@ public class UINodeButton : CircularGenericButton
             highlight.enabled = false;
         }
     }
+
+    public void SetVisual()
+    {
+        reducerVisual.SetVisual(reducer);
+    }
 }

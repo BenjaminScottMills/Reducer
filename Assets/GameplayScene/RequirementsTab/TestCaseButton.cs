@@ -139,7 +139,6 @@ public class TestCaseButton : MonoBehaviour
 
         public override void InvokeMethod()
         {
-            
             testCasesList.SetLeftmostInputPickerPair(testCaseInputPickerPair);
 
             // make the window to the left pop out.

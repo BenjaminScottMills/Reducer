@@ -3,45 +3,54 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ReducerPlacementSlot : MonoBehaviour
+public class ReducerPlacementSlot : CircularGenericButton
 {
     public Reducer reducer;
     public GameObject placeholder;
-    public ReducerVisual reducerVisual;
-    public CircleCollider2D boxCollider;
-    public TooltipText tooltipText;
-    public String emptyTooltip;
+    public UIReducerVisual reducerVisual;
+    public string emptyTooltip;
 
-    void Update()
+    protected override void ChildUpdate()
     {
-        if (boxCollider.OverlapPoint(Camera.main.ScreenToWorldPoint(Input.mousePosition)))
+        if (reducer == null)
         {
-            if (reducer == null)
-            {
-                tooltipText.text = emptyTooltip;
-            }
-            else
-            {
-                tooltipText.text = reducer.rName;
-            }
+            textToWrite = emptyTooltip;
+        }
+        else
+        {
+            textToWrite = reducer.rName;
+        }
 
-            if (Input.GetMouseButtonDown(1))
-            {
-                reducer = null;
-                reducerVisual.gameObject.SetActive(false);
-                placeholder.SetActive(true);
-            }
+        if (Input.GetMouseButtonDown(1))
+        {
+            reducer = null;
+            reducerVisual.gameObject.SetActive(false);
+            placeholder.SetActive(true);
         }
     }
 
-    public void CheckPlaced(Reducer r)
+    public void SetReducer(Reducer r)
     {
-        if (boxCollider.OverlapPoint(Camera.main.ScreenToWorldPoint(Input.mousePosition)))
+        if (r == null)
+        {
+            reducer = null;
+            reducerVisual.gameObject.SetActive(false);
+            placeholder.SetActive(true);
+        }
+        else
         {
             reducer = r;
             reducerVisual.SetVisual(r);
             reducerVisual.gameObject.SetActive(true);
             placeholder.SetActive(false);
+        }
+    }
+
+    public void CheckPlaced(Reducer r)
+    {
+        if (isPointerHovered)
+        {
+            SetReducer(r);
         }
     }
 }

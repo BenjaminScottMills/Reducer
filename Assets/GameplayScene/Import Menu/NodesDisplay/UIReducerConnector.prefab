@@ -317,7 +317,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1bca867cb12a1e42b2c875468c518da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  innerWhite: {r: 1, g: 1, b: 1, a: 0}
-  innerBlack: {r: 0, g: 0, b: 0, a: 0}
+  innerWhite: {r: 1, g: 1, b: 1, a: 1}
+  innerBlack: {r: 0, g: 0, b: 0, a: 1}
   linkVisuals: {fileID: 6912144846006444457}
   colourImage: {fileID: 9065772867191603381}
