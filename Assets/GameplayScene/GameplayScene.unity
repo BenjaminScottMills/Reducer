@@ -1503,6 +1503,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tooltipText: {fileID: 0}
   textToWrite: 
+  allowNonLeftClicks: 0
 --- !u!114 &310010548
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6418,6 +6419,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tooltipText: {fileID: 0}
   textToWrite: 
+  allowNonLeftClicks: 0
 --- !u!1 &1341841381
 GameObject:
   m_ObjectHideFlags: 0
@@ -7624,6 +7626,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tooltipText: {fileID: 0}
   textToWrite: 
+  allowNonLeftClicks: 0
 --- !u!114 &1476732986
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8246,6 +8249,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tooltipText: {fileID: 0}
   textToWrite: 
+  allowNonLeftClicks: 0
 --- !u!1 &1642373111
 GameObject:
   m_ObjectHideFlags: 0
@@ -8426,10 +8430,10 @@ RectTransform:
   m_Father: {fileID: 155761390}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 80}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 290, y: -40}
+  m_SizeDelta: {x: 580, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1656331995
 GameObject:

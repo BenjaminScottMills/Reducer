@@ -8,9 +8,10 @@ public class GenericButton : UIPointerHoverDetector, IPointerClickHandler
     public MethodInvoker invoker;
     public TooltipText tooltipText;
     public string textToWrite;
+    public bool allowNonLeftClicks;
     public void OnPointerClick(PointerEventData pointerEventData)
     {
-        if (pointerEventData.button == PointerEventData.InputButton.Left)
+        if (pointerEventData.button == PointerEventData.InputButton.Left || allowNonLeftClicks)
         {
             invoker.pointerEventData = pointerEventData;
             invoker?.InvokeMethod();

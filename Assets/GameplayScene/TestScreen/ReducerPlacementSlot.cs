@@ -20,13 +20,6 @@ public class ReducerPlacementSlot : CircularGenericButton
         {
             textToWrite = reducer.rName;
         }
-
-        if (Input.GetMouseButtonDown(1))
-        {
-            reducer = null;
-            reducerVisual.gameObject.SetActive(false);
-            placeholder.SetActive(true);
-        }
     }
 
     public void SetReducer(Reducer r)
