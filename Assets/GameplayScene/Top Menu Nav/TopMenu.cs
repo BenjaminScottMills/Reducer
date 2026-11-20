@@ -10,7 +10,7 @@ public class TopMenu : MonoBehaviour
     public char selectedScreen;
     public GameObject requirementsScreen;
     public GameObject editorScreen;
-    public GameObject testScreen;
+    public TestScreen testScreen;
     public GameObject rightSidebar;
     public CustomReducerList customReducerList;
     public FixedReducerList fixedReducerList;
@@ -46,7 +46,7 @@ public class TopMenu : MonoBehaviour
         requirementsScreen.SetActive(newScreen == 'R');
         testCasesList.SetLeftmostInputPickerPair(null);
         editorScreen.SetActive(newScreen == 'E');
-        testScreen.SetActive(newScreen == 'T');
+        testScreen.SetComponentsActive(newScreen == 'T');
         rightSidebar.SetActive(newScreen != 'R');
 
         if (newScreen == 'T')

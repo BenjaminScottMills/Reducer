@@ -12,6 +12,7 @@ public class TestScreen : MonoBehaviour
     public GameObject reducerNodeHolderPrefab;
     public CallStackDisplay callStackDisplay;
     public MouseNode mouseNode;
+    public GameObject reducerNodeHolderHolder;
     public Stack<Reducer.ExecuteReducer> eReducerStack = new();
     public bool collapseMenus;
 
@@ -75,7 +76,7 @@ public class TestScreen : MonoBehaviour
             Destroy(reducerNodeHolder);
         }
 
-        reducerNodeHolder = Instantiate(reducerNodeHolderPrefab, transform);
+        reducerNodeHolder = Instantiate(reducerNodeHolderPrefab, reducerNodeHolderHolder.transform);
 
         if (!outputReducer.Selectable())
         {
@@ -136,5 +137,11 @@ public class TestScreen : MonoBehaviour
 
         reducerNodeHolder.transform.position = new Vector3(0, -1.5f);
         Camera.main.transform.position = cameraDefaultPos;
+    }
+
+    public void SetComponentsActive(bool activate)
+    {
+        gameObject.SetActive(activate);
+        reducerNodeHolderHolder.SetActive(activate);
     }
 }
