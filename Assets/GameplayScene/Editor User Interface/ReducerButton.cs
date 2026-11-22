@@ -61,7 +61,7 @@ public class ReducerButton : SidebarButton
                 if (reducer.isChild)
                 {
                     if (mouseNode.solution.currentReducer == reducer || mouseNode.solution.currentReducer.child == reducer)
-                        mouseNode.reducer = mouseNode.solution.customReducerList.fixedReducerList.localReducer; // Hell yeah
+                        mouseNode.reducer = mouseNode.solution.fixedLocalReducer; // Hell yeah
                 }
                 else
                 {

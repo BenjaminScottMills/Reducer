@@ -10,18 +10,26 @@ public class UINodeButton : CircularGenericButton
     public Reducer reducer;
     public UIReducerVisual reducerVisual;
     public bool enableHighlight;
+    public bool manuallyControlHighlight;
     public bool useRawName;
 
     protected override void ChildUpdate()
     {
         textToWrite = (!useRawName && reducer.isChild) ? "Child" : reducer.rName;
-        if (isPointerHovered)
+        if (!manuallyControlHighlight)
         {
-            highlight.enabled = enableHighlight && reducer.Selectable();
+            if (isPointerHovered)
+            {
+                highlight.enabled = enableHighlight && reducer.Selectable();
+            }
+            else
+            {
+                highlight.enabled = false;
+            }
         }
         else
         {
-            highlight.enabled = false;
+            highlight.enabled = enableHighlight;
         }
     }
 

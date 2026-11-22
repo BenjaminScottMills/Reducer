@@ -35,4 +35,9 @@ public class GenericButton : UIPointerHoverDetector, IPointerClickHandler
         public PointerEventData pointerEventData;
         public abstract void InvokeMethod();
     }
+    public abstract class LeftRightClickInvoker
+    {
+        public PointerEventData pointerEventData;
+        public abstract void InvokeMethod();
+    }
 }

@@ -6,17 +6,18 @@ using UnityEngine;
 
 public class FixedReducerList : MonoBehaviour
 {
-    public List<ReducerButton> fixedButtons;
-    public List<ReducerButton> altFixedButtons;
+    public List<Reducer> editorScreenFixedReducers;
+    public List<Reducer> testScreenFixedReducers;
     public MouseNode mouseNode;
-    public Reducer localReducer;
     public RectTransform firstElementLocation;
     public RectTransform secondElementLocation;
     public RectTransform selfTransform;
-    public List<GameObject> testList;
+    public GameObject rowEntryPrefab;
+    public GameObject reducerButtonPrefab;
+    List<GameObject> gameObjectListEntries;
     void Start()
     {
-        PositionElements(testList);
+        gameObjectListEntries = new();
     }
 
     public void ActivateTestMode()
@@ -75,16 +76,27 @@ public class FixedReducerList : MonoBehaviour
         }*/
     }
 
-    void PositionElements(List<GameObject> elements)
+    void CreateForReducers(List<List<Reducer>> reducerRows)
     {
-        selfTransform.offsetMin = (secondElementLocation.anchoredPosition - firstElementLocation.anchoredPosition) * elements.Count;
+        gameObjectListEntries.ForEach(go => Destroy(go));
+        gameObjectListEntries.Clear();
+
+        selfTransform.offsetMin = (secondElementLocation.anchoredPosition - firstElementLocation.anchoredPosition) * reducerRows.Count;
         Vector2 offset = secondElementLocation.position - firstElementLocation.position;
         Vector2 currPos = firstElementLocation.position;
 
-        foreach (GameObject el in elements)
+        foreach (List<Reducer> row in reducerRows)
         {
-            el.transform.position = currPos;
+            GameObject newRowEntry = Instantiate(rowEntryPrefab, transform);
+            newRowEntry.transform.position = currPos;
+            gameObjectListEntries.Add(newRowEntry);
             currPos += offset;
+            foreach (Reducer r in row)
+            {
+                ReducerButton newButton = Instantiate(reducerButtonPrefab, newRowEntry.transform).GetComponent<ReducerButton>();
+                newButton.reducer = r;
+                newButton.mouseNode = mouseNode;
+            }
         }
     }
 }
