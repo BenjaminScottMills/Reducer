@@ -25,7 +25,6 @@ public class ReducerMenu : MonoBehaviour
         {
             mouseNode.mouseOverUI = true;
             customReducerList.overReducerMenu = true;
-            fixedReducerList.overReducerMenu = true;
         }
         else if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1) || Input.mouseScrollDelta.y > 0.01f || Input.mouseScrollDelta.y < -0.01f)
         {
