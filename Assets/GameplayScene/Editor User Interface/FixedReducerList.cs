@@ -18,62 +18,54 @@ public class FixedReducerList : MonoBehaviour
     void Start()
     {
         gameObjectListEntries = new();
+        CreateForReducers(ToTwoCol(editorScreenFixedReducers, false));
+    }
+
+    List<List<Reducer>> ToOneCol(List<Reducer> vec)
+    {
+        List<List<Reducer>> retval = new();
+        foreach (var r in vec)
+        {
+            retval.Add(new List<Reducer>{r});
+        }
+
+        return retval;
+    }
+
+    List<List<Reducer>> ToTwoCol(List<Reducer> vec, bool rowFirst)
+    {
+        int numRows = (vec.Count + 1) / 2;
+        List<List<Reducer>> retval = new();
+        for (int i = 0; i < numRows; i++)
+        {
+            retval.Add(new List<Reducer>());
+        }
+
+        for (int i = 0; i < vec.Count; i++)
+        {
+            int retvalIdx;
+            if (rowFirst)
+            {
+                retvalIdx = i / 2;
+            }
+            else
+            {
+                retvalIdx = i % numRows;
+            }
+            retval[retvalIdx].Add(vec[i]);
+        }
+
+        return retval;
     }
 
     public void ActivateTestMode()
-    {/*
-        fixedButtons.ForEach(b => b.gameObject.SetActive(false));
-
-        var swapper = fixedButtons;
-        fixedButtons = altFixedButtons;
-        altFixedButtons = swapper;
-
-        fixedButtons.ForEach(b => b.gameObject.SetActive(true));
-
-        float maxHeight = Camera.main.ScreenToWorldPoint(new Vector3(0, Screen.height)).y - (Camera.main.orthographicSize / 10);
-        float minHeight = Camera.main.ScreenToWorldPoint(new Vector3(0, Screen.height / 2)).y + (Camera.main.orthographicSize / 5);
-
-        if (fixedButtons[0].transform.position.y > minHeight && fixedButtons.Last().transform.position.y > maxHeight)
-        {
-            if (fixedButtons.Last().transform.position.y + (minHeight - fixedButtons[0].transform.position.y) > maxHeight)
-            {
-                transform.position += new Vector3(0, minHeight - fixedButtons[0].transform.position.y);
-            }
-            else
-            {
-                transform.position += new Vector3(0, maxHeight - fixedButtons.Last().transform.position.y);
-            }
-
-            offset = transform.localPosition - basePosition;
-        }*/
+    {
+        CreateForReducers(ToOneCol(testScreenFixedReducers));
     }
 
     public void DeactivateTestMode()
-    {/*
-        fixedButtons.ForEach(b => b.gameObject.SetActive(false));
-
-        var swapper = fixedButtons;
-        fixedButtons = altFixedButtons;
-        altFixedButtons = swapper;
-
-        fixedButtons.ForEach(b => b.gameObject.SetActive(true));
-
-        float maxHeight = Camera.main.ScreenToWorldPoint(new Vector3(0, Screen.height)).y - (Camera.main.orthographicSize / 10);
-        float minHeight = Camera.main.ScreenToWorldPoint(new Vector3(0, Screen.height / 2)).y + (Camera.main.orthographicSize / 5);
-
-        if (fixedButtons[0].transform.position.y < minHeight && fixedButtons.Last().transform.position.y < maxHeight)
-        {
-            if (fixedButtons.Last().transform.position.y + (minHeight - fixedButtons[0].transform.position.y) < maxHeight)
-            {
-                transform.position += new Vector3(0, minHeight - fixedButtons[0].transform.position.y);
-            }
-            else
-            {
-                transform.position += new Vector3(0, maxHeight - fixedButtons.Last().transform.position.y);
-            }
-
-            offset = transform.localPosition - basePosition;
-        }*/
+    {
+        CreateForReducers(ToTwoCol(editorScreenFixedReducers, false));
     }
 
     void CreateForReducers(List<List<Reducer>> reducerRows)
