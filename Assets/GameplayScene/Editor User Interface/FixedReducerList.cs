@@ -10,8 +10,8 @@ public class FixedReducerList : MonoBehaviour
     public List<ReducerButton> altFixedButtons;
     public MouseNode mouseNode;
     public Reducer localReducer;
-    public Transform firstElementLocation;
-    public Transform secondElementLocation;
+    public RectTransform firstElementLocation;
+    public RectTransform secondElementLocation;
     public RectTransform selfTransform;
     public List<GameObject> testList;
     void Start()
@@ -77,7 +77,7 @@ public class FixedReducerList : MonoBehaviour
 
     void PositionElements(List<GameObject> elements)
     {
-        selfTransform.offsetMin = new Vector2(0, -100 * elements.Count);
+        selfTransform.offsetMin = (secondElementLocation.anchoredPosition - firstElementLocation.anchoredPosition) * elements.Count;
         Vector2 offset = secondElementLocation.position - firstElementLocation.position;
         Vector2 currPos = firstElementLocation.position;
 
