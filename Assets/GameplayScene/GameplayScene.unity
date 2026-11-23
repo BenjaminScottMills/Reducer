@@ -773,7 +773,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 120349847}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1aa08ab6e0800fa44ae55d278d1423e3, type: 3}
+  m_Script: {fileID: 11500000, guid: 06328bc2eae41264ba2480f94dd503b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Content: {fileID: 1028384435}
@@ -4105,7 +4105,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75f69c42a4b351446a5efe3647f85bb2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isPointerHovered: 0
   mouseNode: {fileID: 1384790493}
 --- !u!1 &1064541925
 GameObject:
@@ -7833,10 +7832,10 @@ RectTransform:
   m_Father: {fileID: 155761390}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 290, y: -40}
-  m_SizeDelta: {x: 580, y: 80}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1664540145
 GameObject:
@@ -10677,7 +10676,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2147462588}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1aa08ab6e0800fa44ae55d278d1423e3, type: 3}
+  m_Script: {fileID: 11500000, guid: 06328bc2eae41264ba2480f94dd503b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Content: {fileID: 761875611}
