@@ -23,21 +23,10 @@ public class FolderButton : SidebarButton
 
     void Start()
     {
-        upperHalf = false;
         if (!upInHiearchy) inputField.onEndEdit.AddListener((string newName) => {rFolder.folderName = newName;});
     }
 
-    protected override void SetInvis()
-    {
-        hoveredForDragDrop = false;
-        highlightTimer = 0;
-        highlight.enabled = false;
-        targetHighlight = false;
-
-        visual.gameObject.SetActive(false);
-    }
-
-    protected override void SetVis()
+    protected override void ChildUpdate()
     {
         hoveredForDragDrop = false;
         visual.gameObject.SetActive(true);
@@ -63,11 +52,7 @@ public class FolderButton : SidebarButton
         DetermineIfModifiable();
     }
 
-    protected override void TopHalfMouseOverlap()
-    {
-    }
-
-    protected override void BottomHalfMouseOverlap()
+    protected override void MouseOverlapUpdate()
     {
         if (beingDragged) return;
         targetHighlight = true;

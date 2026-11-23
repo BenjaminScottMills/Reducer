@@ -88,6 +88,7 @@ public class FixedReducerList : MonoBehaviour
                 ReducerButton newButton = Instantiate(reducerButtonPrefab, newRowEntry.transform).GetComponent<ReducerButton>();
                 newButton.reducer = r;
                 newButton.mouseNode = mouseNode;
+                newButton.UpdateVisuals();
             }
         }
     }

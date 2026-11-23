@@ -4,20 +4,24 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEditor.U2D.Animation;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class ReducerButton : SidebarButton
+public class ReducerButton : SidebarButton, ICanvasRaycastFilter
 {
     public Reducer reducer;
-    public ReducerVisual reducerVisual;
+    public UIReducerVisual reducerVisual;
     public ReducerMenu updateMenu;
-    public SpriteRenderer highlight;
+    public Image highlight;
     public ReducerButton childButton;
     public ReducerButton parentButton;
+    public bool fixedReducer;
 
-    // Start is called before the first frame update
-    void Start()
+    public bool IsRaycastLocationValid(Vector2 sp, Camera eventCamera)
     {
-        UpdateVisuals();
+        Vector3[] cornersArray = new Vector3[4];
+        (transform as RectTransform).GetWorldCorners(cornersArray);
+
+        return (cornersArray[2].x - cornersArray[1].x) / 2 >= Vector2.Distance(eventCamera.ScreenToWorldPoint(sp), transform.position);
     }
 
     public void UpdateVisuals()
@@ -25,63 +29,58 @@ public class ReducerButton : SidebarButton
         reducerVisual.SetVisual(reducer);
     }
 
-    protected override void SetInvis()
-    {
-        if (highlight != null) highlight.enabled = false;
-        reducerVisual.gameObject.SetActive(false);
-    }
-
-    protected override void SetVis()
+    protected override void ChildUpdate()
     {
         if (highlight != null) highlight.enabled = reducer.solution.currentReducer == reducer && mouseNode.topMenu.selectedScreen != 'T';
-        reducerVisual.gameObject.SetActive(true);
     }
 
-    protected override void TopHalfMouseOverlap()
+    protected override void MouseOverlapUpdate()
     {
         mouseNode.tooltipText.text = reducer.rName;
-        if (Input.GetMouseButtonDown(0))
+        if (fixedReducer)
         {
-            mouseNode.reducer = reducer;
-            mouseNode.offset = transform.position - Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        }
-    }
-
-    protected override void BottomHalfMouseOverlap()
-    {
-        mouseNode.tooltipText.text = reducer.rName;
-        if (Input.GetMouseButtonDown(0))
-        {
-            if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+            if (Input.GetMouseButtonDown(0))
             {
-                mouseNode.StartDraggingSidebarButton(reducer.isChild ? parentButton : this);
-            }
-            else
-            {
-                if (reducer.isChild)
-                {
-                    if (mouseNode.solution.currentReducer == reducer || mouseNode.solution.currentReducer.child == reducer)
-                        mouseNode.reducer = mouseNode.solution.fixedLocalReducer; // Hell yeah
-                }
-                else
-                {
-                    mouseNode.reducer = reducer;
-                }
+                mouseNode.reducer = reducer;
                 mouseNode.offset = transform.position - Camera.main.ScreenToWorldPoint(Input.mousePosition);
             }
         }
-        else if (Input.GetMouseButtonDown(1) && mouseNode.topMenu.selectedScreen != 'T')
+        else
         {
-            if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+            if (Input.GetMouseButtonDown(0))
             {
-                if (!reducer.isChild && updateMenu != null)
+                if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
                 {
-                    EnableUpdateMenu();
+                    Debug.Log("To Implement for UI update"); // probably do this by passing in the "row element" thing
+                    mouseNode.StartDraggingSidebarButton(reducer.isChild ? parentButton : this);
+                }
+                else
+                {
+                    if (reducer.isChild)
+                    {
+                        if (mouseNode.solution.currentReducer == reducer || mouseNode.solution.currentReducer.child == reducer)
+                            mouseNode.reducer = mouseNode.solution.fixedLocalReducer; // Hell yeah
+                    }
+                    else
+                    {
+                        mouseNode.reducer = reducer;
+                    }
+                    mouseNode.offset = transform.position - Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 }
             }
-            else
+            else if (Input.GetMouseButtonDown(1) && mouseNode.topMenu.selectedScreen != 'T')
             {
-                reducer.SetReducerActive(mouseNode);
+                if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+                {
+                    if (!reducer.isChild && updateMenu != null)
+                    {
+                        EnableUpdateMenu();
+                    }
+                }
+                else
+                {
+                    reducer.SetReducerActive(mouseNode);
+                }
             }
         }
     }
