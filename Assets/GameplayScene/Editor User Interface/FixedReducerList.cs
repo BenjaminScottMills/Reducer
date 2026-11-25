@@ -74,13 +74,13 @@ public class FixedReducerList : MonoBehaviour
         gameObjectListEntries.Clear();
 
         selfTransform.offsetMin = (secondElementLocation.anchoredPosition - firstElementLocation.anchoredPosition) * reducerRows.Count;
-        Vector2 offset = secondElementLocation.position - firstElementLocation.position;
-        Vector2 currPos = firstElementLocation.position;
+        Vector2 offset = secondElementLocation.localPosition - firstElementLocation.localPosition;
+        Vector2 currPos = firstElementLocation.localPosition;
 
         foreach (List<Reducer> row in reducerRows)
         {
             GameObject newRowEntry = Instantiate(rowEntryPrefab, transform);
-            newRowEntry.transform.position = currPos;
+            newRowEntry.transform.localPosition = currPos;
             gameObjectListEntries.Add(newRowEntry);
             currPos += offset;
             foreach (Reducer r in row)
