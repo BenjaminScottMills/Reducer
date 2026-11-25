@@ -8,7 +8,7 @@ public class MouseNode : MonoBehaviour
 {
     public Reducer reducer;
     public Solution solution;
-    public Vector3 offset = new Vector3(0, 0, 10);
+    public Vector3 offset;
     public ReducerVisual reducerVisual;
     public Sprite blank;
     public bool currentlyDragging;
@@ -45,6 +45,7 @@ public class MouseNode : MonoBehaviour
     void Update()
     {
         var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        offset.z = -mousePos.z;
         var newPos = mousePos + offset;
         bool leftClickPressed = Input.GetMouseButtonDown(0);
         bool leftClickHeld = Input.GetMouseButton(0);
@@ -396,7 +397,7 @@ public class MouseNode : MonoBehaviour
         sb.beingDragged = true;
         draggingInCustomList = true;
         draggedButton = sb;
-        offset = new Vector3(0, 0, 10);
+        offset = Vector3.zero;
         dragDropLocation.gameObject.SetActive(true);
         dragDimmer.gameObject.SetActive(true);
         dragDimmer.dragButton = sb;
